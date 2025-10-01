@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Disfruta deliciosos postres como Mini Hokeis, Fresas Pop, Gommy Ice y más en Honey Pop. Cada bocado, un momento feliz.">
+
+  <link rel="icon" href="/honeypop.webp" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <title>Honey Pop - Postres deliciosos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&family=Pacifico&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+  <header class="absolute top-0 left-0 w-full z-10 flex items-center justify-center py-3">
+  <nav
+    class="max-w-sm sm:max-w-lg w-full flex items-center justify-center text-white bg-[#F266B3] px-4 py-1 rounded-3xl">
+    <ul class="text-md flex sm:text-lg sm:font-bold justify-evenly items-center w-full space-x-8">
+      <li><a href="#menu" class="inline-block transform transition hover:scale-110">Menú</a></li>
+      <li><a href="#ubicacion" class="inline-block transform transition hover:scale-110">Ubicación</a></li>
+      <li><a href="#contacto" class="inline-block transform transition hover:scale-110">Contacto</a></li>
+      <li><a href="#tecnologia" class="inline-block transform transition hover:scale-110">Tecnología propuesta</a></li>
+    </ul>
+
+    <!-- Botón del carrito -->
+    <a href="cart.html" class="ml-4 flex items-center gap-2 px-3 py-2 rounded-full hover:scale-110 transition">
+      <!-- Icono de carrito lineal -->
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 9h14l-2-9M10 21a1 1 0 100-2 1 1 0 000 2zm6 0a1 1 0 100-2 1 1 0 000 2z" />
+      </svg>
+    </a>
+  </nav>
+</header>
+
+
+  <!-- Hero -->
+  <section class="h-screen bg-cover bg-center flex items-center justify-center"
+    style="background-image: url('/miniHokeisZoomed.webp')">
+    <div class="w-full h-full backdrop-brightness-50 text-white flex items-center justify-center flex-col pb-15">
+      <img src="/honeypop.webp" alt="logo de honey pop" class="w-lg" />
+      <h1 class="text-4xl font-light absolute top-3/4 text-center">
+        Un momento
+        <span class="font-medium text-[#F266B3]">feliz</span>
+        en cada
+        <span class="font-medium text-[#F2884B]">bocado</span>
+      </h1>
+    </div>
+  </section>
+
+  <!-- Menú -->
+  <section class="bg-gradient-to-b from-[#F266B3] to-[#F2884B] p-12 flex flex-col items-center" id="menu">
+    <h2 class="text-4xl text-white font-caprasimo text-center mb-10">Conoce nuestros deliciosos postrecitos</h2>
+    <div id="products-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-7">
+      <!-- Aquí se insertarán los productos dinámicamente -->
+    </div>
+  </section>
+
+  <!-- Ubicación -->
+  <section id="ubicacion" class="bg-white py-16 px-4 flex flex-col items-center text-center shadow-ld shadow-black">
+    <h2 class="text-4xl font-caprasimo text-pink-500 mb-6">¿Dónde encontrarnos?</h2>
+    <p class="text-lg text-gray-700 max-w-2xl mb-4">
+      Te esperamos con los postres más deliciosos de Aguascalientes.
+    </p>
+    <div class="flex items-center gap-2 text-md text-gray-800 font-medium mb-6">
+      <span class="text-pink-500 text-xl">📍</span>
+      <span>Calle del Codo 225, Zona Centro, 20000, Aguascalientes, Ags.</span>
+    </div>
+    <div class="w-full max-w-4xl h-[400px] rounded-xl overflow-hidden shadow-md border border-pink-300">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3702.3819155545643!2d-102.30021015100135!3d21.881364341026032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8429ef9751c28be7%3A0x5036b1340243c4f9!2shoneypop!5e0!3m2!1ses!2smx!4v1753339013914!5m2!1ses!2smx"
+        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    <a href="https://www.google.com/maps/place/Calle+del+Codo+225,+Zona+Centro,+Aguascalientes,+Ags." target="_blank"
+      class="mt-6 inline-block text-white bg-pink-500 hover:bg-pink-600 transition-colors px-6 py-2 rounded-full font-semibold shadow">
+      Ver en Google Maps
+    </a>
+  </section>
+
+  <!-- Contacto -->
+  <section id="contacto"
+    class="min-h-screen bg-gradient-to-b from-[#F2884B] via-[#F266B3] to-white py-20 px-4 flex flex-col items-center">
+    <h2 class="text-4xl md:text-5xl font-caprasimo mb-6 text-center text-white drop-shadow-lg">Contáctanos</h2>
+    <p class="text-center mb-12 text-xl md:text-2xl font-light text-white max-w-2xl">
+      Síguenos en nuestras redes sociales para enterarte de promociones, eventos y más.<br />
+      ¡Nos encanta ver tus menciones!
+    </p>
+    <div class="w-full max-w-2xl flex justify-around items-center gap-6 mb-12">
+      <a href="https://www.instagram.com/honeypop.postrecito" target="_blank"
+        class="w-16 h-16 hover:scale-110 transition duration-300">
+        <img src="ig-logo.webp" alt="logo de instagram" class="w-full h-full object-contain">
+      </a>
+      <a href="https://www.facebook.com/profile.php?id=61576826434460" target="_blank"
+        class="w-16 h-16 hover:scale-110 transition duration-300">
+        <img src="fb-logo.webp" alt="logo de facebook" class="w-full h-full object-contain">
+      </a>
+      <a href="https://www.tiktok.com/@honeypop.ags" target="_blank"
+        class="w-16 h-16 hover:scale-110 transition duration-300">
+        <img src="tt-logo.webp" alt="logo de tiktok" class="w-full h-full object-contain">
+      </a>
+    </div>
+  </section>
+
+  <!-- Tecnología propuesta -->
+  <section id="tecnologia" class="bg-gray-100 py-16 px-6 flex flex-col items-center text-center">
+    <h2 class="text-4xl font-caprasimo text-pink-600 mb-6">Tecnología propuesta</h2>
+    <p class="text-lg text-gray-700 max-w-3xl mb-4">
+      Si este proyecto fuera real, lo montaríamos en una plataforma abierta como <strong>WordPress con WooCommerce</strong>,
+      que permite gestionar productos, pagos y clientes de forma sencilla y escalable.
+    </p>
+    <p class="text-md text-gray-600 italic">
+      Nota: En este curso, todo se simulará únicamente en el <strong>front-end (HTML, CSS y JavaScript)</strong>, sin un back-end real.
+    </p>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white pt-5 px-2 mt-20">
+    <div class="flex flex-col justify-center items-center gap-3">
+      <a href="#" class="hover:scale-110 transition duration-300">
+        <img src="/honeypop.webp" alt="Honey Pop Logo" class="w-20 h-20 object-contain">
+      </a>
+      <p class="text-sm text-gray-300 max-w-xs text-center">
+        En Honey Pop creemos que cada bocado debe ser un momento feliz. <br>¡Gracias por endulzar tu día con nosotros!
+      </p>
+    </div>
+    <div class="mt-10 text-center text-sm text-gray-500 border-t border-gray-700 pt-4">
+      © 2025 Honey Pop. Todos los derechos reservados.
+    </div>
+  </footer>
+
+  <!-- Script para cargar productos -->
+  <script>
+    async function cargarProductos() {
+      try {
+        const res = await fetch("src/data/products.json");
+        const productos = await res.json();
+        const contenedor = document.getElementById("products-container");
+
+        productos.forEach(producto => {
+          const card = document.createElement("div");
+          card.className =
+            "bg-gray-900 text-white rounded-xl shadow-lg shadow-black overflow-hidden w-full max-w-md mx-auto transition transform hover:scale-105 duration-300 ease-in-out flex flex-col";
+
+          card.innerHTML = `
+            <img src="${producto.imagen}" alt="${producto.nombre}" class="w-full h-70 object-cover" loading="lazy">
+            <div class="p-4 flex flex-col gap-2 flex-1">
+              <h3 class="text-xl font-semibold text-pink-400">${producto.nombre}</h3>
+              <p class="text-lg font-light text-gray-300">${producto.descripcion}</p>
+              <p class="mt-2 text-[#F2884B] text-xl font-medium text-right">$${producto.precio}</p>
+              <button class="mt-4 bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors w-full">
+                Ver más
+              </button>
+            </div>
+          `;
+
+          contenedor.appendChild(card);
+        });
+      } catch (error) {
+        console.error("Error al cargar productos:", error);
+      }
+    }
+
+    cargarProductos();
+  </script>
+
+</body>
+
+</html>

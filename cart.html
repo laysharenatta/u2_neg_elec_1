@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Honey Pop - Carrito</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-pink-500 text-white py-4 shadow-md">
+    <div class="container mx-auto flex justify-between items-center px-6">
+      <h1 class="text-2xl font-bold">🛒 Carrito</h1>
+      <a href="index.html" class="text-sm underline hover:text-gray-200">Seguir comprando</a>
+    </div>
+  </header>
+
+  <!-- Carrito -->
+  <main class="flex-grow container mx-auto px-6 py-10">
+    <h2 class="text-3xl font-semibold mb-6">Tus productos</h2>
+
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow">
+        <thead>
+          <tr class="bg-pink-100 text-pink-700">
+            <th class="py-3 px-4 text-left">Producto</th>
+            <th class="py-3 px-4 text-center">Cantidad</th>
+            <th class="py-3 px-4 text-right">Precio</th>
+            <th class="py-3 px-4 text-right">Subtotal</th>
+            <th class="py-3 px-4 text-center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Producto 1 -->
+          <tr class="border-t">
+            <td class="py-3 px-4 flex items-center gap-3">
+              <img src="miniHokeisZoomed.webp" alt="Mini Hokeis" class="w-16 h-16 rounded-lg object-cover">
+              <span>Mini Hokeis</span>
+            </td>
+            <td class="py-3 px-4 text-center">
+              <div class="flex justify-center items-center gap-2">
+                <button class="bg-gray-200 px-2 py-1 rounded hover:bg-gray-300">–</button>
+                <span>2</span>
+                <button class="bg-gray-200 px-2 py-1 rounded hover:bg-gray-300">+</button>
+              </div>
+            </td>
+            <td class="py-3 px-4 text-right">$25.00</td>
+            <td class="py-3 px-4 text-right">$50.00</td>
+            <td class="py-3 px-4 text-center">
+              <button class="text-red-500 hover:text-red-700 font-semibold">Eliminar</button>
+            </td>
+          </tr>
+
+          <!-- Producto 2 -->
+          <tr class="border-t">
+            <td class="py-3 px-4 flex items-center gap-3">
+              <img src="fresasPop1.webp" alt="Fresas Pop" class="w-16 h-16 rounded-lg object-cover">
+              <span>Fresas Pop</span>
+            </td>
+            <td class="py-3 px-4 text-center">
+              <div class="flex justify-center items-center gap-2">
+                <button class="bg-gray-200 px-2 py-1 rounded hover:bg-gray-300">–</button>
+                <span>1</span>
+                <button class="bg-gray-200 px-2 py-1 rounded hover:bg-gray-300">+</button>
+              </div>
+            </td>
+            <td class="py-3 px-4 text-right">$30.00</td>
+            <td class="py-3 px-4 text-right">$30.00</td>
+            <td class="py-3 px-4 text-center">
+              <button class="text-red-500 hover:text-red-700 font-semibold">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Total -->
+    <div class="mt-6 flex justify-end">
+      <div class="bg-gray-100 p-6 rounded-lg shadow-md w-full sm:w-1/3">
+        <div class="flex justify-between text-lg font-medium mb-2">
+          <span>Subtotal:</span>
+          <span>$80.00</span>
+        </div>
+        <div class="flex justify-between text-xl font-bold text-pink-600">
+          <span>Total:</span>
+          <span>$80.00</span>
+        </div>
+        <button class="mt-6 w-full bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg transition">
+          Proceder al pago
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-4 text-center text-sm">
+    © 2025 Honey Pop. Todos los derechos reservados.
+  </footer>
+</body>
+</html>

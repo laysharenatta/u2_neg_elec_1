@@ -1,0 +1,58 @@
+[
+  {
+    "nombre": "Mini Hokeis",
+    "precio": 70,
+    "categoria": "Postre",
+    "imagen": "/miniHokeisZoomed.webp",
+    "descripcion": "25 piezas de mini hotcakes con lechera, nutella o chocolate y 3 toppings a elección."
+  },
+  {
+    "nombre": "Choco Fresas",
+    "precio": 80,
+    "categoria": "Postre",
+    "imagen": "/chocoFresas.webp",
+    "descripcion": "Fresas bañadas en chocolate semi amargo o con leche y 3 toppings a elección."
+  },
+  {
+    "nombre": "Gommy Ice",
+    "precio": 55,
+    "categoria": "Postre",
+    "imagen": "/gommyIce1.webp",
+    "descripcion": "Helado de temporada bañado en chamoy con tajín o chilito en polvo y gomitas."
+  },
+  {
+    "nombre": "Fresas Pop",
+    "precio": 70,
+    "categoria": "Postre",
+    "imagen": "/fresasPop1.webp",
+    "descripcion": "Fresas con crema, chocolate, lechera o nutella en el centro y 3 toppings a elección."
+  },
+  {
+    "nombre": "Waffle",
+    "precio": 65,
+    "categoria": "Postre",
+    "imagen": "/waffle.webp",
+    "descripcion": "Waffle con nutella, lechera o chocolate y 3 toppings a elección."
+  },
+  {
+    "nombre": "Frosty Cuki",
+    "precio": 55,
+    "categoria": "Postre",
+    "imagen": "/frostyCukiZoomed.webp",
+    "descripcion": "Nieve de fresa, chocolate o combinadas, con trocitos de galleta bañada en chocolate."
+  },
+  {
+    "nombre": "Agua de Mazapán",
+    "precio": 45,
+    "categoria": "Bebida",
+    "imagen": "/aguaMazapan.webp",
+    "descripcion": "Refrescante agua con el sabor clásico y casero del mazapán."
+  },
+  {
+    "nombre": "Paleta Monchísima",
+    "precio": 43,
+    "categoria": "Postre",
+    "imagen": "/paletaMonchisima.webp",
+    "descripcion": "Paleta de agua o leche con sabores de temporada, chamoy, tajín o miguelito y 3 toppings."
+  }
+]
