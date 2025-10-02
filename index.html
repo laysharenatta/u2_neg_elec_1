@@ -14,25 +14,52 @@
 </head>
 
 <body>
-  <header class="absolute top-0 left-0 w-full z-10 flex items-center justify-center py-3">
+<header class="fixed top-4 left-1/2 transform -translate-x-1/2 w-auto z-50 flex items-center justify-center py-3 px-6 bg-[#F266B3] bg-opacity-95 rounded-3xl shadow-lg">
   <nav
     class="max-w-sm sm:max-w-lg w-full flex items-center justify-center text-white bg-[#F266B3] px-4 py-1 rounded-3xl">
-    <ul class="text-md flex sm:text-lg sm:font-bold justify-evenly items-center w-full space-x-8">
+    <ul class="text-md flex sm:text-lg sm:font-bold justify-evenly items-center w-full space-x-8 relative">
       <li><a href="#menu" class="inline-block transform transition hover:scale-110">Menú</a></li>
       <li><a href="#ubicacion" class="inline-block transform transition hover:scale-110">Ubicación</a></li>
-      <li><a href="#contacto" class="inline-block transform transition hover:scale-110">Contacto</a></li>
-      <li><a href="#tecnologia" class="inline-block transform transition hover:scale-110">Tecnología propuesta</a></li>
-    </ul>
+ <li><a href="#contacto" class="inline-block transform transition hover:scale-110">Contacto</a></li>
+
+      <li class="relative group">
+        <a href="#documentacion" class="inline-block transform transition hover:scale-110">
+          Documentación
+        </a>
+        <!-- Lista desplegable -->
+        <ul
+          class="absolute left-0 mt-2 w-40 bg-white text-black rounded-lg shadow-lg hidden group-hover:block">
+          <li>
+            <a href="#manual" class="block px-4 py-2 hover:bg-gray-100 rounded-t-lg">
+              Tecnologia Propuesta
+            </a>
+          </li>
+          <li>
+            <a href="#api" class="block px-4 py-2 hover:bg-gray-100">
+              Documentación API
+            </a>
+          </li>
+          <li>
+            <a href="#faq" class="block px-4 py-2 hover:bg-gray-100 rounded-b-lg">
+              Preguntas frecuentes
+            </a>
+          </li>
+        </ul>
+      </li>
+
+         </ul>
 
     <!-- Botón del carrito -->
     <a href="cart.html" class="ml-4 flex items-center gap-2 px-3 py-2 rounded-full hover:scale-110 transition">
-      <!-- Icono de carrito lineal -->
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 9h14l-2-9M10 21a1 1 0 100-2 1 1 0 000 2zm6 0a1 1 0 100-2 1 1 0 000 2z" />
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
+        fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 9h14l-2-9M10 21a1 1 0 100-2 1 1 0 000 2zm6 0a1 1 0 100-2 1 1 0 000 2z" />
       </svg>
     </a>
   </nav>
 </header>
+
 
 
   <!-- Hero -->
@@ -57,78 +84,90 @@
     </div>
   </section>
 
+  
+
+
+
   <!-- Ubicación -->
-  <section id="ubicacion" class="bg-white py-16 px-4 flex flex-col items-center text-center shadow-ld shadow-black">
-    <h2 class="text-4xl font-caprasimo text-pink-500 mb-6">¿Dónde encontrarnos?</h2>
-    <p class="text-lg text-gray-700 max-w-2xl mb-4">
-      Te esperamos con los postres más deliciosos de Aguascalientes.
-    </p>
-    <div class="flex items-center gap-2 text-md text-gray-800 font-medium mb-6">
-      <span class="text-pink-500 text-xl">📍</span>
-      <span>Calle del Codo 225, Zona Centro, 20000, Aguascalientes, Ags.</span>
-    </div>
-    <div class="w-full max-w-4xl h-[400px] rounded-xl overflow-hidden shadow-md border border-pink-300">
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3702.3819155545643!2d-102.30021015100135!3d21.881364341026032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8429ef9751c28be7%3A0x5036b1340243c4f9!2shoneypop!5e0!3m2!1ses!2smx!4v1753339013914!5m2!1ses!2smx"
-        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"></iframe>
-    </div>
-    <a href="https://www.google.com/maps/place/Calle+del+Codo+225,+Zona+Centro,+Aguascalientes,+Ags." target="_blank"
-      class="mt-6 inline-block text-white bg-pink-500 hover:bg-pink-600 transition-colors px-6 py-2 rounded-full font-semibold shadow">
-      Ver en Google Maps
+  <section id="ubicacion" class="bg-white py-6 px-4 flex flex-col items-center text-center shadow-ld shadow-black">
+  <h2 class="text-2xl font-caprasimo text-pink-500 mb-3">¿Dónde encontrarnos?</h2>
+  <p class="text-sm text-gray-700 max-w-md mb-3">
+    Ven a probar los postres más deliciosos de Aguascalientes.
+  </p>
+  <div class="flex items-center gap-1 text-sm text-gray-800 font-medium mb-3">
+    <span class="text-pink-500 text-lg">📍</span>
+    <span>Calle del Codo 225, Zona Centro, Aguascalientes, Ags.</span>
+  </div>
+  
+  <!-- Mapa pequeño -->
+  <div class="w-full max-w-sm h-[200px] rounded-lg overflow-hidden shadow-md border border-pink-300">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3702.3819155545643!2d-102.30021015100135!3d21.881364341026032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8429ef9751c28be7%3A0x5036b1340243c4f9!2shoneypop!5e0!3m2!1ses!2smx!4v1753339013914!5m2!1ses!2smx"
+      width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+
+  <a href="https://www.google.com/maps/place/Calle+del+Codo+225,+Zona+Centro,+Aguascalientes,+Ags."
+    target="_blank"
+    class="mt-3 inline-block text-white bg-pink-500 hover:bg-pink-600 transition-colors px-4 py-1 rounded-full text-sm font-semibold shadow">
+    Ver en Google Maps
+  </a>
+</section>
+
+
+    <!-- Contacto -->
+   <section id="contacto" class="bg-gradient-to-b from-[#F2884B] via-[#F266B3] to-white py-6 px-4 flex flex-col items-center">
+  <h2 class="text-2xl font-caprasimo mb-3 text-center text-white drop-shadow-md">Contáctanos</h2>
+  <p class="text-center mb-4 text-sm text-white max-w-md">
+    Síguenos en nuestras redes sociales 💕 y déjanos tu contacto
+  </p>
+
+  <!-- Redes Sociales -->
+  <div class="flex justify-center items-center gap-4 mb-6">
+    <a href="https://www.instagram.com/honeypop.postrecito" target="_blank" class="w-8 h-8 hover:scale-110 transition duration-300">
+      <img src="ig-logo.webp" alt="Instagram" class="w-full h-full object-contain">
     </a>
-  </section>
+    <a href="https://www.facebook.com/profile.php?id=61576826434460" target="_blank" class="w-8 h-8 hover:scale-110 transition duration-300">
+      <img src="fb-logo.webp" alt="Facebook" class="w-full h-full object-contain">
+    </a>
+    <a href="https://www.tiktok.com/@honeypop.ags" target="_blank" class="w-8 h-8 hover:scale-110 transition duration-300">
+      <img src="tt-logo.webp" alt="TikTok" class="w-full h-full object-contain">
+    </a>
+  </div>
 
-  <!-- Contacto -->
-  <section id="contacto"
-    class="min-h-screen bg-gradient-to-b from-[#F2884B] via-[#F266B3] to-white py-20 px-4 flex flex-col items-center">
-    <h2 class="text-4xl md:text-5xl font-caprasimo mb-6 text-center text-white drop-shadow-lg">Contáctanos</h2>
-    <p class="text-center mb-12 text-xl md:text-2xl font-light text-white max-w-2xl">
-      Síguenos en nuestras redes sociales para enterarte de promociones, eventos y más.<br />
-      ¡Nos encanta ver tus menciones!
-    </p>
-    <div class="w-full max-w-2xl flex justify-around items-center gap-6 mb-12">
-      <a href="https://www.instagram.com/honeypop.postrecito" target="_blank"
-        class="w-16 h-16 hover:scale-110 transition duration-300">
-        <img src="ig-logo.webp" alt="logo de instagram" class="w-full h-full object-contain">
-      </a>
-      <a href="https://www.facebook.com/profile.php?id=61576826434460" target="_blank"
-        class="w-16 h-16 hover:scale-110 transition duration-300">
-        <img src="fb-logo.webp" alt="logo de facebook" class="w-full h-full object-contain">
-      </a>
-      <a href="https://www.tiktok.com/@honeypop.ags" target="_blank"
-        class="w-16 h-16 hover:scale-110 transition duration-300">
-        <img src="tt-logo.webp" alt="logo de tiktok" class="w-full h-full object-contain">
-      </a>
-    </div>
-  </section>
+  <!-- Formulario de contacto -->
+  <form class="w-full max-w-md bg-white rounded-xl p-6 shadow-lg flex flex-col gap-4">
+    <label for="nombre" class="text-sm font-medium text-gray-700">Nombre</label>
+    <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" class="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-pink-500">
 
-  <!-- Tecnología propuesta -->
-  <section id="tecnologia" class="bg-gray-100 py-16 px-6 flex flex-col items-center text-center">
-    <h2 class="text-4xl font-caprasimo text-pink-600 mb-6">Tecnología propuesta</h2>
-    <p class="text-lg text-gray-700 max-w-3xl mb-4">
-      Si este proyecto fuera real, lo montaríamos en una plataforma abierta como <strong>WordPress con WooCommerce</strong>,
-      que permite gestionar productos, pagos y clientes de forma sencilla y escalable.
-    </p>
-    <p class="text-md text-gray-600 italic">
-      Nota: En este curso, todo se simulará únicamente en el <strong>front-end (HTML, CSS y JavaScript)</strong>, sin un back-end real.
-    </p>
-  </section>
+    <label for="correo" class="text-sm font-medium text-gray-700">Correo electrónico</label>
+    <input type="email" id="correo" name="correo" placeholder="tucorreo@ejemplo.com" class="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-pink-500">
+
+    <label for="mensaje" class="text-sm font-medium text-gray-700">Mensaje / Redes sociales</label>
+    <textarea id="mensaje" name="mensaje" rows="3" placeholder="Tu mensaje o enlace a redes sociales" class="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-pink-500"></textarea>
+
+    <button type="submit" class="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors">
+      Enviar
+    </button>
+  </form>
+</section>
+
 
   <!-- Footer -->
-  <footer class="bg-gray-800 text-white pt-5 px-2 mt-20">
-    <div class="flex flex-col justify-center items-center gap-3">
-      <a href="#" class="hover:scale-110 transition duration-300">
-        <img src="/honeypop.webp" alt="Honey Pop Logo" class="w-20 h-20 object-contain">
-      </a>
-      <p class="text-sm text-gray-300 max-w-xs text-center">
-        En Honey Pop creemos que cada bocado debe ser un momento feliz. <br>¡Gracias por endulzar tu día con nosotros!
-      </p>
-    </div>
-    <div class="mt-10 text-center text-sm text-gray-500 border-t border-gray-700 pt-4">
-      © 2025 Honey Pop. Todos los derechos reservados.
-    </div>
-  </footer>
+<footer class="bg-gray-800 text-white py- px-2 mt-6">
+  <div class="flex flex-col justify-center items-center gap-1">
+    <a href="#" class="hover:scale-105 transition duration-300">
+      <img src="/honeypop.webp" alt="Honey Pop Logo" class="w-13 h-13 object-contain">
+    </a>
+    <p class="text-xs text-gray-300 max-w-xs text-center leading-tight">
+      En Honey Pop creemos que cada bocado debe ser un momento feliz. 
+      ¡Gracias por endulzar tu día con nosotros!
+    </p>
+  </div>
+  <div class="mt-2 text-center text-xs text-gray-500 border-t border-gray-700 pt-1">
+    © 2025 Honey Pop. Todos los derechos reservados.
+  </div>
+</footer>
 
   <!-- Script para cargar productos -->
   <script>
