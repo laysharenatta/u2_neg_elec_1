@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Catálogo de Postres — Proyecto NE I</title>
+  <style>
+    :root{
+      --bg:#0f172a;
+      --panel:#111827;
+      --card:#1f2937;
+      --muted:#94a3b8;
+      --text:#e5e7eb;
+      --primary:#22d3ee;
+      --ok:#10b981;
+      --warn:#f59e0b;
+      --danger:#ef4444;
+      --radius:16px;
+      --gap:16px;
+      --shadow:0 10px 30px rgba(0,0,0,.25);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 10% 10%, #172554 0%, var(--bg) 50%);
+      color:var(--text); line-height:1.5;
+    }
+    header{
+      padding:24px; border-bottom:1px solid #1f2937; background:rgba(17,24,39,.6); backdrop-filter:saturate(140%) blur(6px);
+      position:sticky; top:0; z-index:10;
+    }
+    header h1{margin:0; font-size:1.25rem}
+    main{max-width:1100px; margin:24px auto; padding:0 16px 64px}
+    .section{
+      background: linear-gradient(180deg, rgba(34,211,238,.06), rgba(34,211,238,0) 50%), var(--panel);
+      border:1px solid #1f2937; border-radius:var(--radius); padding:24px; box-shadow:var(--shadow); margin-bottom:24px;
+    }
+    .section h2{margin:0 0 12px; font-size:1.25rem}
+    .muted{color:var(--muted); font-size:.95rem}
+    .grid{display:grid; gap:var(--gap)}
+    @media (min-width: 780px){ .grid.cols-2{grid-template-columns:1fr 1fr} }
+    .card{
+      background: var(--card); border:1px solid #334155; border-radius:var(--radius);
+      padding:16px; box-shadow: var(--shadow);
+    }
+    .badge{display:inline-block; padding:4px 10px; border-radius:999px; font-size:.8rem; background:#0b1324; border:1px solid #334155}
+    .badge.primary{border-color:var(--primary); color:var(--primary)}
+    .list{margin:.25rem 0 0 .75rem; padding:0}
+    .list li{margin:.15rem 0}
+    .cta{
+      display:inline-flex; align-items:center; gap:8px; padding:12px 16px; border-radius:12px; text-decoration:none;
+      border:1px solid #1f2937; background:linear-gradient(180deg, rgba(34,211,238,.12), rgba(34,211,238,0));
+      color:var(--text); transition:transform .06s ease, box-shadow .2s ease;
+    }
+    .cta:hover{transform:translateY(-1px); box-shadow:0 8px 20px rgba(34,211,238,.15)}
+    .ok{color:var(--ok)} .warn{color:var(--warn)} .danger{color:var(--danger)}
+    details{border:1px solid #334155; border-radius:12px; background:#0b1324; padding:12px}
+    summary{cursor:pointer; font-weight:600}
+    .kpis{display:grid; gap:12px; margin-top:12px}
+    @media (min-width:680px){ .kpis{grid-template-columns:repeat(4,1fr)} }
+    .kpi{background:#0f172a; border:1px solid #1f2937; border-radius:12px; padding:12px; text-align:center}
+    .kpi .n{font-size:1.25rem; font-weight:700}
+    .pill{display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; border:1px solid #334155; background:#0b1324; font-size:.85rem}
+    .checklist{display:grid; gap:8px; margin-top:8px}
+    .row{display:flex; align-items:center; gap:10px}
+    input[type="checkbox"]{width:18px; height:18px; accent-color: var(--primary)}
+    .footnote{font-size:.85rem; color:#94a3b8}
+    .code{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; background:#0b1324; border:1px solid #334155; border-radius:10px; padding:10px}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Catálogo de Postres — Proyecto NE I</h1>
+  </header>
+
+  <main>
+    
+    <section class="section" aria-labelledby="postres">
+      <h2 id="postres">Postres destacados</h2>
+      <p class="muted">Lista de postres que se podrían vender en un e-commerce de ejemplo. Los datos son de prueba y sólo ilustrativos.</p>
+
+      <div class="grid cols-2" role="list">
+        <article class="card" role="listitem" aria-label="Hot Cakes">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+            <h3 style="margin:0;">Hot Cakes</h3>
+            <span class="badge primary">Popular</span>
+          </div>
+          <p class="muted">Esponjosos y acompañados de miel o mermelada.</p>
+          <ul class="list">
+            <li>✔ Preparación rápida</li>
+            <li>✔ Ingredientes frescos</li>
+            <li>⚠ Alto contenido calórico</li>
+          </ul>
+          <a class="cta" href="#demo-admin">Ver detalles</a>
+        </article>
+
+        <article class="card" role="listitem" aria-label="Fresas con crema">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+            <h3 style="margin:0;">Fresas con crema</h3>
+            <span class="badge">Clásico</span>
+          </div>
+          <p class="muted">Fresas frescas cubiertas con crema batida y azúcar.</p>
+          <ul class="list">
+            <li>✔ Refrescante</li>
+            <li>✔ Bajo en grasa si se usa crema ligera</li>
+            <li>⚠ Se debe consumir rápido</li>
+          </ul>
+          <a class="cta" href="#demo-admin">Ver detalles</a>
+        </article>
+
+        <article class="card" role="listitem" aria-label="Gelatina de colores">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+            <h3 style="margin:0;">Gelatina de colores</h3>
+            <span class="badge primary">Fácil</span>
+          </div>
+          <p class="muted">Gelatina en cubos, ideal para niños y fiestas.</p>
+          <ul class="list">
+            <li>✔ Multi-color</li>
+            <li>✔ Se puede preparar con frutas</li>
+            <li>⚠ Requiere refrigeración</li>
+          </ul>
+          <a class="cta" href="#demo-admin">Ver detalles</a>
+        </article>
+
+        <article class="card" role="listitem" aria-label="Brownies">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+            <h3 style="margin:0;">Brownies</h3>
+            <span class="badge">Dulce</span>
+          </div>
+          <p class="muted">Chocolate intenso y húmedo, para los amantes del cacao.</p>
+          <ul class="list">
+            <li>✔ Textura suave</li>
+            <li>✔ Se puede acompañar con helado</li>
+            <li>⚠ Contiene gluten</li>
+          </ul>
+          <a class="cta" href="#demo-admin">Ver detalles</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="flujos">
+      <h2 id="flujos">Flujos simulados</h2>
+      <p class="muted">Demostración de front-end: carrito, catálogo y administración de postres.</p>
+
+      <div class="grid cols-2">
+        <div class="card">
+          <h3 style="margin-top:0;">Cara al cliente</h3>
+          <div class="checklist">
+            <label class="row"><input type="checkbox" checked disabled> Catálogo de postres</label>
+            <label class="row"><input type="checkbox" checked disabled> Detalle de postre</label>
+            <label class="row"><input type="checkbox" checked disabled> Carrito (localStorage)</label>
+            <label class="row"><input type="checkbox" checked disabled> Confirmación de pedido (simulado)</label>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-top:0;">Back-office</h3>
+          <div class="checklist">
+            <label class="row"><input type="checkbox" checked disabled> Dashboard de ventas</label>
+            <label class="row"><input type="checkbox" checked disabled> Inventario de postres</label>
+            <label class="row"><input type="checkbox" checked disabled> Órdenes (mock)</label>
+            <label class="row"><input type="checkbox" checked disabled> Soporte (formulario)</label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="demo-admin" class="section" aria-labelledby="admin">
+      <h2 id="admin">Administración (simulada)</h2>
+      <p class="muted">Interfaz de ejemplo para gestión de postres; los cambios no se guardan.</p>
+
+      <details class="card">
+        <summary>Inventario de postres</summary>
+        <div style="margin-top:12px;">
+          <div class="kpis">
+            <div class="kpi"><div class="n">12</div><div class="muted">Postres</div></div>
+            <div class="kpi"><div class="n">3</div><div class="muted">Bajo stock</div></div>
+            <div class="kpi"><div class="n ok">+5%</div><div class="muted">Ventas</div></div>
+            <div class="kpi"><div class="n warn">2</div><div class="muted">Alertas</div></div>
+          </div>
+          <p class="muted">Tabla (mock):</p>
+          <div class="code" role="table">
+            <div>Hot Cakes | Stock: 5 <span class="pill"><span>Actualizar</span></span></div>
+            <div>Fresas con crema | Stock: 2 <span class="pill warn">Reabastecer</span></div>
+            <div>Brownies | Stock: 10 <span class="pill"><span>Actualizar</span></span></div>
+          </div>
+        </div>
+      </details>
+
+      <details class="card">
+        <summary>Órdenes de postres</summary>
+        <div style="margin-top:12px;">
+          <div class="code" role="list">
+            <div role="listitem">ORD-1001 — <strong>$120</strong> — 1 Hot Cake — <span class="ok">Pagada</span></div>
+            <div role="listitem">ORD-1002 — <strong>$85</strong> — 1 Fresas con crema — <span class="warn">Pendiente</span></div>
+          </div>
+        </div>
+      </details>
+    </section>
+
+  </main>
+</body>
+</html>
