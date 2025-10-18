@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Intranet Honey Pop - panel interno visual (frontend solamente)">
+  <title>Honey Pop - Intranet</title>
+  <link rel="icon" href="/honeypop.webp" />
+  <link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&family=Pacifico&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style>
+    /* Estilos pequeños adicionales */
+    .glass {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(6px) saturate(120%);
+      -webkit-backdrop-filter: blur(6px) saturate(120%);
+    }
+
+    .accent-pink {
+      color: #F266B3;
+    }
+
+    .bg-accent {
+      background: linear-gradient(90deg, #F266B3 0%, #F2884B 100%);
+    }
+  </style>
+</head>
+
+<body class="min-h-screen bg-gradient-to-b from-gray-100 to-white font-sans text-gray-800">
+
+  <!-- Header (coherente con la página principal) -->
+  <header class="fixed top-4 left-1/2 transform -translate-x-1/2 w-11/12 sm:w-4/5 lg:w-3/4 z-50 flex items-center justify-between py-3 px-6 bg-accent bg-opacity-95 rounded-3xl shadow-lg text-white">
+    <div class="flex items-center gap-3">
+      <img src="/honeypop.webp" alt="Honey Pop" class="w-10 h-10 object-contain rounded-full bg-white/10 p-1" />
+      <div>
+        <div class="text-lg font-semibold">Honey Pop</div>
+        <div class="text-xs opacity-80">Panel interno - Intranet</div>
+      </div>
+    </div>
+
+    <nav class="flex items-center gap-4">
+      <button class="hidden md:inline-block text-sm hover:scale-105 transition">Dashboard</button>
+      <button class="hidden md:inline-block text-sm hover:scale-105 transition">Inventario</button>
+      <button class="hidden md:inline-block text-sm hover:scale-105 transition">Pedidos</button>
+      <button class="hidden md:inline-block text-sm hover:scale-105 transition">Reportes</button>
+
+      <div class="relative">
+        <button id="profileBtn" class="flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full hover:scale-105 transition">
+          <img src="happyface.jpg" alt="Usuario" class="w-7 h-7 rounded-full object-cover" />
+          <span class="text-sm">Administardor</span>
+        </button>
+        <div id="profileMenu" class="hidden absolute right-0 mt-2 w-44 bg-white text-gray-800 rounded-xl shadow-lg p-2">
+          <a href="#" class="block px-3 py-2 rounded hover:bg-gray-100">Mi perfil</a>
+          <a href="#" class="block px-3 py-2 rounded hover:bg-gray-100">Configuración</a>
+          <a href="logadmin.html" class="block px-3 py-2 rounded hover:bg-gray-100">Cerrar sesión</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Contenedor principal -->
+  <main class="pt-28 pb-10 px-4">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-6">
+
+      <!-- Sidebar (columna izquierda) -->
+      <aside class="lg:col-span-1 glass p-4 rounded-2xl shadow-md">
+        <h3 class="text-sm text-pink-400 font-semibold mb-3">Acceso rápido</h3>
+
+        <ul class="space-y-2 text-sm">
+          <li class="flex items-center justify-between bg-white/5 rounded-lg p-2">
+            <span>📢 Anuncios</span>
+            <span class="text-xs font-medium">3</span>
+          </li>
+          <li class="flex items-center justify-between bg-white/5 rounded-lg p-2">
+            <span>📦 Inventario</span>
+            <span class="text-xs font-medium">stock</span>
+          </li>
+          <li class="flex items-center justify-between bg-white/5 rounded-lg p-2">
+            <span>🧾 Pedidos</span>
+            <span class="text-xs font-medium">24</span>
+          </li>
+          <li class="flex items-center justify-between bg-white/5 rounded-lg p-2">
+            <span>👥 Usuarios</span>
+            <span class="text-xs font-medium">12</span>
+          </li>
+        </ul>
+
+        <div class="mt-4">
+          <h4 class="text-xs text-gray-300 mb-2">Buscar</h4>
+          <div class="flex gap-2">
+            <input type="text" placeholder="Buscar..." class="flex-1 p-2 rounded-lg bg-white/5 placeholder-gray-300 focus:outline-none" disabled>
+            <button class="px-3 py-2 rounded-lg bg-pink-500 text-white text-sm" disabled>Ir</button>
+          </div>
+        </div>
+
+        <div class="mt-6 text-xs text-gray-400">
+          <p><strong>Dominio:</strong> honeypop.com</p>
+          <p class="mt-1"><strong>Subdominios:</strong> tienda · soporte · blog</p>
+        </div>
+      </aside>
+
+      <!-- Contenido principal (panel) -->
+      <section class="lg:col-span-3 space-y-6">
+
+        <!-- Top cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="glass p-4 rounded-2xl shadow flex flex-col">
+            <div class="text-sm font-semibold text-pink-400">Ventas hoy</div>
+            <div class="text-2xl font-bold mt-2">$1,240</div>
+            <div class="text-xs mt-2 text-gray-300">Comparado con ayer +8%</div>
+          </div>
+
+          <div class="glass p-4 rounded-2xl shadow flex flex-col">
+            <div class="text-sm font-semibold text-pink-400">Pedidos pendientes</div>
+            <div class="text-2xl font-bold mt-2">14</div>
+            <div class="text-xs mt-2 text-gray-300">Tiempo promedio: 1h 20m</div>
+          </div>
+
+          <div class="glass p-4 rounded-2xl shadow flex flex-col">
+            <div class="text-sm font-semibold text-pink-400">Stock bajo</div>
+            <div class="text-2xl font-bold mt-2">3 ítems</div>
+            <div class="text-xs mt-2 text-gray-300">Revisar inventario</div>
+          </div>
+        </div>
+
+        <!-- Anuncios y acciones rápidas -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+
+          <!-- Anuncios -->
+          <div class="glass p-4 rounded-2xl shadow">
+            <div class="flex items-center justify-between">
+              <h4 class="font-semibold">Anuncios recientes</h4>
+              <button class="text-sm text-pink-400">Ver todos</button>
+            </div>
+
+            <ul class="mt-3 space-y-3 text-sm">
+              <li class="bg-white/5 p-3 rounded-lg">
+                <div class="font-medium">Cambio de horario de entrega</div>
+                <div class="text-xs text-gray-300">10 oct 2025 · por Admin</div>
+              </li>
+              <li class="bg-white/5 p-3 rounded-lg">
+                <div class="font-medium">Nueva promoción: 2x1 Mini Hokeis</div>
+                <div class="text-xs text-gray-300">3 oct 2025 · por Marketing</div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Acciones rápidas -->
+          <div class="glass p-4 rounded-2xl shadow">
+            <h4 class="font-semibold mb-2">Acciones rápidas</h4>
+            <div class="grid grid-cols-2 gap-3">
+              <button class="py-3 px-2 rounded-lg bg-white/5">➕ Nuevo producto</button>
+              <button class="py-3 px-2 rounded-lg bg-white/5">📦 Actualizar stock</button>
+              <button class="py-3 px-2 rounded-lg bg-white/5">🧾 Generar reporte</button>
+              <button class="py-3 px-2 rounded-lg bg-white/5">📩 Enviar aviso</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabla de usuarios (estática) -->
+        <div class="glass p-4 rounded-2xl shadow overflow-x-auto">
+          <div class="flex items-center justify-between mb-3">
+            <h4 class="font-semibold">Usuarios del sistema</h4>
+            <div class="text-xs text-gray-300">Última sincronización: 11 oct 2025</div>
+          </div>
+
+          <table class="w-full text-sm table-auto">
+            <thead class="text-left text-xs text-gray-400 border-b border-white/10">
+              <tr>
+                <th class="py-2">Nombre</th>
+                <th class="py-2">Rol</th>
+                <th class="py-2">Email</th>
+                <th class="py-2">Estado</th>
+                <th class="py-2">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-white/5">
+                <td class="py-3">Laysha Montoya</td>
+                <td class="py-3">Administrador</td>
+                <td class="py-3">laysha@gmail.com</td>
+                <td class="py-3">Activo</td>
+                <td class="py-3"><button class="text-xs rounded px-2 py-1 bg-pink-500 text-white" disabled>Editar</button></td>
+              </tr>
+              <tr class="border-b border-white/5">
+                <td class="py-3">Miguel Vera</td>
+                <td class="py-3">Cajero</td>
+                <td class="py-3">miguel@gmail.com</td>
+                <td class="py-3">Activo</td>
+                <td class="py-3"><button class="text-xs rounded px-2 py-1 bg-pink-500 text-white" disabled>Editar</button></td>
+              </tr>
+              <tr>
+                <td class="py-3">Armando Vallejo</td>
+                <td class="py-3">Inventario</td>
+                <td class="py-3">armando@gmail.com</td>
+                <td class="py-3">Inactivo</td>
+                <td class="py-3"><button class="text-xs rounded px-2 py-1 bg-pink-500 text-white" disabled>Editar</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Panel derecho con resumenes (solo en desktop) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="glass p-4 rounded-2xl shadow">
+            <h5 class="text-sm font-semibold">Resumen de entregas</h5>
+            <p class="text-xs text-gray-300 mt-2">Entregas programadas: 8</p>
+          </div>
+
+          <div class="glass p-4 rounded-2xl shadow">
+            <h5 class="text-sm font-semibold">Alertas</h5>
+            <p class="text-xs text-gray-300 mt-2">2 alertas críticas</p>
+          </div>
+
+          <div class="glass p-4 rounded-2xl shadow">
+            <h5 class="text-sm font-semibold">Eventos</h5>
+            <p class="text-xs text-gray-300 mt-2">Reunión: Viernes 16:00</p>
+          </div>
+        </div>
+
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer pequeño -->
+  <footer class="fixed bottom-4 left-1/2 transform -translate-x-1/2 w-11/12 sm:w-4/5 lg:w-3/4 z-40 text-center text-xs text-gray-500">
+    Intranet Honey Pop — diseño no funcional · 2025
+  </footer>
+
+  <!-- Scripts mínimos (solo UI) -->
+  <script>
+    // Toggle perfil
+    const profileBtn = document.getElementById('profileBtn');
+    const profileMenu = document.getElementById('profileMenu');
+
+    profileBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      profileMenu.classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!profileBtn.contains(e.target)) profileMenu.classList.add('hidden');
+    });
+  </script>
+
+</body>
+
+</html>
