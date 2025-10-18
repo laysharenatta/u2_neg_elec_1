@@ -31,8 +31,6 @@
       <li><a href="#contacto" class="inline-block transform transition hover:scale-110">Contacto</a></li>
       <li><a href="logadmin.html" class="inline-block transform transition hover:scale-110">Intranet</a></li>
 
-
-
       <!-- Submenú Documentación -->
       <li class="relative group">
         <a href="#documentacion" class="inline-block transform transition hover:scale-110">Documentación</a>
@@ -52,14 +50,31 @@
               Infraestructura
             </a>
           </li>
-          <li> 
-            <a href="status.html" class="block px-4 py-2 hover:bg-gray-100 rounded-b-lg">
-           Panel de estado
-            </li>
+          
         </ul>
       </li>
+<li class="relative group clickable-submenu">
+  <a href="#vistas" class="inline-block transform transition hover:scale-110">Vistas</a>
+  <ul class="submenu absolute left-0 mt-2 w-44 bg-white text-black rounded-lg shadow-lg opacity-0 invisible transition duration-200">
+    <li>
+      <a href="status.html" class="block px-4 py-2 hover:bg-gray-100 rounded-b-lg">
+        Panel de estado
+      </a>
+    </li>
+<li>
+      <a href="disponibilidad.html" class="block px-4 py-2 hover:bg-gray-100 rounded-b-lg">
+        Disponibilidad
+      </a>
+    </li>
+
+
+
+  </ul>
+</li>
+
     </ul>
 
+  
     <!-- Botón del carrito -->
     <div class="relative">
       <button id="cartButton" class="ml-4 flex items-center gap-2 px-3 py-2 rounded-full hover:scale-110 transition focus:outline-none">
@@ -256,6 +271,32 @@
 
     cargarProductos();
   </script>
+
+<script>
+  document.querySelectorAll('.clickable-submenu > a').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault(); // evita que el enlace navegue
+      const submenu = link.nextElementSibling; // ul del submenú
+      submenu.classList.toggle('opacity-100');
+      submenu.classList.toggle('visible');
+      submenu.classList.toggle('invisible');
+    });
+  });
+
+  // Opcional: cerrar otros submenús al abrir uno
+  document.addEventListener('click', e => {
+    document.querySelectorAll('.clickable-submenu .submenu').forEach(sm => {
+      if (!sm.contains(e.target) && !sm.previousElementSibling.contains(e.target)) {
+        sm.classList.remove('opacity-100', 'visible');
+        sm.classList.add('invisible');
+      }
+    });
+  });
+</script>
+
+
+
+
 
 </body>
 
