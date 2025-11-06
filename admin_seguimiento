@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel de Administración - Honey Pop</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&family=Pacifico&display=swap" rel="stylesheet" />
+  <link rel="icon" href="/honeypop.webp" />
+</head>
+
+<body class="bg-gradient-to-b from-[#F266B3] via-[#F2884B] to-white min-h-screen">
+
+  <!-- Header -->
+  <header class="bg-[#F266B3] text-white py-4 shadow-lg flex justify-between items-center px-6">
+    <div class="flex items-center gap-3">
+      <img src="/honeypop.webp" alt="Logo Honey Pop" class="w-10 h-10 rounded-full">
+      <h1 class="text-2xl font-semibold">Panel de Administración</h1>
+    </div>
+    <a href="index.html" class="bg-white text-[#F266B3] px-4 py-2 rounded-full font-semibold hover:bg-pink-100 transition">
+      Volver al inicio
+    </a>
+  </header>
+
+  <!-- Contenedor principal -->
+  <main class="p-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+      <!-- Sección: Pedidos de clientes -->
+      <section class="bg-white shadow-xl rounded-2xl p-6">
+        <h2 class="text-xl font-semibold text-[#F266B3] mb-4">🧁 Pedidos de clientes</h2>
+
+        <!-- Barra de búsqueda -->
+        <div class="flex items-center gap-2 mb-4">
+          <input type="text" placeholder="Buscar pedido..." class="flex-1 border border-pink-300 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400 placeholder-gray-400">
+          <button class="bg-[#F2884B] text-white px-4 py-2 rounded-full hover:bg-orange-500 transition">
+            Buscar
+          </button>
+        </div>
+
+        <!-- Tabla de pedidos -->
+        <table class="w-full text-sm text-left border-collapse">
+          <thead class="bg-pink-100 text-[#F266B3]">
+            <tr>
+              <th class="py-2 px-3 rounded-tl-lg">Cliente</th>
+              <th class="py-2 px-3">Producto</th>
+              <th class="py-2 px-3">Cantidad</th>
+              <th class="py-2 px-3 rounded-tr-lg">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b hover:bg-pink-50 transition">
+              <td class="py-2 px-3">Ana López</td>
+              <td class="py-2 px-3">Mini Hokei</td>
+              <td class="py-2 px-3">2</td>
+              <td class="py-2 px-3 flex gap-2">
+                <button class="bg-yellow-400 text-white px-2 py-1 rounded hover:bg-yellow-500" onclick="abrirModalEditar('Ana López')">Editar</button>
+                <button class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600" onclick="abrirModalBorrar('Ana López')">Borrar</button>
+              </td>
+            </tr>
+            <tr class="border-b hover:bg-pink-50 transition">
+              <td class="py-2 px-3">Carlos Ramírez</td>
+              <td class="py-2 px-3">Gommy Ice</td>
+              <td class="py-2 px-3">1</td>
+              <td class="py-2 px-3 flex gap-2">
+                <button class="bg-yellow-400 text-white px-2 py-1 rounded hover:bg-yellow-500" onclick="abrirModalEditar('Carlos Ramírez')">Editar</button>
+                <button class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600" onclick="abrirModalBorrar('Carlos Ramírez')">Borrar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Sección: Seguimiento de pedidos -->
+      <section class="bg-white shadow-xl rounded-2xl p-6">
+        <h2 class="text-xl font-semibold text-[#F2884B] mb-4">🚚 Seguimiento de pedidos</h2>
+        <ul class="space-y-3">
+          <li class="border border-pink-200 rounded-xl p-3 flex justify-between items-center">
+            <div>
+              <p class="font-medium text-gray-800">Pedido #001 - Ana López</p>
+              <p class="text-sm text-gray-500">En preparación</p>
+            </div>
+            <span class="bg-yellow-400 text-white text-xs px-3 py-1 rounded-full">Preparando</span>
+          </li>
+          <li class="border border-pink-200 rounded-xl p-3 flex justify-between items-center">
+            <div>
+              <p class="font-medium text-gray-800">Pedido #002 - Carlos Ramírez</p>
+              <p class="text-sm text-gray-500">Entregado</p>
+            </div>
+            <span class="bg-green-500 text-white text-xs px-3 py-1 rounded-full">Entregado</span>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Sección: Editar / eliminar -->
+      <section class="bg-white shadow-xl rounded-2xl p-6">
+        <h2 class="text-xl font-semibold text-[#F266B3] mb-4">✏️ Crear / editar pedido</h2>
+        <form class="flex flex-col gap-3">
+          <input type="text" placeholder="Nombre del cliente" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-pink-400">
+          <input type="text" placeholder="Producto" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-pink-400">
+          <input type="number" placeholder="Cantidad" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-pink-400">
+          <button type="button" class="bg-[#F266B3] text-white font-semibold py-2 rounded-lg hover:bg-pink-600 transition">Guardar pedido</button>
+        </form>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Modal editar -->
+  <div id="modalEditar" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div class="bg-white rounded-xl shadow-lg p-6 w-80 text-center">
+      <h3 class="text-lg font-semibold text-[#F266B3] mb-3">Editar pedido</h3>
+      <p id="editarNombre" class="text-

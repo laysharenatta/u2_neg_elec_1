@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Pedidos | Honey Pop</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #fffaf4;
+            font-family: "Poppins", sans-serif;
+        }
+        header {
+            background-color: #ffd1dc;
+            padding: 15px 0;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            color: #8c004b !important;
+            font-size: 1.5rem;
+        }
+        .btn-honey {
+            background-color: #ff7eb9;
+            color: white;
+            border-radius: 25px;
+            border: none;
+            transition: background-color 0.3s;
+        }
+        .btn-honey:hover {
+            background-color: #ff4fa5;
+        }
+        .container-pedidos {
+            max-width: 900px;
+            margin: 60px auto;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        h2 {
+            color: #8c004b;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .pedido-card {
+            border: 1px solid #ffd1dc;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #fff9fb;
+        }
+        .pedido-card:hover {
+            background-color: #ffe9f1;
+            transition: 0.3s;
+        }
+        .pedido-info {
+            color: #8c004b;
+        }
+        footer {
+            background-color: #ffd1dc;
+            text-align: center;
+            padding: 15px 0;
+            color: #8c004b;
+            margin-top: 80px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navegación -->
+    <header>
+        <nav class="container d-flex justify-content-between align-items-center">
+            <a href="index.html" class="navbar-brand">🍯 Honey Pop</a>
+            <a href="login.html" class="btn btn-honey">Cerrar sesión</a>
+        </nav>
+    </header>
+
+    <!-- Contenido principal -->
+    <section class="container-pedidos">
+        <h2>Mis pedidos</h2>
+
+        <div class="pedido-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="pedido-info">
+                    <h5>Pedido #1023</h5>
+                    <p><strong>Fecha:</strong> 3 de noviembre de 2025</p>
+                    <p><strong>Estado:</strong> Preparando 🍬</p>
+                </div>
+                <a href="seguimiento.html" class="btn btn-honey">Ver seguimiento</a>
+            </div>
+        </div>
+
+        <div class="pedido-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="pedido-info">
+                    <h5>Pedido #1019</h5>
+                    <p><strong>Fecha:</strong> 29 de octubre de 2025</p>
+                    <p><strong>Estado:</strong> Entregado 😋</p>
+                </div>
+                <a href="seguimiento.html" class="btn btn-honey">Ver seguimiento</a>
+            </div>
+        </div>
+
+        <div class="pedido-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="pedido-info">
+                    <h5>Pedido #1015</h5>
+                    <p><strong>Fecha:</strong> 25 de octubre de 2025</p>
+                    <p><strong>Estado:</strong> Entregado 💕</p>
+                </div>
+                <a href="seguimiento.html" class="btn btn-honey">Ver seguimiento</a>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Pie de página -->
+    <footer>
+        <p>Honey Pop © 2025 — Sabor y dulzura al instante 🍬</p>
+    </footer>
+
+</body>
+</html>

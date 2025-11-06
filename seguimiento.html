@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seguimiento de Pedido | Honey Pop</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #fffaf4;
+            font-family: "Poppins", sans-serif;
+        }
+        header {
+            background-color: #ffd1dc;
+            padding: 15px 0;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            color: #8c004b !important;
+            font-size: 1.5rem;
+        }
+        .btn-honey {
+            background-color: #ff7eb9;
+            color: white;
+            border-radius: 25px;
+            border: none;
+        }
+        .btn-honey:hover {
+            background-color: #ff4fa5;
+        }
+        .tracking-container {
+            max-width: 600px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin: 60px auto;
+        }
+        .status {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            position: relative;
+        }
+        .status::before {
+            content: "";
+            position: absolute;
+            top: 15px;
+            left: 50px;
+            right: 50px;
+            height: 5px;
+            background-color: #ffe0eb;
+            z-index: 0;
+        }
+        .status-step {
+            text-align: center;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+        .status-circle {
+            width: 30px;
+            height: 30px;
+            background-color: #ffe0eb;
+            border-radius: 50%;
+            margin: 0 auto;
+            transition: background-color 0.3s;
+        }
+        .status-step.active .status-circle {
+            background-color: #ff4fa5;
+        }
+        .status-label {
+            margin-top: 10px;
+            font-weight: 500;
+            color: #8c004b;
+        }
+        footer {
+            background-color: #ffd1dc;
+            text-align: center;
+            padding: 15px 0;
+            color: #8c004b;
+            margin-top: 80px;
+        }
+        .alert {
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navegación -->
+    <header>
+        <nav class="container d-flex justify-content-between align-items-center">
+            <a href="index.html" class="navbar-brand">🍯 Honey Pop</a>
+            <a href="login.html" class="btn btn-honey">Cerrar sesión</a>
+        </nav>
+    </header>
+
+    <!-- Contenido principal -->
+    <section class="tracking-container">
+        <h2 class="text-center mb-4" style="color:#8c004b;">Seguimiento de tu pedido</h2>
+        <p class="text-center text-muted">Ingresa tu número de pedido para conocer su estado actual.</p>
+        
+        <form id="trackingForm" class="text-center mb-4">
+            <input type="text" id="pedidoInput" class="form-control mb-3" placeholder="Ingresa tu número de pedido" >
+            <button type="submit" class="btn btn-honey">Ver estado</button>
+        </form>
+
+        <div id="mensajeEstado" class="text-center"></div>
+
+        <div class="status mt-5">
+            <div class="status-step">
+                <div class="status-circle"></div>
+                <div class="status-label">Pedido recibido</div>
+            </div>
+            <div class="status-step">
+                <div class="status-circle"></div>
+                <div class="status-label">Preparando</div>
+            </div>
+            <div class="status-step">
+                <div class="status-circle"></div>
+                <div class="status-label">Listo para recoger</div>
+            </div>
+            <div class="status-step">
+                <div class="status-circle"></div>
+                <div class="status-label">Entregado</div>
+            </div>
+        </div>
+
+        <p class="text-center mt-4 text-muted">Última actualización: hace unos minutos</p>
+    </section>
+
+    <!-- Pie de página -->
+    <footer>
+        <p>Honey Pop © 2025 — Sabor y dulzura al instante 🍬</p>
+    </footer>
+
+    <script>
+        const form = document.getElementById('trackingForm');
+        const mensajeEstado = document.getElementById('mensajeEstado');
+        const pasos = document.querySelectorAll('.status-step');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const numeroPedido = document.getElementById('pedidoInput').value.trim();
+
+          
+
+            // Simulación del progreso (1 a 4)
+            const progreso = Math.floor(Math.random() * 4) + 1;
+
+            pasos.forEach((paso, index) => {
+                if (index < progreso) {
+                    paso.classList.add('active');
+                } else {
+                    paso.classList.remove('active');
+                }
+            });
+
+            let mensaje = "";
+            switch(progreso) {
+                case 1: mensaje = "Tu pedido ha sido recibido 🍯"; break;
+                case 2: mensaje = "Estamos preparando tu pedido 💕"; break;
+                case 3: mensaje = "Tu pedido está listo para recoger 🍬"; break;
+                case 4: mensaje = "Tu pedido ha sido entregado 😋"; break;
+            }
+
+            mensajeEstado.innerHTML = `<div class="alert alert-success">${mensaje}</div>`;
+        });
+    </script>
+
+</body>
+</html>

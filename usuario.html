@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Panel de usuario - Honey Pop. Bienvenido/a, revisa tus pedidos y favoritos." />
+  <title>Honey Pop - Usuario</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&family=Pacifico&display=swap" rel="stylesheet" />
+</head>
+<body class="bg-gradient-to-b from-[#FFF7FA] to-white min-h-screen">
+
+  <!-- Header -->
+  <header class="fixed top-4 left-1/2 transform -translate-x-1/2 w-11/12 sm:w-4/5 lg:w-3/4 z-50 flex items-center justify-between py-3 px-6 bg-[#F266B3] bg-opacity-95 rounded-3xl shadow-lg text-white">
+    <div class="flex items-center gap-3">
+      <img src="/honeypop.webp" alt="Honey Pop" class="w-10 h-10 object-contain" />
+      <div>
+        <div class="font-semibold">Honey Pop</div>
+        <div class="text-xs opacity-90">Postrecitos</div>
+      </div>
+    </div>
+
+    <nav class="flex items-center gap-4">
+      <a href="#productos" class="hover:underline">Menú</a>
+      <a href="#mis-pedidos" class="hover:underline">Mis pedidos</a>
+      <a href="#favoritos" class="hover:underline">Favoritos</a>
+
+      <!-- Botón cerrar sesión simple -->
+      <a href="login.html" class="ml-4 bg-white text-[#F266B3] font-semibold px-3 py-2 rounded-full hover:bg-gray-100 transition">Cerrar sesión</a>
+    </nav>
+  </header>
+
+  <!-- Hero / Bienvenida -->
+  <section class="pt-28 pb-8">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-3xl md:text-4xl font-semibold text-[#333]">¡Hola, <span class="text-[#F266B3]">Amig@</span>! 👋</h2>
+      <p class="mt-2 text-gray-600">Gracias por iniciar sesión. Aquí puedes revisar tus pedidos, pedir de nuevo o explorar el menú.</p>
+    </div>
+  </section>
+
+  <!-- Contenido principal: productos y panel -->
+  <main class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 px-6 pb-12">
+
+    <!-- Column izquierda: panel usuario -->
+    <aside class="col-span-1 bg-white rounded-2xl shadow p-5">
+      <div class="flex items-center gap-4">
+        <div class="w-14 h-14 rounded-full bg-pink-100 flex items-center justify-center text-pink-500 font-bold">U</div>
+        <div>
+          <div class="font-semibold">Nombre de usuario</div>
+          <div class="text-xs text-gray-500">usuario@ejemplo.com</div>
+        </div>
+      </div>
+
+      <div class="mt-6 space-y-3">
+        <a href="#mis-pedidos" class="block p-3 rounded-lg hover:bg-gray-50">📦 Mis pedidos</a>
+        <a href="#favoritos" class="block p-3 rounded-lg hover:bg-gray-50">💖 Favoritos</a>
+        <a href="#info" class="block p-3 rounded-lg hover:bg-gray-50">⚙️ Datos y direcciones</a>
+      </div>
+    </aside>
+
+    <!-- Column central: Productos destacados -->
+    <section id="productos" class="col-span-2 space-y-4">
+      <div class="bg-white rounded-2xl shadow p-5">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-semibold">Favoritos del día</h3>
+          <button class="text-sm text-pink-500 font-semibold">Ver todo</button>
+        </div>
+
+        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Tarjeta producto ejemplo -->
+          <div class="flex gap-4 bg-gray-50 rounded-xl overflow-hidden">
+            <img src="/miniHokeisZoomed.webp" alt="Mini Hokeis" class="w-32 h-24 object-cover" />
+            <div class="p-3 flex-1">
+              <h4 class="font-semibold text-[#F266B3]">Mini Hokeis</h4>
+              <p class="text-sm text-gray-600">Bocados helados con toppings irresistibles.</p>
+              <div class="mt-3 flex items-center justify-between">
+                <span class="font-medium text-[#F2884B]">$45</span>
+                <div class="flex gap-2">
+                  <button class="text-sm px-3 py-1 rounded-full bg-pink-500 text-white">Pedir</button>
+                  <button class="text-sm px-3 py-1 rounded-full border">Ver</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex gap-4 bg-gray-50 rounded-xl overflow-hidden">
+            <img src="/fresasPop1.webp" alt="Fresas Pop" class="w-32 h-24 object-cover" />
+            <div class="p-3 flex-1">
+              <h4 class="font-semibold text-[#F266B3]">Fresas Pop</h4>
+              <p class="text-sm text-gray-600">Fresas cubiertas con dulce y crocante.</p>
+              <div class="mt-3 flex items-center justify-between">
+                <span class="font-medium text-[#F2884B]">$35</span>
+                <div class="flex gap-2">
+                  <button class="text-sm px-3 py-1 rounded-full bg-pink-500 text-white">Pedir</button>
+                  <button class="text-sm px-3 py-1 rounded-full border">Ver</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- Mis pedidos (mock) -->
+<div id="mis-pedidos" class="bg-white rounded-2xl shadow p-5">
+  <h3 class="text-lg font-semibold mb-3">Últimos pedidos</h3>
+
+  <ul class="space-y-3 text-sm text-gray-700">
+
+    <li>
+      <a href="mis_pedidos.html" class="flex justify-between items-start gap-4 hover:bg-pink-50 p-2 rounded-lg transition">
+        <div>
+          <div class="font-medium">Pedido #1024</div>
+          <div class="text-xs text-gray-500">2 Mini Hokeis • 1 Fresas Pop</div>
+          <div class="text-xs text-gray-400">Entregado • 15 oct 2025</div>
+        </div>
+        <div class="font-semibold text-[#F2884B]">$125</div>
+      </a>
+    </li>
+
+    <li>
+      <a href="mis_pedidos.html" class="flex justify-between items-start gap-4 hover:bg-pink-50 p-2 rounded-lg transition">
+        <div>
+          <div class="font-medium">Pedido #1019</div>
+          <div class="text-xs text-gray-500">1 Gommy Ice</div>
+          <div class="text-xs text-gray-400">En preparación • 01 oct 2025</div>
+        </div>
+        <div class="font-semibold text-[#F2884B]">$55</div>
+      </a>
+    </li>
+
+  </ul>
+</div>
+
+
+    <!-- Column derecha móvil debajo (en desktop, muestra sugerencias) -->
+    <aside id="favoritos" class="col-span-1 bg-white rounded-2xl shadow p-5">
+      <h4 class="font-semibold mb-3">Sugerencias para ti</h4>
+      <div class="space-y-3 text-sm text-gray-700">
+        <div class="flex items-center gap-3">
+          <img src="/honeypop.webp" alt="mini" class="w-12 h-12 object-contain rounded" />
+          <div>
+            <div class="font-medium">Combo sorpresa</div>
+            <div class="text-xs text-gray-500">$99</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <img src="/honeypop.webp" alt="mini" class="w-12 h-12 object-contain rounded" />
+          <div>
+            <div class="font-medium">Topping extra</div>
+            <div class="text-xs text-gray-500">$10</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-8 pb-8 text-center text-xs text-gray-500">
+    © 2025 Honey Pop — Panel de usuario (solo front-end)
+  </footer>
+
+  <!-- Pequeño script opcional para botones (solo UX) -->
+  <script>
+    // Botones "Pedir" simplemente muestran un aviso (front-end)
+    document.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const text = (btn.textContent || '').trim().toLowerCase();
+        if (text === 'pedir') {
+          e.preventDefault();
+          alert('Función de pedidos no disponible en este prototipo (solo front-end).');
+        }
+      })
+    })
+  </script>
+</body>
+</html>
