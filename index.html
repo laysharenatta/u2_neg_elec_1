@@ -13,142 +13,133 @@
   <link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&family=Pacifico&display=swap" rel="stylesheet" />
 </head>
 
+<body>
 
-   <div class="w-20 h-20 fixed bottom-15 right-15 z-60 "> 
+  <div class="w-20 h-20 fixed bottom-4 right-4 z-60">
     <a href="https://whatsapp.com">
       <img src="whatsapp.png" alt="logo whats">
     </a>
   </div>
 
-<body>
+  <div class="fixed top-6 right-6 z-50">
+    <a href="login.html"
+      class="bg-[#F2884B] text-white font-semibold px-5 py-2 rounded-full shadow-lg hover:bg-[#e0763f] transition">
+      Iniciar sesión
+    </a>
+  </div>
 
-<!-- Botón flotante de login -->
-<div class="fixed top-6 right-6 z-50">
-  <a href="login.html" class="bg-[#F2884B] text-white font-semibold px-5 py-2 rounded-full shadow-lg hover:bg-[#e0763f] transition">
-    Iniciar sesión
-  </a>
-</div>
+  <header
+    class="fixed top-4 left-1/2 transform -translate-x-1/2 w-11/12 sm:w-4/5 lg:w-3/4 z-50 flex items-center justify-center py-4 px-8 bg-[#F266B3] bg-opacity-95 rounded-3xl shadow-lg">
+    <nav class="w-full flex items-center justify-between text-white font-medium relative">
+
+      <ul class="flex flex-wrap justify-center items-center gap-10 text-lg font-semibold w-full relative">
+        <li><a href="#menu" class="inline-block transform transition hover:scale-110">Menú</a></li>
+        <li><a href="#ubicacion" class="inline-block transform transition hover:scale-110">Ubicación</a></li>
+        <li><a href="#contacto" class="inline-block transform transition hover:scale-110">Contacto</a></li>
+        <li><a href="logadmin.html" class="inline-block transform transition hover:scale-110">Intranet</a></li>
+
+        <li class="relative group">
+          <a href="#documentacion" class="inline-block transform transition hover:scale-110">Documentación</a>
+          <ul
+            class="absolute left-0 mt-2 w-44 bg-white text-black rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-hover:visible invisible transition duration-200">
+            <li>
+              <a href="indezz.html" class="block px-4 py-2 hover:bg-gray-100 rounded-t-lg">
+                Tecnología Propuesta
+              </a>
+            </li>
+            <li>
+              <a href="conftec.html" class="block px-4 py-2 hover:bg-gray-100">
+                Configuración técnica
+              </a>
+            </li>
+            <li>
+              <a href="infraestructura.html" class="block px-4 py-2 hover:bg-gray-100 rounded-b-lg">
+                Infraestructura
+              </a>
+            </li>
+            <li>
+              <a href="cumplimiento_legal.html" class="block px-4 py-2 hover:bg-gray-100 rounded-t-lg">
+                Cumplimiento legal
+              </a>
+            </li>
+
+          </ul>
+        </li>
+        <li class="relative group clickable-submenu">
+          <a href="#vistas" class="inline-block transform transition hover:scale-110">Vistas</a>
+          <ul class="submenu absolute left-0 mt-2 w-44 bg-white text-black rounded-lg shadow-lg opacity-0 invisible transition duration-200">
+            <li>
+              <a href="status.html" class="block px-4 py-2 hover:bg-gray-100 rounded-b-lg">
+                Panel de estado
+              </a>
+            </li>
+            <li>
+              <a href="disponibilidad.html" class="block px-4 py-2 hover:bg-gray-100 rounded-b-lg">
+                Disponibilidad
+              </a>
+            </li>
+          </ul>
+        </li>
+
+      </ul>
 
 
+      <div class="relative">
+        <button id="cartButton"
+          class="ml-4 flex items-center gap-2 px-3 py-2 rounded-full hover:scale-110 transition focus:outline-none">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 9h14l-2-9M10 21a1 1 0 100-2 1 1 0 000 2zm6 0a1 1 0 100-2 1 1 0 000 2z" />
+          </svg>
+        </button>
 
-<header class="fixed top-4 left-1/2 transform -translate-x-1/2 w-11/12 sm:w-4/5 lg:w-3/4 z-50 flex items-center justify-center py-4 px-8 bg-[#F266B3] bg-opacity-95 rounded-3xl shadow-lg">
-  <nav class="w-full flex items-center justify-between text-white font-medium relative">
-    
-    <!-- Menú principal -->
-    <ul class="flex flex-wrap justify-center items-center gap-10 text-lg font-semibold w-full relative">
-      <li><a href="#menu" class="inline-block transform transition hover:scale-110">Menú</a></li>
-      <li><a href="#ubicacion" class="inline-block transform transition hover:scale-110">Ubicación</a></li>
-      <li><a href="#contacto" class="inline-block transform transition hover:scale-110">Contacto</a></li>
-      <li><a href="logadmin.html" class="inline-block transform transition hover:scale-110">Intranet</a></li>
-
-      <!-- Submenú Documentación -->
-      <li class="relative group">
-        <a href="#documentacion" class="inline-block transform transition hover:scale-110">Documentación</a>
-        <ul class="absolute left-0 mt-2 w-44 bg-white text-black rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-hover:visible invisible transition duration-200">
-          <li>
-            <a href="indezz.html" class="block px-4 py-2 hover:bg-gray-100 rounded-t-lg">
-              Tecnología Propuesta
-            </a>
-          </li>
-          <li>
-            <a href="conftec.html" class="block px-4 py-2 hover:bg-gray-100">
-              Configuración técnica
-            </a>
-          </li>
-          <li>
-            <a href="infraestructura.html" class="block px-4 py-2 hover:bg-gray-100 rounded-b-lg">
-              Infraestructura
-            </a>
-          </li>
-           <li>
-            <a href="cumplimiento_legal.html" class="block px-4 py-2 hover:bg-gray-100 rounded-t-lg">
-              Cumplimiento legal
-            </a>
-          </li>
-          
-        </ul>
-      </li>
-<li class="relative group clickable-submenu">
-  <a href="#vistas" class="inline-block transform transition hover:scale-110">Vistas</a>
-  <ul class="submenu absolute left-0 mt-2 w-44 bg-white text-black rounded-lg shadow-lg opacity-0 invisible transition duration-200">
-    <li>
-      <a href="status.html" class="block px-4 py-2 hover:bg-gray-100 rounded-b-lg">
-        Panel de estado
-      </a>
-    </li>
-<li>
-      <a href="disponibilidad.html" class="block px-4 py-2 hover:bg-gray-100 rounded-b-lg">
-        Disponibilidad
-      </a>
-    </li>
-
-
-
-  </ul>
-</li>
-
-    </ul>
-
-  
-    <!-- Botón del carrito -->
-    <div class="relative">
-      <button id="cartButton" class="ml-4 flex items-center gap-2 px-3 py-2 rounded-full hover:scale-110 transition focus:outline-none">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
-          fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 9h14l-2-9M10 21a1 1 0 100-2 1 1 0 000 2zm6 0a1 1 0 100-2 1 1 0 000 2z" />
-        </svg>
-      </button>
-
-      <!-- Lista desplegable del carrito -->
-      <div id="cartDropdown"
-        class="hidden absolute right-0 mt-3 w-64 bg-white text-gray-800 rounded-2xl shadow-lg p-4 transition-all duration-300">
-        <h3 class="font-semibold text-lg mb-2 text-center text-[#F266B3]">Carrito</h3>
-        <ul id="cartItems" class="space-y-2 text-sm">
-          <li class="flex justify-between items-center">
-            <span>Refacción 1</span>
-            <span class="font-semibold">$150</span>
-          </li>
-          <li class="flex justify-between items-center">
-            <span>Refacción 2</span>
-            <span class="font-semibold">$230</span>
-          </li>
-        </ul>
-        <div class="border-t mt-3 pt-3 flex justify-between font-semibold">
-          <span>Total:</span>
-          <span>$380</span>
+        <div id="cartDropdown"
+          class="hidden absolute right-0 mt-3 w-64 bg-white text-gray-800 rounded-2xl shadow-lg p-4 transition-all duration-300">
+          <h3 class="font-semibold text-lg mb-2 text-center text-[#F266B3]">Carrito</h3>
+          <ul id="cartItems" class="space-y-2 text-sm">
+            <li class="flex justify-between items-center">
+              <span>Refacción 1</span>
+              <span class="font-semibold">$150</span>
+            </li>
+            <li class="flex justify-between items-center">
+              <span>Refacción 2</span>
+              <span class="font-semibold">$230</span>
+            </li>
+          </ul>
+          <div class="border-t mt-3 pt-3 flex justify-between font-semibold">
+            <span>Total:</span>
+            <span>$380</span>
+          </div>
+          <a href="cart.html"
+            class="block mt-4 text-center bg-[#F266B3] text-white py-2 rounded-full hover:bg-pink-600 transition">
+            Ver carrito
+          </a>
         </div>
-        <a href="cart.html"
-          class="block mt-4 text-center bg-[#F266B3] text-white py-2 rounded-full hover:bg-pink-600 transition">
-          Ver carrito
-        </a>
       </div>
-    </div>
-  </nav>
-</header>
+    </nav>
+  </header>
 
-<!-- Script para mostrar/ocultar el carrito -->
-<script>
-  const cartButton = document.getElementById('cartButton');
-  const cartDropdown = document.getElementById('cartDropdown');
+  <script>
+    const cartButton = document.getElementById('cartButton');
+    const cartDropdown = document.getElementById('cartDropdown');
 
-  // Mostrar / ocultar el carrito
-  cartButton.addEventListener('click', (event) => {
-    event.stopPropagation();
-    cartDropdown.classList.toggle('hidden');
-  });
+    // Mostrar / ocultar el carrito
+    cartButton.addEventListener('click', (event) => {
+      event.stopPropagation();
+      cartDropdown.classList.toggle('hidden');
+    });
 
-  // Cerrar al hacer clic fuera
-  document.addEventListener('click', (event) => {
-    if (!cartButton.contains(event.target) && !cartDropdown.contains(event.target)) {
-      cartDropdown.classList.add('hidden');
-    }
-  });
-</script>
+    // Cerrar al hacer clic fuera
+    document.addEventListener('click', (event) => {
+      if (!cartButton.contains(event.target) && !cartDropdown.contains(event.target)) {
+        cartDropdown.classList.add('hidden');
+      }
+    });
+  </script>
 
 
 
-  <!-- Hero -->
   <section class="h-screen bg-cover bg-center flex items-center justify-center"
     style="background-image: url('/miniHokeisZoomed.webp')">
     <div class="w-full h-full backdrop-brightness-50 text-white flex items-center justify-center flex-col pb-15">
@@ -162,212 +153,299 @@
     </div>
   </section>
 
-  <!-- Menú -->
   <section class="bg-gradient-to-b from-[#F266B3] to-[#F2884B] p-12 flex flex-col items-center" id="menu">
     <h2 class="text-4xl text-white font-caprasimo text-center mb-10">Conoce nuestros deliciosos postrecitos</h2>
     <div id="products-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-7">
-      <!-- Aquí se insertarán los productos dinámicamente -->
-    </div>
+      </div>
   </section>
 
-  
 
-  <!-- Ubicación -->
   <section id="ubicacion" class="bg-white py-6 px-4 flex flex-col items-center text-center shadow-ld shadow-black">
-  <h2 class="text-2xl font-caprasimo text-pink-500 mb-3">¿Dónde encontrarnos?</h2>
-  <p class="text-sm text-gray-700 max-w-md mb-3">
-    Ven a probar los postres más deliciosos de Aguascalientes.
-  </p>
-  <div class="flex items-center gap-1 text-sm text-gray-800 font-medium mb-3">
-    <span class="text-pink-500 text-lg">📍</span>
-    <span>Calle del Codo 225, Zona Centro, Aguascalientes, Ags.</span>
-  </div>
-  
-  <!-- Mapa pequeño -->
-  <div class="w-full max-w-sm h-[200px] rounded-lg overflow-hidden shadow-md border border-pink-300">
-    <iframe
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3702.3819155545643!2d-102.30021015100135!3d21.881364341026032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8429ef9751c28be7%3A0x5036b1340243c4f9!2shoneypop!5e0!3m2!1ses!2smx!4v1753339013914!5m2!1ses!2smx"
-      width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade"></iframe>
-  </div>
+    <h2 class="text-2xl font-caprasimo text-pink-500 mb-3">¿Dónde encontrarnos?</h2>
+    <p class="text-sm text-gray-700 max-w-md mb-3">
+      Ven a probar los postres más deliciosos de Aguascalientes.
+    </p>
+    <div class="flex items-center gap-1 text-sm text-gray-800 font-medium mb-3">
+      <span class="text-pink-500 text-lg">📍</span>
+      <span>Calle del Codo 225, Zona Centro, Aguascalientes, Ags.</span>
+    </div>
 
-  <a href="https://www.google.com/maps/place/Calle+del+Codo+225,+Zona+Centro,+Aguascalientes,+Ags."
-    target="_blank"
-    class="mt-3 inline-block text-white bg-pink-500 hover:bg-pink-600 transition-colors px-4 py-1 rounded-full text-sm font-semibold shadow">
-    Ver en Google Maps
-  </a>
-</section>
+    <div class="w-full max-w-sm h-[200px] rounded-lg overflow-hidden shadow-md border border-pink-300">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3702.3819155545643!2d-102.30021015100135!3d21.881364341026032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8429ef9751c28be7%3A0x5036b1340243c4f9!2shoneypop!5e0!3m2!1ses!2smx!4v1753339013914!5m2!1ses!2smx" width="100%" height="100%" style="border:0;"
+        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
 
-
-    <!-- Contacto -->
-   <section id="contacto" class="bg-gradient-to-b from-[#F2884B] via-[#F266B3] to-white py-6 px-4 flex flex-col items-center">
-  <h2 class="text-2xl font-caprasimo mb-3 text-center text-white drop-shadow-md">Contáctanos</h2>
-  <p class="text-center mb-4 text-sm text-white max-w-md">
-    Síguenos en nuestras redes sociales 💕 y déjanos tu contacto
-  </p>
-
-  <!-- Redes Sociales -->
-  <div class="flex justify-center items-center gap-4 mb-6">
-    <a href="https://www.instagram.com/honeypop.postrecito" target="_blank" class="w-8 h-8 hover:scale-110 transition duration-300">
-      <img src="ig-logo.webp" alt="Instagram" class="w-full h-full object-contain">
+    <a href="https://www.google.com/maps/place/Calle+del+Codo+225,+Zona+Centro,+Aguascalientes,+Ags." target="_blank"
+      class="mt-3 inline-block text-white bg-pink-500 hover:bg-pink-600 transition-colors px-4 py-1 rounded-full text-sm font-semibold shadow">
+      Ver en Google Maps
     </a>
-    <a href="https://www.facebook.com/profile.php?id=61576826434460" target="_blank" class="w-8 h-8 hover:scale-110 transition duration-300">
-      <img src="fb-logo.webp" alt="Facebook" class="w-full h-full object-contain">
-    </a>
-    <a href="https://www.tiktok.com/@honeypop.ags" target="_blank" class="w-8 h-8 hover:scale-110 transition duration-300">
-      <img src="tt-logo.webp" alt="TikTok" class="w-full h-full object-contain">
-    </a>
-  </div>
-
-  <!-- Formulario de contacto -->
-  <form class="w-full max-w-md bg-white rounded-xl p-6 shadow-lg flex flex-col gap-4">
-    <label for="nombre" class="text-sm font-medium text-gray-700">Nombre</label>
-    <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" class="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-pink-500">
-
-    <label for="correo" class="text-sm font-medium text-gray-700">Correo electrónico</label>
-    <input type="email" id="correo" name="correo" placeholder="tucorreo@ejemplo.com" class="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-pink-500">
-
-    <label for="mensaje" class="text-sm font-medium text-gray-700">Mensaje / Redes sociales</label>
-    <textarea id="mensaje" name="mensaje" rows="3" placeholder="Tu mensaje o enlace a redes sociales" class="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-pink-500"></textarea>
-
-    <button type="submit" class="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors">
-      Enviar
-    </button>
-  </form>
-</section>
+  </section>
 
 
-
-
-<!-- Footer -->
-<footer class="bg-gray-800 text-white py-4 px-2 mt-6">
-  <div class="flex flex-col justify-center items-center gap-2">
-    <a href="#" class="hover:scale-105 transition duration-300">
-      <img src="/honeypop.webp" alt="Honey Pop Logo" class="w-16 h-16 object-contain">
-    </a>
-    <p class="text-xs text-gray-300 max-w-xs text-center leading-tight">
-      En Honey Pop creemos que cada bocado debe ser un momento feliz. 
-      ¡Gracias por endulzar tu día con nosotros!
+  <section id="contacto"
+    class="bg-gradient-to-b from-[#F2884B] via-[#F266B3] to-white py-6 px-4 flex flex-col items-center">
+    <h2 class="text-2xl font-caprasimo mb-3 text-center text-white drop-shadow-md">Contáctanos</h2>
+    <p class="text-center mb-4 text-sm text-white max-w-md">
+      Síguenos en nuestras redes sociales 💕 y déjanos tu contacto
     </p>
 
-    <!-- Enlaces simulados -->
-    <div class="flex gap-3 text-xs text-pink-300 mt-2">
+    <div class="flex justify-center items-center gap-4 mb-6">
+      <a href="https://www.instagram.com/honeypop.postrecito" target="_blank"
+        class="w-8 h-8 hover:scale-110 transition duration-300">
+        <img src="ig-logo.webp" alt="Instagram" class="w-full h-full object-contain">
+      </a>
+      <a href="https://www.facebook.com/profile.php?id=61576826434460" target="_blank"
+        class="w-8 h-8 hover:scale-110 transition duration-300">
+        <img src="fb-logo.webp" alt="Facebook" class="w-full h-full object-contain">
+      </a>
+      <a href="https://www.tiktok.com/@honeypop.ags" target="_blank"
+        class="w-8 h-8 hover:scale-110 transition duration-300">
+        <img src="tt-logo.webp" alt="TikTok" class="w-full h-full object-contain">
+      </a>
+    </div>
 
-  <button onclick="openModal('avisoModal')" class="hover:underline hover:text-pink-400 transition">
-    Aviso de privacidad
-  </button>
-  <span>|</span>
+    <form class="w-full max-w-md bg-white rounded-xl p-6 shadow-lg flex flex-col gap-4">
+      <label for="nombre" class="text-sm font-medium text-gray-700">Nombre</label>
+      <input type="text" id="nombre" name="nombre" placeholder="Tu nombre"
+        class="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-pink-500">
 
-  <button onclick="openModal('terminosModal')" class="hover:underline hover:text-pink-400 transition">
-    Términos y condiciones
-  </button>
-  <span>|</span>
+      <label for="correo" class="text-sm font-medium text-gray-700">Correo electrónico</label>
+      <input type="email" id="correo" name="correo" placeholder="tucorreo@ejemplo.com"
+        class="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-pink-500">
 
-  <button onclick="openModal('politicaModal')" class="hover:underline hover:text-pink-400 transition">
-    Políticas de compra y venta
-  </button>
-  <span>|</span>
+      <label for="mensaje" class="text-sm font-medium text-gray-700">Mensaje / Redes sociales</label>
+      <textarea id="mensaje" name="mensaje" rows="3" placeholder="Tu mensaje o enlace a redes sociales"
+        class="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-pink-500"></textarea>
 
-  <button onclick="openModal('cumplimientoModal')" class="hover:underline hover:text-pink-400 transition">
-    Cumplimiento legal
-  </button>
+      <button type="submit"
+        class="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors">
+        Enviar
+      </button>
+    </form>
+  </section>
 
-</div>
+
+  <footer class="bg-gray-800 text-white py-4 px-2 mt-6">
+    <div class="flex flex-col justify-center items-center gap-2">
+      <a href="#" class="hover:scale-105 transition duration-300">
+        <img src="/honeypop.webp" alt="Honey Pop Logo" class="w-16 h-16 object-contain">
+      </a>
+      <p class="text-xs text-gray-300 max-w-xs text-center leading-tight">
+        En Honey Pop creemos que cada bocado debe ser un momento feliz.
+        ¡Gracias por endulzar tu día con nosotros!
+      </p>
+
+      <div class="flex gap-3 text-xs text-pink-300 mt-2">
+
+        <button onclick="openModal('avisoModal')" class="hover:underline hover:text-pink-400 transition">
+          Aviso de privacidad
+        </button>
+        <span>|</span>
+
+        <button onclick="openModal('terminosModal')" class="hover:underline hover:text-pink-400 transition">
+          Términos y condiciones
+        </button>
+        <span>|</span>
+
+        <button onclick="openModal('politicaModal')" class="hover:underline hover:text-pink-400 transition">
+          Políticas de compra y venta
+        </button>
+        <span>|</span>
+
+        <button onclick="openModal('cumplimientoModal')" class="hover:underline hover:text-pink-400 transition">
+          Cumplimiento legal
+        </button>
+
+      </div>
 
 
-  <div class="mt-3 text-center text-xs text-gray-500 border-t border-gray-700 pt-2">
-    © 2025 Honey Pop. Todos los derechos reservados.
+      <div class="mt-3 text-center text-xs text-gray-500 border-t border-gray-700 pt-2">
+        © 2025 Honey Pop. Todos los derechos reservados.
+      </div>
+
+
+  </footer>
+
+  <div id="avisoModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white text-gray-800 rounded-lg shadow-lg p-6 w-11/12 max-w-md">
+      <h2 class="text-lg font-semibold text-pink-600 mb-2">Aviso de privacidad</h2>
+      <p class="text-sm mb-4">
+        En Honey Pop protegemos tus datos personales conforme a la ley.
+        La información que recopilamos (nombre, correo, teléfono y método de pago)
+        se utiliza únicamente para procesar tus pedidos y mejorar tu experiencia.
+        No compartimos tu información con terceros.
+      </p>
+      <a href="legalidad.html" class="text-pink-500 text-sm underline block mb-4">
+        Leer más...
+      </a>
+      <button onclick="closeModal('avisoModal')"
+        class="bg-pink-500 text-white px-4 py-1 rounded hover:bg-pink-600 transition">
+        Cerrar
+      </button>
+    </div>
+  </div>
+
+  <div id="terminosModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white text-gray-800 rounded-lg shadow-lg p-6 w-11/12 max-w-md">
+      <h2 class="text-lg font-semibold text-pink-600 mb-2">Términos y condiciones</h2>
+      <p class="text-sm mb-4">
+        Al usar nuestro sitio Honey Pop aceptas brindar información veraz
+        y utilizar nuestros servicios de forma responsable.
+        Los precios y promociones pueden cambiar sin previo aviso.
+        Nos reservamos el derecho de rechazar pedidos sospechosos o fraudulentos.
+      </p>
+      <a href="legalidad.html" class="text-pink-500 text-sm underline block mb-4">
+        Leer más...
+      </a>
+      <button onclick="closeModal('terminosModal')"
+        class="bg-pink-500 text-white px-4 py-1 rounded hover:bg-pink-600 transition">
+        Cerrar
+      </button>
+    </div>
+  </div>
+
+  <div id="politicaModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white text-gray-800 rounded-lg shadow-lg p-6 w-11/12 max-w-md">
+      <h2 class="text-lg font-semibold text-pink-600 mb-2">Políticas de compra y venta</h2>
+      <p class="text-sm mb-4">
+        En Honey Pop nuestras políticas están diseñadas para garantizar una compra segura.
+        Todos los pedidos deben pagarse antes de ser procesados y se enviarán de acuerdo
+        con los tiempos establecidos. No se aceptan devoluciones de productos consumibles.
+      </p>
+      <a href="legalidad.html" class="text-pink-500 text-sm underline block mb-4">
+        Leer más...
+      </a>
+      <button onclick="closeModal('politicaModal')"
+        class="bg-pink-500 text-white px-4 py-1 rounded hover:bg-pink-600 transition">
+        Cerrar
+      </button>
+    </div>
+  </div>
+
+  <div id="cumplimientoModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white text-gray-800 rounded-lg shadow-lg p-6 w-11/12 max-w-md">
+      <h2 class="text-lg font-semibold text-pink-600 mb-2">Cumplimiento legal</h2>
+      <p class="text-sm mb-4">
+        Honey Pop cumple con las leyes aplicables en materia de protección al consumidor,
+        comercio electrónico y protección de datos. Todos nuestros procesos se apegan a
+        las normas vigentes para garantizar transparencia y seguridad.
+      </p>
+      <a href="legalidad.html" class="text-pink-500 text-sm underline block mb-4">
+        Leer más...
+      </a>
+      <button onclick="closeModal('cumplimientoModal')"
+        class="bg-pink-500 text-white px-4 py-1 rounded hover:bg-pink-600 transition">
+        Cerrar
+      </button>
+    </div>
   </div>
 
 
-</footer>
+  <div id="cookieBanner"
+    class="fixed inset-0 z-[100] flex items-center justify-center transition-opacity duration-300 hidden">
+    <div
+      id="cookieModalContent"
+      class="bg-white rounded-2xl shadow-2xl p-6 w-11/12 max-w-md mx-auto transform transition-all duration-300 scale-95 opacity-0">
+      <div class="flex justify-center mb-4">
+        <img src="/honeypop.webp" alt="Honey Pop Logo" class="h-16 w-auto">
+      </div>
+      <h2 class="text-center text-2xl font-semibold text-gray-800 mb-4">¡Queremos endulzar tu experiencia!</h2>
 
-<!-- Modal: Aviso de Privacidad -->
-<div id="avisoModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-  <div class="bg-white text-gray-800 rounded-lg shadow-lg p-6 w-11/12 max-w-md">
-    <h2 class="text-lg font-semibold text-pink-600 mb-2">Aviso de privacidad</h2>
-    <p class="text-sm mb-4">
-      En Honey Pop protegemos tus datos personales conforme a la ley.
-      La información que recopilamos (nombre, correo, teléfono y método de pago)
-      se utiliza únicamente para procesar tus pedidos y mejorar tu experiencia.
-      No compartimos tu información con terceros.
-    </p>
-    <button onclick="closeModal('avisoModal')" class="bg-pink-500 text-white px-4 py-1 rounded hover:bg-pink-600 transition">
-      Cerrar
-    </button>
+      <p class="text-sm text-gray-700 mb-4">
+        Usamos cookies🍪 propias y de nuestros
+        <span class="font-semibold text-[#F266B3]">socios </span> para recordar tus gustos, personalizar postres
+        y mejorar tu navegación. Al continuar, nos permites usar estas "galletas" para un servicio más dulce.
+      </p>
+
+      <p class="text-sm text-gray-700 mb-4 font-semibold">¿Para qué usamos estas cookies?</p>
+      <ul class="text-xs text-gray-600 list-disc list-inside mb-6 space-y-1">
+          <li>✨ Magia del sabor: Almacenar tus preferencias y carrito de compras.</li>
+          <li>🎯Postres a la medida: Personalizar las promociones que ves.</li>
+          <li>📊Recetas secretas: Entender qué postres te gustan más para mejorar.</li>
+          <li>📍Donde estás: Usar tu ubicación para encontrar la sucursal más cercana.</li>
+      </ul>
+
+      <div class="flex justify-center mb-6">
+          <button id="viewPartnersButton" class="text-[#F266B3] hover:underline text-sm font-semibold">
+              Conoce a nuestros socios 
+          </button>
+      </div>
+
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <button id="configCookiesButton"
+          class="flex-1 bg-gray-100 text-gray-700 font-medium py-3 px-6 rounded-full text-base hover:bg-gray-200 transition">
+          Más información →
+        </button>
+        <button id="acceptCookies"
+          class="flex-1 bg-[#F2884B] text-white font-semibold py-3 px-6 rounded-full text-base hover:bg-[#e0763f] transition shadow-lg shadow-pink-300">
+          ¡Aceptar todas las galletas!
+        </button>
+      </div>
+    </div>
   </div>
-</div>
+  <script>
+    // Las funciones openModal/closeModal para los modales de políticas
+    // sí añaden/quitan 'overflow-hidden' para bloquear el scroll cuando
+    // se usan esos modales.
+    function openModal(id) {
+      document.getElementById(id).classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    }
+  </script>
 
-<!-- Modal: Términos y Condiciones -->
-<div id="terminosModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-  <div class="bg-white text-gray-800 rounded-lg shadow-lg p-6 w-11/12 max-w-md">
-    <h2 class="text-lg font-semibold text-pink-600 mb-2">Términos y condiciones</h2>
-    <p class="text-sm mb-4">
-      Al usar nuestro sitio Honey Pop aceptas brindar información veraz
-      y utilizar nuestros servicios de forma responsable.
-      Los precios y promociones pueden cambiar sin previo aviso.
-      Nos reservamos el derecho de rechazar pedidos sospechosos o fraudulentos.
-    </p>
-    <button onclick="closeModal('terminosModal')" class="bg-pink-500 text-white px-4 py-1 rounded hover:bg-pink-600 transition">
-      Cerrar
-    </button>
-  </div>
-</div>
-
-<!-- Modal: Políticas de compra y venta -->
-<div id="politicaModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-  <div class="bg-white text-gray-800 rounded-lg shadow-lg p-6 w-11/12 max-w-md">
-    <h2 class="text-lg font-semibold text-pink-600 mb-2">Políticas de compra y venta</h2>
-    <p class="text-sm mb-4">
-      En Honey Pop nuestras políticas están diseñadas para garantizar una compra segura.
-      Todos los pedidos deben pagarse antes de ser procesados y se enviarán de acuerdo
-      con los tiempos establecidos. No se aceptan devoluciones de productos consumibles.
-    </p>
-    <button onclick="closeModal('politicaModal')" class="bg-pink-500 text-white px-4 py-1 rounded hover:bg-pink-600 transition">
-      Cerrar
-    </button>
-  </div>
-</div>
-
-<!-- Modal: Cumplimiento legal -->
-<div id="cumplimientoModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-  <div class="bg-white text-gray-800 rounded-lg shadow-lg p-6 w-11/12 max-w-md">
-    <h2 class="text-lg font-semibold text-pink-600 mb-2">Cumplimiento legal</h2>
-    <p class="text-sm mb-4">
-      Honey Pop cumple con las leyes aplicables en materia de protección al consumidor,
-      comercio electrónico y protección de datos. Todos nuestros procesos se apegan a
-      las normas vigentes para garantizar transparencia y seguridad.
-    </p>
-    <button onclick="closeModal('cumplimientoModal')" class="bg-pink-500 text-white px-4 py-1 rounded hover:bg-pink-600 transition">
-      Cerrar
-    </button>
-  </div>
-</div>
+  <script>
+    const cookieBanner = document.getElementById('cookieBanner');
+    const cookieModalContent = document.getElementById('cookieModalContent');
+    const acceptCookiesButton = document.getElementById('acceptCookies');
+    const configCookiesButton = document.getElementById('configCookiesButton');
+    const viewPartnersButton = document.getElementById('viewPartnersButton');
 
 
+    function showCookieBanner() {
+      // El scroll queda habilitado
+      cookieBanner.classList.remove('hidden');
+      
+      // Pequeño retardo para iniciar la transición de entrada
+      setTimeout(() => {
+        cookieModalContent.classList.remove('scale-95', 'opacity-0');
+        cookieModalContent.classList.add('scale-100', 'opacity-100');
+      }, 10);
+    }
+
+    function hideCookieBanner() {
+      cookieModalContent.classList.remove('scale-100', 'opacity-100');
+      cookieModalContent.classList.add('scale-95', 'opacity-0');
+      setTimeout(() => {
+        cookieBanner.classList.add('hidden');
+      }, 300); 
+    }
+    // NOTA: Se eliminó la función checkCookiesConsent()
+
+    // Manejador para el botón de Aceptar y cerrar
+    acceptCookiesButton.addEventListener('click', () => {
+      // Ya no guarda en localStorage, solo lo oculta
+      hideCookieBanner();
+    });
+
+    // Manejadores para botones de información (puedes personalizar esto)
+    configCookiesButton.addEventListener('click', () => {
+      alert("¡Hora de elegir tus ingredientes! (Configuración de Preferencias de Sabor)");
+    });
+
+    viewPartnersButton.addEventListener('click', () => {
+        alert("Lista de nuestros socios de sabor y publicidad.");
+    });
 
 
+    // Ejecutar la visualización DIRECTAMENTE al cargar la página
+    document.addEventListener('DOMContentLoaded', showCookieBanner);
+  </script>
 
 
-<!-- Script para abrir/cerrar modales -->
-<script>
-  function openModal(id) {
-    document.getElementById(id).classList.remove('hidden');
-  }
-  function closeModal(id) {
-    document.getElementById(id).classList.add('hidden');
-  }
-</script>
-
-
-
-
-
-
-
-
-
-  <!-- Script para cargar productos -->
   <script>
     async function cargarProductos() {
       try {
@@ -402,31 +480,27 @@
     cargarProductos();
   </script>
 
-<script>
-  document.querySelectorAll('.clickable-submenu > a').forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault(); // evita que el enlace navegue
-      const submenu = link.nextElementSibling; // ul del submenú
-      submenu.classList.toggle('opacity-100');
-      submenu.classList.toggle('visible');
-      submenu.classList.toggle('invisible');
+  <script>
+    document.querySelectorAll('.clickable-submenu > a').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault(); // evita que el enlace navegue
+        const submenu = link.nextElementSibling; // ul del submenú
+        submenu.classList.toggle('opacity-100');
+        submenu.classList.toggle('visible');
+        submenu.classList.toggle('invisible');
+      });
     });
-  });
 
-  // Opcional: cerrar otros submenús al abrir uno
-  document.addEventListener('click', e => {
-    document.querySelectorAll('.clickable-submenu .submenu').forEach(sm => {
-      if (!sm.contains(e.target) && !sm.previousElementSibling.contains(e.target)) {
-        sm.classList.remove('opacity-100', 'visible');
-        sm.classList.add('invisible');
-      }
+    // Opcional: cerrar otros submenús al abrir uno
+    document.addEventListener('click', e => {
+      document.querySelectorAll('.clickable-submenu .submenu').forEach(sm => {
+        if (!sm.contains(e.target) && !sm.previousElementSibling.contains(e.target)) {
+          sm.classList.remove('opacity-100', 'visible');
+          sm.classList.add('invisible');
+        }
+      });
     });
-  });
-</script>
-
-
-
-
+  </script>
 
 </body>
 
