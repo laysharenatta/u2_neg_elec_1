@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pago Exitoso</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <script>
+    // Generar número de pedido aleatorio simulado
+    document.addEventListener("DOMContentLoaded", () => {
+      const order = "HP-" + Math.floor(100000 + Math.random() * 900000);
+      document.getElementById("orderNumber").textContent = order;
+    });
+  </script>
+</head>
+
+<body class="bg-gradient-to-b from-[#F266B3] to-[#F2884B] min-h-screen flex items-center justify-center p-6">
+
+  <div class="bg-white p-10 rounded-3xl shadow-xl text-center max-w-md w-full">
+
+    <h1 class="text-3xl font-bold text-[#F266B3] mb-4">
+      ¡Pago Exitoso! 🎉
+    </h1>
+
+    <p class="text-gray-700 text-lg mb-4">
+      Gracias por tu compra. Tu pedido se ha procesado correctamente.
+    </p>
+
+    <p class="text-gray-800 font-semibold text-xl mb-6">
+      Número de Pedido:  
+      <span id="orderNumber" class="text-[#F266B3]"></span>
+    </p>
+
+    <!-- Botones -->
+    <div class="flex flex-col gap-3">
+
+     <button
+  class="bg-pink-500 text-white py-3 rounded-xl hover:bg-pink-600 transition font-semibold"
+  onclick="window.location.href='factura.html'">
+  Descargar Factura
+</button>
+
+
+     <button
+  class="bg-orange-400 text-white py-3 rounded-xl hover:bg-orange-500 transition font-semibold"
+  onclick="window.location.href='comprobante.html'">
+  Ver Comprobante
+</button>
+
+
+      <button
+        class="bg-gray-200 text-gray-600 py-3 rounded-xl hover:bg-gray-300 transition font-semibold"
+        onclick="window.location.href='index.html'">
+        Regresar al Inicio
+      </button>
+
+    </div>
+
+  </div>
+
+  
+</body>
+
+</html>

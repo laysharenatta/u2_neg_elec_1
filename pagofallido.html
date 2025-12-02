@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pago Fallido</title>
+
+  <!-- Estilos simples -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f8f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    h1 {
+      color: #d9534f;
+    }
+
+    .msg {
+      font-size: 1.2rem;
+      margin: 20px 0;
+      color: #333;
+    }
+
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>Pago Fallido</h1>
+
+    <p class="msg" id="errorMessage">
+      <!-- mensaje aleatorio se colocará aquí -->
+    </p>
+
+    <button onclick="window.location.href='metodopago.html'">
+      Intentar de nuevo
+    </button>
+  </div>
+
+  <script>
+    // Mock: lista de errores simulados
+    const errores = [
+      "Tarjeta rechazada",
+      "Conexión fallida con el servidor",
+      "Pago duplicado detectado",
+      "Fondos insuficientes"
+    ];
+
+    // Elegir un error aleatorio
+    const mensaje = errores[Math.floor(Math.random() * errores.length)];
+
+    // Mostrarlo en pantalla
+    document.getElementById("errorMessage").textContent = mensaje;
+  </script>
+
+</body>
+</html>

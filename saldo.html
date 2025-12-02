@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="icon" href="/honeypop.webp" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <title>Honey Pop - Mi Saldo</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&family=Pacifico&display=swap" rel="stylesheet" />
+</head>
+
+<body class="bg-gradient-to-b from-pink-100 to-pink-200 min-h-screen flex flex-col">
+
+  <!-- ENCABEZADO -->
+  <header class="py-6 text-center">
+    <h1 class="text-4xl text-pink-600 drop-shadow-md" style="font-family: 'Pacifico', cursive;">
+      Honey Pop Wallet
+    </h1>
+  </header>
+
+  <!-- CONTENEDOR PRINCIPAL -->
+  <main class="flex-grow flex items-center justify-center px-4">
+
+    <div class="bg-white/80 backdrop-blur-md shadow-2xl rounded-3xl p-10 w-full max-w-md border border-pink-200">
+
+      <!-- ICONO -->
+      <div class="flex justify-center mb-6">
+        <div class="bg-pink-500 text-white p-4 rounded-full shadow-lg">
+          💰
+        </div>
+      </div>
+
+      <!-- SALDO -->
+      <h2 class="text-2xl text-center font-semibold text-gray-700 mb-4">
+        Saldo disponible
+      </h2>
+
+      <p class="text-center text-4xl font-bold text-green-600 mb-6">
+        $250.00
+      </p>
+
+      <!-- BARRA DE SALDO SIMULADA -->
+      <div class="w-full bg-gray-200 rounded-full h-3 mb-6 shadow-inner">
+        <div class="bg-green-500 h-3 rounded-full transition-all" style="width: 65%;"></div>
+      </div>
+
+      <!-- BOTONES -->
+      <div class="flex flex-col gap-4">
+        <button
+          class="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 rounded-xl transition shadow-lg hover:scale-[1.03]">
+          Usar saldo
+        </button>
+
+        <button
+          class="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold py-3 rounded-xl transition shadow-lg hover:scale-[1.03]">
+          Agregar saldo (mock)
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  
+  <footer class="bg-gray-800 text-white py-4 px-2 mt-6">
+    <div class="flex flex-col justify-center items-center gap-2">
+      <a href="#" class="hover:scale-105 transition duration-300">
+        <img src="/honeypop.webp" alt="Honey Pop Logo" class="w-16 h-16 object-contain">
+      </a>
+      <p class="text-xs text-gray-300 max-w-xs text-center leading-tight">
+        En Honey Pop creemos que cada bocado debe ser un momento feliz.
+        ¡Gracias por endulzar tu día con nosotros!
+      </p>
+
+      <div class="flex gap-3 text-xs text-pink-300 mt-2">
+
+        <button onclick="openModal('avisoModal')" class="hover:underline hover:text-pink-400 transition">
+          Aviso de privacidad
+        </button>
+        <span>|</span>
+
+        <button onclick="openModal('terminosModal')" class="hover:underline hover:text-pink-400 transition">
+          Términos y condiciones
+        </button>
+        <span>|</span>
+
+        <button onclick="openModal('politicaModal')" class="hover:underline hover:text-pink-400 transition">
+          Políticas de compra y venta
+        </button>
+        <span>|</span>
+
+        <button onclick="openModal('cumplimientoModal')" class="hover:underline hover:text-pink-400 transition">
+          Cumplimiento legal
+        </button>
+
+      </div>
+
+
+      <div class="mt-3 text-center text-xs text-gray-500 border-t border-gray-700 pt-2">
+        © 2025 Honey Pop. Todos los derechos reservados.
+      </div>
+
+
+  </footer>
+
+
+
+</body>
+</html>
