@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="icon" href="/honeypop.webp" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <title>Honey Pop - Micropago con causa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&family=Pacifico&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --accent:#ff6b6b;
+      --muted:#6b7280;
+    }
+    .font-hand{font-family:'Homemade Apple', cursive}
+    .font-logo{font-family:'Pacifico', cursive}
+  </style>
+</head>
+
+
+<body class="bg-gradient-to-b from-amber-50 to-white min-h-screen flex items-center justify-center p-6">
+  <main class="max-w-3xl w-full bg-white/80 backdrop-blur-md rounded-2xl shadow-2xl p-8">
+    <header class="flex items-center gap-4">
+      <img src="/honeypop.webp" alt="Honey Pop" class="w-16 h-16 rounded-lg object-cover shadow" />
+      <div>
+        <h1 class="text-3xl font-logo text-rose-600">Honey Pop</h1>
+        <p class="text-sm text-gray-600">Micropago con causa — dona y cambia una vida</p>
+      </div>
+    </header>
+
+    <section class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="rounded-lg p-4 bg-rose-50/60">
+        <h2 class="text-xl font-semibold">¿A qué causa quieres apoyar?</h2>
+        <p class="text-sm text-gray-700 mt-2">Selecciona una de las causas. La donación sugerida es <strong>$10</strong>, pero puedes cambiarla si lo deseas.</p>
+
+        <form id="donation-form" class="mt-4 space-y-4">
+          <fieldset class="space-y-2">
+            <legend class="sr-only">Causa</legend>
+            <label class="flex items-center gap-3">
+              <input type="radio" name="cause" value="niños" checked class="h-4 w-4" />
+              <span>
+                <strong>Niños con cáncer</strong>
+                <div class="text-xs text-gray-600">Apoyo a tratamientos y estadías</div>
+              </span>
+            </label>
+
+            <label class="flex items-center gap-3">
+              <input type="radio" name="cause" value="estudiantes" class="h-4 w-4" />
+              <span>
+                <strong>Ayuda a estudiantes</strong>
+                <div class="text-xs text-gray-600">Becas y materiales escolares</div>
+              </span>
+            </label>
+
+            <label class="flex items-center gap-3">
+              <input type="radio" name="cause" value="comunidad" class="h-4 w-4" />
+              <span>
+                <strong>Alimentos para la comunidad</strong>
+                <div class="text-xs text-gray-600">Despensas y comedores</div>
+              </span>
+            </label>
+          </fieldset>
+
+          <div>
+            <label for="amount" class="block text-sm font-medium text-gray-700">Monto (MXN)</label>
+            <div class="mt-1 flex items-center gap-2">
+              <input id="amount" name="amount" type="number" min="1" step="1" value="10" class="w-32 rounded-md border px-3 py-2" aria-label="Monto en pesos" />
+              <div class="inline-flex rounded-md shadow-sm">
+                <button type="button" data-quick="10" class="px-3 py-2 rounded-md border hover:bg-rose-100">$10</button>
+                <button type="button" data-quick="25" class="px-3 py-2 rounded-md border hover:bg-rose-100">$25</button>
+                <button type="button" data-quick="50" class="px-3 py-2 rounded-md border hover:bg-rose-100">$50</button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label for="name" class="block text-sm font-medium text-gray-700">Nombre (opcional)</label>
+            <input id="name" name="name" type="text" placeholder="Ej. Ana Pérez" class="mt-1 w-full rounded-md border px-3 py-2" />
+          </div>
+
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
+            <input id="email" name="email" type="email" placeholder="tucorreo@ejemplo.com"  class="mt-1 w-full rounded-md border px-3 py-2" />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Método de pago (simulado)</label>
+            <select id="method" class="mt-1 w-full rounded-md border px-3 py-2">
+              <option value="card">Tarjeta de débito/crédito</option>
+              <option value="oxxo">Pago en OXXO (código)</option>
+              <option value="paypal">PayPal</option>
+            </select>
+            <p class="text-xs text-gray-500 mt-1">Esta demo simula la donación; para recibir donaciones reales, integra un proveedor (Stripe, PayPal, Conekta).</p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <a href="metodopago.html" id="donate-btn"  class="mt-2 inline-flex items-center gap-2 px-4 py-2 rounded-xl font-semibold bg-rose-600 text-white hover:brightness-105">Donar ahora $<span id="amount-visual"></span></a>
+              <a href="metodopago.html" id="donate-btn"  class="mt-2 inline-flex items-center gap-2 px-4 py-2 rounded-xl font-semibold bg-rose-600 text-white hover:brightness-105">No donar<span id="amount-visual"></span></a>
+              <a href="justificardonacion.html" id="donate-btn"  class="mt-2 inline-flex items-center gap-2 px-4 py-2 rounded-xl font-semibold bg-rose-600 text-white hover:brightness-105">Política de Donación<span id="amount-visual"></span></a>
+           
+              
+           </div>
+
+          <p class="text-xs text-gray-600">Tu donación es segura y voluntaria. Recibirás un comprobante (simulado) por correo.</p>
+        </form>
+      </div>
+
+      <aside class="rounded-lg p-4 bg-white/60 border">
+        <h3 class="text-lg font-semibold">Resumen</h3>
+        <div class="mt-3 space-y-2 text-sm text-gray-700">
+          <p><strong>Causa:</strong> <span id="summary-cause">Niños con cáncer</span></p>
+          <p><strong>Monto:</strong> $<span id="summary-amount">10</span> MXN</p>
+          <p><strong>Donante:</strong> <span id="summary-name">(anónimo)</span></p>
+          <p><strong>Método:</strong> <span id="summary-method">Tarjeta</span></p>
+        </div>
+
+        <div class="mt-6">
+          <h4 class="font-medium">¿Por qué donar $10?</h4>
+          <ul class="text-sm text-gray-600 mt-2 list-disc ml-5">
+            <li>$10 puede ayudar a comprar insumos básicos para una consulta.</li>
+            <li>Pequeñas donaciones suman y crean impacto local.</li>
+            <li>Recibirás un comprobante de donación (simulado).</li>
+          </ul>
+        </div>
+
+        <div class="mt-6 text-center">
+          <p class="text-xs text-gray-500">Hecho con ❤️ por Honey Pop — Transparencia y responsabilidad.</p>
+        </div>
+      </aside>
+    </section>
+
+    <footer class="bg-gray-800 text-white py-4 px-2 mt-6">
+      <div class="flex flex-col justify-center items-center gap-2">
+        <a href="#" class="hover:scale-105 transition duration-300">
+          <img src="/honeypop.webp" alt="Honey Pop Logo" class="w-16 h-16 object-contain">
+        </a>
+        <p class="text-xs text-gray-300 max-w-xs text-center leading-tight">
+          En Honey Pop creemos que cada bocado debe ser un momento feliz.
+          ¡Gracias por endulzar tu día con nosotros!
+        </p>
+
+        <div class="flex gap-3 text-xs text-pink-300 mt-2">
+
+          <button onclick="openModal('avisoModal')" class="hover:underline hover:text-pink-400 transition">
+            Aviso de privacidad
+          </button>
+          <span>|</span>
+
+          <button onclick="openModal('terminosModal')" class="hover:underline hover:text-pink-400 transition">
+            Términos y condiciones
+          </button>
+          <span>|</span>
+
+          <button onclick="openModal('politicaModal')" class="hover:underline hover:text-pink-400 transition">
+            Políticas de compra y venta
+          </button>
+          <span>|</span>
+
+          <button onclick="openModal('cumplimientoModal')" class="hover:underline hover:text-pink-400 transition">
+            Cumplimiento legal
+          </button>
+
+        </div>
+
+
+        <div class="mt-3 text-center text-xs text-gray-500 border-t border-gray-700 pt-2">
+          © 2025 Honey Pop. Todos los derechos reservados.
+        </div>
+
+
+    </footer>
+
+    <div id="avisoModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white text-gray-800 rounded-lg shadow-lg p-6 w-11/12 max-w-md">
+        <h2 class="text-lg font-semibold text-pink-600 mb-2">Aviso de privacidad</h2>
+        <p class="text-sm mb-4">
+          En Honey Pop protegemos tus datos personales conforme a la ley.
+          La información que recopilamos (nombre, correo, teléfono y método de pago)
+          se utiliza únicamente para procesar tus pedidos y mejorar tu experiencia.
+          No compartimos tu información con terceros.
+        </p>
+        <a href="legalidad.html" class="text-pink-500 text-sm underline block mb-4">
+          Leer más...
+        </a>
+        <button onclick="closeModal('avisoModal')"
+          class="bg-pink-500 text-white px-4 py-1 rounded hover:bg-pink-600 transition">
+          Cerrar
+        </button>
+      </div>
+    </div>
+
+    <div id="terminosModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white text-gray-800 rounded-lg shadow-lg p-6 w-11/12 max-w-md">
+        <h2 class="text-lg font-semibold text-pink-600 mb-2">Términos y condiciones</h2>
+        <p class="text-sm mb-4">
+          Al usar nuestro sitio Honey Pop aceptas brindar información veraz
+          y utilizar nuestros servicios de forma responsable.
+          Los precios y promociones pueden cambiar sin previo aviso.
+          Nos reservamos el derecho de rechazar pedidos sospechosos o fraudulentos.
+        </p>
+        <a href="legalidad.html" class="text-pink-500 text-sm underline block mb-4">
+          Leer más...
+        </a>
+        <button onclick="closeModal('terminosModal')"
+          class="bg-pink-500 text-white px-4 py-1 rounded hover:bg-pink-600 transition">
+          Cerrar
+        </button>
+      </div>
+    </div>
+
+    <div id="politicaModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white text-gray-800 rounded-lg shadow-lg p-6 w-11/12 max-w-md">
+        <h2 class="text-lg font-semibold text-pink-600 mb-2">Políticas de compra y venta</h2>
+        <p class="text-sm mb-4">
+          En Honey Pop nuestras políticas están diseñadas para garantizar una compra segura.
+          Todos los pedidos deben pagarse antes de ser procesados y se enviarán de acuerdo
+          con los tiempos establecidos. No se aceptan devoluciones de productos consumibles.
+        </p>
+        <a href="legalidad.html" class="text-pink-500 text-sm underline block mb-4">
+          Leer más...
+        </a>
+        <button onclick="closeModal('politicaModal')"
+          class="bg-pink-500 text-white px-4 py-1 rounded hover:bg-pink-600 transition">
+          Cerrar
+        </button>
+      </div>
+    </div>
+
+    <div id="cumplimientoModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white text-gray-800 rounded-lg shadow-lg p-6 w-11/12 max-w-md">
+        <h2 class="text-lg font-semibold text-pink-600 mb-2">Cumplimiento legal</h2>
+        <p class="text-sm mb-4">
+          Honey Pop cumple con las leyes aplicables en materia de protección al consumidor,
+          comercio electrónico y protección de datos. Todos nuestros procesos se apegan a
+          las normas vigentes para garantizar transparencia y seguridad.
+        </p>
+        <a href="legalidad.html" class="text-pink-500 text-sm underline block mb-4">
+          Leer más...
+        </a>
+        <button onclick="closeModal('cumplimientoModal')"
+          class="bg-pink-500 text-white px-4 py-1 rounded hover:bg-pink-600 transition">
+          Cerrar
+        </button>
+      </div>
+    </div>
+
+    <script>
+      function openModal(id) {
+        document.getElementById(id).classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
+      }
+      function closeModal(id) {
+        document.getElementById(id).classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+      }
+    </script>
+  </main>
+
+  <!-- Modal éxito -->
+  <div id="modal" class="fixed inset-0 hidden items-center justify-center bg-black/40 p-4">
+    <div class="bg-white rounded-2xl p-6 max-w-md w-full text-center shadow">
+      <h3 class="text-2xl font-hand text-rose-600">¡Gracias por tu donación!</h3>
+      <p class="mt-2 text-gray-700">Hemos recibido tu apoyo. Un comprobante (simulado) será enviado al correo proporcionado.</p>
+      <div class="mt-4 flex justify-center gap-3">
+        <button id="download-receipt" class="px-4 py-2 rounded-md border">Descargar comprobante</button>
+        <button id="close-modal" class="px-4 py-2 rounded-md bg-rose-600 text-white">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Interactividad mínima: actualizar resumen y simular donación
+    const form = document.getElementById('donation-form');
+    const amountInput = document.getElementById('amount');
+    const amountVisual = document.getElementById('amount-visual');
+    const summaryAmount = document.getElementById('summary-amount');
+    const summaryCause = document.getElementById('summary-cause');
+    const summaryName = document.getElementById('summary-name');
+    const summaryMethod = document.getElementById('summary-method');
+    const modal = document.getElementById('modal');
+    const downloadBtn = document.getElementById('download-receipt');
+
+    // Quick buttons
+    document.querySelectorAll('button[data-quick]').forEach(b => b.addEventListener('click', e => {
+      const v = e.currentTarget.dataset.quick;
+      amountInput.value = v;
+      updateVisuals();
+    }));
+
+    function updateVisuals(){
+      const amt = Number(amountInput.value) || 0;
+      amountVisual.textContent = amt;
+      summaryAmount.textContent = amt;
+      const cause = document.querySelector('input[name="cause"]:checked').nextSibling.textContent.trim();
+      // nextSibling trimmed might include both lines; better to map by value
+      const causeVal = document.querySelector('input[name="cause"]:checked').value;
+      const causeMap = {niños:'Niños con cáncer', niños:'Niños con cáncer', estudiantes:'Ayuda a estudiantes', comunidad:'Alimentos para la comunidad'};
+      summaryCause.textContent = causeMap[causeVal] || causeVal;
+
+      const name = document.getElementById('name').value.trim();
+      summaryName.textContent = name || '(anónimo)';
+
+      const method = document.getElementById('method').value;
+      const methodMap = {card:'Tarjeta', oxxo:'OXXO', paypal:'PayPal'};
+      summaryMethod.textContent = methodMap[method] || method;
+    }
+
+    // update on changes
+    document.querySelectorAll('input[name="cause"]').forEach(i => i.addEventListener('change', updateVisuals));
+    amountInput.addEventListener('input', updateVisuals);
+    document.getElementById('name').addEventListener('input', updateVisuals);
+    document.getElementById('method').addEventListener('change', updateVisuals);
+
+    document.getElementById('clear-btn').addEventListener('click', () => {
+      amountInput.value = 10;
+      document.getElementById('name').value = '';
+      document.getElementById('email').value = '';
+      document.querySelector('input[name="cause"][value="niños"]').checked = true;
+      document.getElementById('method').value = 'card';
+      updateVisuals();
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+     
+
+      // Simular proceso de pago
+      // En un caso real aquí llamarías a tu backend / proveedor de pago
+      setTimeout(() => {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }, 700);
+    });
+
+    document.getElementById('close-modal').addEventListener('click', () => {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    });
+
+    downloadBtn.addEventListener('click', () => {
+      const name = document.getElementById('name').value.trim() || '(anónimo)';
+      const email = document.getElementById('email').value.trim();
+      const amount = Number(amountInput.value) || 0;
+      const cause = document.querySelector('input[name="cause"]:checked').value;
+      const causeMap = {niños:'Niños con cáncer', estudiantes:'Ayuda a estudiantes', comunidad:'Alimentos para la comunidad'};
+      const content = `Comprobante de donación\n\nDonante: ${name}\nCorreo: ${email}\nMonto: $${amount} MXN\nCausa: ${causeMap[cause] || cause}\nFecha: ${new Date().toLocaleString()}\n\nGracias por tu apoyo.`;
+
+      const blob = new Blob([content], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `comprobante_donacion_${Date.now()}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    // Inicializar visual
+    updateVisuals();
+  </script>
+
+
+  
+</body>
+
+</html>

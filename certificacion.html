@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Certificación digital (Simulación)</title>
+  <style>
+    :root{--paper:#fff;--bg:#f3f6fb;--accent:#0b74d1;--muted:#5b6b77}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);font-family:Inter, Roboto, Arial, sans-serif;color:#0b1220;padding:36px}
+    .cert{max-width:980px;margin:0 auto;background:var(--paper);padding:36px;border-radius:12px;border:1px solid #dfe9f6;box-shadow:0 12px 40px rgba(7,18,39,0.08)}
+
+    .head{display:flex;justify-content:space-between;align-items:center}
+    .issuer{display:flex;gap:18px;align-items:center}
+    .seal{width:96px;height:96px;border-radius:8px;background:linear-gradient(135deg,#0b74d1,#06b6d4);display:flex;align-items:center;justify-content:center;color:white;font-weight:800}
+    .issuer h3{margin:0;font-size:20px}
+    .issuer p{margin:2px 0;color:var(--muted)}
+
+    .cert-title{text-align:center;margin-top:8px}
+    .cert-title h1{margin:0;font-size:28px;letter-spacing:1px}
+    .cert-sub{margin-top:6px;color:var(--muted);font-size:14px}
+
+    .body{display:grid;grid-template-columns:1fr 360px;gap:24px;margin-top:22px}
+    .info{background:#fbfdff;padding:18px;border-radius:8px;border:1px solid #edf6ff}
+    .info p{margin:6px 0;color:#16324a}
+    .meta p{margin:6px 0;color:var(--muted)}
+
+    .signature{margin-top:22px;padding-top:18px;border-top:1px dashed #e6eef8}
+    .sig-row{display:flex;align-items:center;justify-content:space-between}
+    .sig-box{display:flex;flex-direction:column;align-items:center}
+    .sig-line{width:220px;border-top:2px solid #0b1220;margin-top:8px}
+    .small{font-size:13px;color:var(--muted)}
+
+    .notice{margin-top:18px;padding:12px;border-radius:8px;background:#fff7ed;border-left:4px solid #f59e0b;color:#7a4a00}
+
+    @media (max-width:880px){.body{grid-template-columns:1fr;}.sig-row{flex-direction:column;gap:12px}.seal{width:74px;height:74px}}
+  </style>
+</head>
+<body>
+  <main class="cert" role="main" aria-label="Certificación digital simulada">
+    <header class="head">
+      <div class="issuer">
+        <div class="seal">ACS</div>
+        <div>
+          <h3>Autoridad de Certificación Simulada (ACS)</h3>
+          <p class="small">Entidad emisora de certificaciones (simulada)</p>
+        </div>
+      </div>
+
+      <div style="text-align:right">
+        <div style="font-weight:700">Certificado No.</div>
+        <div style="font-family:monospace;margin-top:6px">00-11-22-FAKE-5544</div>
+      </div>
+    </header>
+
+    <div class="cert-title">
+      <h1>Certificación Digital</h1>
+      <div class="cert-sub">Documento simulado — No es un certificado oficial</div>
+    </div>
+
+    <div class="body">
+      <section class="info" aria-labelledby="info-title">
+        <h2 id="info-title" style="margin-top:0">Declaración</h2>
+        <p><strong>Este sitio implementa certificación digital simulada para reforzar la confianza del usuario.</strong></p>
+
+        <h3 style="margin-top:12px">Descripción</h3>
+        <p>La certificación digital simula la emisión de un certificado que garantiza la autenticidad e integridad de documentos dentro de este entorno de pruebas. Es únicamente representativa y no tiene validez legal ni técnica fuera de esta demo.</p>
+
+        <h3 style="margin-top:12px">¿Qué garantiza?</h3>
+        <ul style="margin:8px 0 0 18px;color:var(--muted)">
+          <li>Que un documento es <strong>auténtico</strong> (simulado).</li>
+          <li>Uso conceptual de <strong>PKI</strong> (Infraestructura de Llave Pública).</li>
+          <li>Conferencia de una <strong>identidad digital</strong> de prueba.</li>
+          <li>Prevención teórica de <strong>alteraciones</strong> en documentos.</li>
+        </ul>
+
+        <div class="notice">IMPORTANTE: Este certificado es una <strong>representación visual</strong>. No genera claves reales, no firma documentos y no debe utilizarse como comprobante legal.</div>
+      </section>
+
+      <aside class="meta" aria-label="Metadatos de certificación" style="background:#ffffff;padding:18px;border-radius:8px;border:1px solid #eef6ff">
+        <p><strong>Certificado expedido a:</strong><br>Demo Comercio S.A. de C.V.</p>
+        <p><strong>Válido por:</strong><br>2025</p>
+        <p><strong>Fecha de emisión:</strong><br>2025-01-15</p>
+        <p><strong>Algoritmo (simulado):</strong><br>RSA-2048</p>
+        <p><strong>Uso:</strong><br>Firma y verificación (simulado)</p>
+      </aside>
+    </div>
+
+    <div class="signature">
+      <div class="sig-row">
+        <div class="sig-box">
+          <div class="small">Sello digital (simulado)</div>
+          <div style="margin-top:8px;font-family:monospace;word-break:break-all;color:var(--muted);font-size:12px">-----BEGIN SIMULATED SEAL-----\nMIIFAKE12345...\n-----END SIMULATED SEAL-----</div>
+        </div>
+
+        <div class="sig-box">
+          <div class="small">Firmado por</div>
+          <div style="font-weight:700;margin-top:6px">Autoridad de Certificación Simulada (ACS)</div>
+          <div class="sig-line"></div>
+          <div class="small" style="margin-top:8px;color:var(--muted)">Documento simulado — No usar como comprobante</div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Factura electrónica (Simulación) - Visual</title>
+  <style>
+    /* Reset + base */
+    *{box-sizing:border-box}
+    body{background:#e6e9ef;font-family:Inter, Roboto, Arial, sans-serif;margin:24px;color:#0f172a}
+    .paper{width:900px;margin:18px auto;padding:28px;background:linear-gradient(180deg,#ffffff 0%, #fbfdff 100%);border-radius:10px;box-shadow:0 12px 30px rgba(2,6,23,0.12);border:1px solid #e6eef8}
+
+    /* Header */
+    .header{display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;gap:14px;align-items:center}
+    .logo{width:88px;height:88px;border-radius:10px;background:linear-gradient(135deg,#2563eb,#06b6d4);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:18px}
+    .company{line-height:1}
+    .company .name{font-size:18px;font-weight:700}
+    .company .meta{font-size:12px;color:#475569}
+
+    .invoice-meta{text-align:right}
+    .invoice-meta .title{font-weight:800;font-size:20px;color:#0b1220}
+    .meta-row{margin-top:6px;font-size:13px;color:#334155}
+
+    hr{border:none;border-top:1px dashed #e6eef8;margin:18px 0}
+
+    /* Addresses */
+    .addresses{display:flex;gap:18px;justify-content:space-between}
+    .addr{flex:1;background:#fbfdff;padding:14px;border-radius:8px;border:1px solid #f1f5f9}
+    .addr h4{margin:0 0 6px;font-size:13px}
+    .small{font-size:12px;color:#475569}
+
+    /* Table */
+    table{width:100%;border-collapse:collapse;margin-top:14px}
+    th,td{padding:12px;border-bottom:1px solid #f1f5f9;text-align:left;font-size:14px}
+    th{font-size:13px;color:#0f172a;font-weight:700}
+    .qty, .price, .amount{text-align:right}
+    .muted{color:#64748b;font-size:13px}
+
+    /* Totals */
+    .totals{display:flex;justify-content:flex-end;margin-top:14px}
+    .totals .box{width:320px;background:#fff;padding:12px;border-radius:8px;border:1px solid #eef2ff}
+    .totals .row{display:flex;justify-content:space-between;padding:6px 0}
+    .totals .row.total{font-weight:800;font-size:18px}
+
+    /* Footer */
+    .footer{display:flex;justify-content:space-between;align-items:center;margin-top:18px}
+    .seal{font-size:11px;color:#475569}
+    .qr{width:96px;height:96px;background:repeating-linear-gradient(45deg,#e2e8f0 0 4px,#f8fafc 4px 8px);border-radius:6px;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:11px}
+
+    /* Visual tweaks to look like image */
+    .paper::after{content:"";position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,0,0,0.02),transparent);pointer-events:none}
+
+    /* Responsive */
+    @media (max-width:980px){.paper{width:100%;padding:18px}.logo{width:64px;height:64px}}
+  </style>
+</head>
+<body>
+  <article class="paper" role="document" aria-label="Factura simulada (solo front)">
+    <header class="header">
+      <div class="brand">
+        <div class="logo">DEMO</div>
+        <div class="company">
+          <div class="name">Demo Comercio S.A. de C.V.</div>
+          <div class="meta">RFC: DEMO123456XX0 · Calle Falsa 123, Ciudad · Tel: (449) 000 0000</div>
+        </div>
+      </div>
+
+      <div class="invoice-meta">
+        <div class="title">FACTURA<br><span style="font-size:12px;font-weight:600;color:#334155">(SIMULACIÓN)</span></div>
+        <div class="meta-row">Folio: <strong>FCT-001</strong></div>
+        <div class="meta-row">Fecha: <strong>2025-05-20</strong></div>
+        <div class="meta-row">UUID: <span class="muted">00000000-0000-0000-0000-000000000000</span></div>
+      </div>
+    </header>
+
+    <hr />
+
+    <section class="addresses">
+      <div class="addr">
+        <h4>Emisor</h4>
+        <div class="small"><strong>Demo Comercio S.A. de C.V.</strong></div>
+        <div class="small">RFC: <strong>DEMO123456XX0</strong></div>
+        <div class="small">Calle Falsa 123, Col. Centro</div>
+        <div class="small">Ciudad - Estado</div>
+      </div>
+
+      <div class="addr">
+        <h4>Receptor</h4>
+        <div class="small"><strong>Cliente de Ejemplo</strong></div>
+        <div class="small">RFC: <strong>XAXX010101000</strong></div>
+        <div class="small">Dirección: Calle Cliente 45</div>
+        <div class="small">Ciudad - Estado</div>
+      </div>
+    </section>
+
+    <table aria-label="Conceptos">
+      <thead>
+        <tr>
+          <th>Concepto</th>
+          <th class="qty">Cantidad</th>
+          <th class="price">Precio unitario</th>
+          <th class="amount">Importe</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Servicio de consultoría tecnológica (simulado)</td>
+          <td class="qty">1.00</td>
+          <td class="price">$3,500.00</td>
+          <td class="amount">$3,500.00</td>
+        </tr>
+        <tr>
+          <td>Licencia anual (simulada)</td>
+          <td class="qty">1.00</td>
+          <td class="price">$1,200.00</td>
+          <td class="amount">$1,200.00</td>
+        </tr>
+        <tr>
+          <td>Soporte técnico (simulado)</td>
+          <td class="qty">6.00</td>
+          <td class="price">$150.00</td>
+          <td class="amount">$900.00</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="totals">
+      <div class="box">
+        <div class="row"><div class="muted">Subtotal</div><div>$5,600.00</div></div>
+        <div class="row"><div class="muted">IVA (16%)</div><div>$896.00</div></div>
+        <div class="row"><div class="muted">Retenciones (si aplica)</div><div>-$0.00</div></div>
+        <div class="row total"><div>Total</div><div>$6,496.00</div></div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div>
+        <div class="seal">Sello digital (simulado): <span class="muted">-----BEGIN SEAL----- ... -----END SEAL-----</span></div>
+        <div style="margin-top:6px;font-size:12px;color:#475569">Uso CFDI: <strong>G03 - Gastos en general</strong></div>
+      </div>
+
+      <div style="display:flex;gap:12px;align-items:center">
+        <div class="qr" role="img" aria-label="Código QR (simulado)">QR</div>
+        <div style="text-align:right;font-size:12px;color:#475569">
+          <div>Método de pago: <strong>TRANSFERENCIA</strong></div>
+          <div>Método CFDI: <strong>PAGO EN UNA SOLA EXHIBICIÓN</strong></div>
+        </div>
+
+    <!-- Sección: Sello digital simulado -->
+    <section style="margin-top:18px;padding:14px;border:1px solid #e2e8f0;border-radius:8px;background:#f8fafc;font-size:12px;color:#334155">
+      <strong>Sello digital simulado</strong><br>
+      Certificado expedido a: <strong>Demo Comercio S.A. de C.V.</strong><br>
+      Válido por: <strong>2025</strong><br>
+      <em>(No oficial)</em>
+    </section>
+
+    <p style="margin-top:14px;font-size:12px;color:#64748b">Nota: Esta es una representación visual simulada de una factura (CFDI). No es válida fiscalmente, no contiene sellos reales y no se transmite al SAT.</p>
+  </article>
+</body>
+</html>
