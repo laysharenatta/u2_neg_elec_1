@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Honey Pop - CRUD Clientes">
+  <title>Honey Pop - Clientes</title>
+
+  <link rel="icon" href="/honeypop.webp" />
+  <link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&family=Pacifico&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <style>
+    .glass {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(8px) saturate(140%);
+      -webkit-backdrop-filter: blur(8px) saturate(140%);
+    }
+
+    .bg-accent {
+      background: linear-gradient(90deg, #F266B3 0%, #F2884B 100%);
+    }
+  </style>
+</head>
+
+<body class="min-h-screen bg-gradient-to-b from-gray-100 to-white font-sans text-gray-800">
+
+  <!-- Header -->
+  <header
+    class="fixed top-4 left-1/2 transform -translate-x-1/2 w-11/12 sm:w-4/5 lg:w-3/4 z-50 flex items-center justify-between py-3 px-6 bg-accent rounded-3xl shadow-lg text-white">
+
+    <div class="flex items-center gap-3">
+      <img src="/honeypop.webp" alt="Honey Pop"
+        class="w-10 h-10 object-contain rounded-full bg-white/10 p-1" />
+      <div>
+        <div class="text-lg font-semibold">Honey Pop</div>
+        <div class="text-xs opacity-80">Panel interno - Clientes</div>
+      </div>
+    </div>
+
+    <nav class="flex items-center gap-4">
+      <a href="#" class="hidden md:inline-block text-sm hover:scale-105 transition">Dashboard</a>
+      <a href="#" class="hidden md:inline-block text-sm hover:scale-105 transition">Inventario</a>
+      <a href="clientes_crud.html"
+        class="hidden md:inline-block text-sm font-bold underline hover:scale-105 transition">
+        Clientes
+      </a>
+      <a href="admin_segui.html" class="hidden md:inline-block text-sm hover:scale-105 transition">
+        Pedidos
+      </a>
+      <a href="#" class="hidden md:inline-block text-sm hover:scale-105 transition">Reportes</a>
+    </nav>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="pt-32 w-11/12 sm:w-4/5 lg:w-3/4 mx-auto">
+
+    <!-- Título -->
+    <div class="flex items-center justify-between mb-6">
+      <h1 class="text-3xl font-bold text-gray-800">
+        Gestión de Clientes 🍯
+      </h1>
+
+      <!-- Botón nuevo cliente -->
+      <button onclick="showForm()"
+        class="px-5 py-2 rounded-xl bg-accent text-white font-semibold shadow hover:scale-105 transition">
+        ➕ Nuevo Cliente
+      </button>
+    </div>
+
+    <!-- Tabla -->
+    <div class="overflow-x-auto glass rounded-2xl shadow-lg p-4">
+      <table class="w-full text-sm text-center">
+        <thead>
+          <tr class="text-gray-700 font-semibold border-b">
+            <th class="p-3">ID</th>
+            <th class="p-3">Nombre</th>
+            <th class="p-3">Correo</th>
+            <th class="p-3">Teléfono</th>
+            <th class="p-3">Empresa</th>
+            <th class="p-3">Acciones</th>
+          </tr>
+        </thead>
+
+        <tbody id="clientsTable" class="divide-y">
+          <!-- Clientes dinámicos -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- FORMULARIO -->
+    <div id="clientFormContainer"
+      class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+
+      <form id="clientForm"
+        class="bg-white rounded-2xl shadow-xl w-96 p-6 space-y-4">
+
+        <h2 id="formTitle" class="text-xl font-bold text-gray-800">
+          Nuevo Cliente
+        </h2>
+
+        <input type="hidden" id="clientId">
+
+        <div>
+          <label class="block text-sm font-medium">Nombre</label>
+          <input type="text" id="nombre" required
+            class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-pink-300">
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium">Correo</label>
+          <input type="email" id="correo" required
+            class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-orange-300">
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium">Teléfono</label>
+          <input type="text" id="telefono" required
+            class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-green-300">
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium">Empresa</label>
+          <input type="text" id="empresa" required
+            class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-300">
+        </div>
+
+        <div class="flex justify-end gap-3 pt-2">
+          <button type="button" onclick="hideForm()"
+            class="px-4 py-2 rounded-xl border hover:bg-gray-100">
+            Cancelar
+          </button>
+
+          <button type="submit"
+            class="px-4 py-2 rounded-xl bg-accent text-white font-semibold hover:scale-105 transition">
+            Guardar
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+  </main>
+
+  <!-- SCRIPT CRUD -->
+  <script>
+    const API_URL = "http://127.0.0.1:8000/api/clients";
+
+    // ==========================
+    // Cargar clientes
+    // ==========================
+    async function loadClients() {
+      const res = await fetch(API_URL);
+      const clients = await res.json();
+
+      const table = document.getElementById("clientsTable");
+      table.innerHTML = "";
+
+      clients.forEach(client => {
+        table.innerHTML += `
+          <tr class="hover:bg-gray-50">
+            <td class="p-3">${client.id}</td>
+            <td class="p-3 font-medium">${client.nombre}</td>
+            <td class="p-3">${client.correo}</td>
+            <td class="p-3">${client.telefono}</td>
+            <td class="p-3">${client.empresa}</td>
+
+            <td class="p-3 flex justify-center gap-2">
+              <button onclick="viewClient(${client.id})"
+                class="px-3 py-1 rounded-lg bg-blue-500 text-white text-xs hover:opacity-80">
+                Ver
+              </button>
+
+              <button onclick="editClient(${client.id})"
+                class="px-3 py-1 rounded-lg bg-orange-500 text-white text-xs hover:opacity-80">
+                Editar
+              </button>
+
+              <button onclick="deleteClient(${client.id})"
+                class="px-3 py-1 rounded-lg bg-red-500 text-white text-xs hover:opacity-80">
+                Eliminar
+              </button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    // ==========================
+    // Mostrar / Ocultar formulario
+    // ==========================
+    function showForm() {
+      document.getElementById("clientFormContainer").classList.remove("hidden");
+      document.getElementById("formTitle").innerText = "Nuevo Cliente";
+      document.getElementById("clientId").value = "";
+      document.getElementById("nombre").value = "";
+      document.getElementById("correo").value = "";
+      document.getElementById("telefono").value = "";
+      document.getElementById("empresa").value = "";
+    }
+
+    function hideForm() {
+      document.getElementById("clientFormContainer").classList.add("hidden");
+    }
+
+    // ==========================
+    // Guardar Cliente (POST / PUT)
+    // ==========================
+    document.getElementById("clientForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const id = document.getElementById("clientId").value;
+
+      const data = {
+        nombre: document.getElementById("nombre").value,
+        correo: document.getElementById("correo").value,
+        telefono: document.getElementById("telefono").value,
+        empresa: document.getElementById("empresa").value
+      };
+
+      if (id) {
+        // UPDATE
+        await fetch(`${API_URL}/${id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+      } else {
+        // CREATE
+        await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+      }
+
+      hideForm();
+      loadClients();
+    });
+
+    // ==========================
+    // Ver Cliente (GET)
+    // ==========================
+    async function viewClient(id) {
+      const res = await fetch(`${API_URL}/${id}`);
+      const client = await res.json();
+
+      alert(`👤 Cliente:\n\nNombre: ${client.nombre}\nCorreo: ${client.correo}\nTeléfono: ${client.telefono}\nEmpresa: ${client.empresa}`);
+    }
+
+    // ==========================
+    // Editar Cliente
+    // ==========================
+    async function editClient(id) {
+      const res = await fetch(`${API_URL}/${id}`);
+      const client = await res.json();
+
+      showForm();
+      document.getElementById("formTitle").innerText = "Editar Cliente";
+
+      document.getElementById("clientId").value = client.id;
+      document.getElementById("nombre").value = client.nombre;
+      document.getElementById("correo").value = client.correo;
+      document.getElementById("telefono").value = client.telefono;
+      document.getElementById("empresa").value = client.empresa;
+    }
+
+    // ==========================
+    // Eliminar Cliente
+    // ==========================
+    async function deleteClient(id) {
+      if (!confirm("¿Seguro que deseas eliminar este cliente?")) return;
+
+      await fetch(`${API_URL}/${id}`, {
+        method: "DELETE"
+      });
+
+      loadClients();
+    }
+
+    // Inicializar
+    loadClients();
+  </script>
+
+</body>
+</html>
