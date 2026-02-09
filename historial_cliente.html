@@ -94,6 +94,16 @@
     <button type="submit">Guardar interacción</button>
   </form>
 
+  <div id="resumenCliente" style="
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 6px gray;
+">
+</div>
+
+
   <!-- TIMELINE -->
   <h3>🕒 Línea de tiempo</h3>
   <div class="timeline" id="timeline"></div>
@@ -117,6 +127,18 @@
     const data = await res.json();
     document.getElementById("tituloCliente").innerText =
   "📌 Historial de: " + data.cliente;
+  // Total de interacciones
+let total = data.interacciones.length;
+
+// Clasificación simple
+let estado = total > 0 ? "Cliente en seguimiento activo ✅" : "Sin interacciones ⚠️";
+
+document.getElementById("resumenCliente").innerHTML = `
+  <h3>📊 Resumen CRM</h3>
+  <p><strong>Total de interacciones:</strong> ${total}</p>
+  <p><strong>Estado:</strong> ${estado}</p>
+`;
+
 
 
     const timeline = document.getElementById("timeline");

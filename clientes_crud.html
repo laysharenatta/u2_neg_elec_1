@@ -57,17 +57,29 @@
   <!-- CONTENIDO PRINCIPAL -->
   <main class="pt-32 w-11/12 sm:w-4/5 lg:w-3/4 mx-auto">
 
-    <!-- Título -->
+    <!-- Título y botón -->
     <div class="flex items-center justify-between mb-6">
       <h1 class="text-3xl font-bold text-gray-800">
         Gestión de Clientes 🍯
       </h1>
 
-      <!-- Botón nuevo cliente -->
       <button onclick="showForm()"
         class="px-5 py-2 rounded-xl bg-accent text-white font-semibold shadow hover:scale-105 transition">
         ➕ Nuevo Cliente
       </button>
+    </div>
+
+    <!-- FILTRO POR ETAPA -->
+    <div class="mb-4">
+      <label for="filtroEtapa" class="font-semibold mr-2">Filtrar por etapa:</label>
+      <select id="filtroEtapa" onchange="loadClients()"
+        class="border rounded p-1">
+        <option value="todos">Todos</option>
+        <option value="Prospecto">Prospecto</option>
+        <option value="Activo">Activo</option>
+        <option value="Frecuente">Frecuente</option>
+        <option value="Inactivo">Inactivo</option>
+      </select>
     </div>
 
     <!-- Tabla -->
@@ -80,6 +92,7 @@
             <th class="p-3">Correo</th>
             <th class="p-3">Teléfono</th>
             <th class="p-3">Empresa</th>
+            <th class="p-3">Etapa CRM</th>
             <th class="p-3">Acciones</th>
           </tr>
         </thead>
@@ -148,6 +161,13 @@
   <script>
     const API_URL = "http://127.0.0.1:8000/api/clients";
 
+    const etapaColors = {
+      "Prospecto": "bg-orange-500",
+      "Activo": "bg-green-500",
+      "Frecuente": "bg-blue-500",
+      "Inactivo": "bg-gray-500"
+    };
+
     // ==========================
     // Cargar clientes
     // ==========================
@@ -155,37 +175,69 @@
       const res = await fetch(API_URL);
       const clients = await res.json();
 
+      const filtro = document.getElementById("filtroEtapa").value;
       const table = document.getElementById("clientsTable");
       table.innerHTML = "";
 
-      clients.forEach(client => {
-        table.innerHTML += `
-          <tr class="hover:bg-gray-50">
-            <td class="p-3">${client.id}</td>
-            <td class="p-3 font-medium">${client.nombre}</td>
-            <td class="p-3">${client.correo}</td>
-            <td class="p-3">${client.telefono}</td>
-            <td class="p-3">${client.empresa}</td>
+      clients
+        .filter(c => filtro === "todos" || c.etapa_crm === filtro)
+        .forEach(client => {
+          table.innerHTML += `
+            <tr class="hover:bg-gray-50">
+              <td class="p-3">${client.id}</td>
+              <td class="p-3 font-medium">${client.nombre}</td>
+              <td class="p-3">${client.correo}</td>
+              <td class="p-3">${client.telefono || "-"}</td>
+              <td class="p-3">${client.empresa || "-"}</td>
 
-            <td class="p-3 flex justify-center gap-2">
-              <button onclick="viewClient(${client.id})"
-                class="px-3 py-1 rounded-lg bg-blue-500 text-white text-xs hover:opacity-80">
-                Ver
-              </button>
+              <!-- ETAPA CRM -->
+              <td class="p-3">
+                <span class="px-3 py-1 rounded-full text-white ${etapaColors[client.etapa_crm] || 'bg-gray-400'}">
+                  ${client.etapa_crm}
+                </span>
+              </td>
 
-              <button onclick="editClient(${client.id})"
-                class="px-3 py-1 rounded-lg bg-orange-500 text-white text-xs hover:opacity-80">
-                Editar
-              </button>
+              <!-- ACCIONES -->
+              <td class="p-3 flex justify-center gap-2">
+                <button onclick="viewClient(${client.id})"
+                  class="px-3 py-1 rounded-lg bg-blue-500 text-white text-xs hover:opacity-80">
+                  Ver
+                </button>
 
-              <button onclick="deleteClient(${client.id})"
-                class="px-3 py-1 rounded-lg bg-red-500 text-white text-xs hover:opacity-80">
-                Eliminar
-              </button>
-            </td>
-          </tr>
-        `;
+                <button onclick="editClient(${client.id})"
+                  class="px-3 py-1 rounded-lg bg-orange-500 text-white text-xs hover:opacity-80">
+                  Editar
+                </button>
+
+                <button onclick="deleteClient(${client.id})"
+                  class="px-3 py-1 rounded-lg bg-red-500 text-white text-xs hover:opacity-80">
+                  Eliminar
+                </button>
+
+                <!-- CAMBIAR ETAPA -->
+                <select onchange="changeEtapa(${client.id}, this.value)"
+                  class="border rounded p-1 text-xs">
+                  <option value="Prospecto" ${client.etapa_crm === "Prospecto" ? "selected" : ""}>Prospecto</option>
+                  <option value="Activo" ${client.etapa_crm === "Activo" ? "selected" : ""}>Activo</option>
+                  <option value="Frecuente" ${client.etapa_crm === "Frecuente" ? "selected" : ""}>Frecuente</option>
+                  <option value="Inactivo" ${client.etapa_crm === "Inactivo" ? "selected" : ""}>Inactivo</option>
+                </select>
+              </td>
+            </tr>
+          `;
+        });
+    }
+
+    // ==========================
+    // Cambiar etapa CRM
+    // ==========================
+    async function changeEtapa(id, nuevaEtapa) {
+      await fetch(`${API_URL}/${id}/etapa`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ etapa_crm: nuevaEtapa })
       });
+      loadClients();
     }
 
     // ==========================
@@ -221,14 +273,12 @@
       };
 
       if (id) {
-        // UPDATE
         await fetch(`${API_URL}/${id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data)
         });
       } else {
-        // CREATE
         await fetch(API_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -241,7 +291,7 @@
     });
 
     // ==========================
-    // Ver Cliente (GET)
+    // Ver Cliente
     // ==========================
     async function viewClient(id) {
       const res = await fetch(`${API_URL}/${id}`);
