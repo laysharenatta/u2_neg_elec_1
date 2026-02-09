@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Historial del Cliente</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      background: #f5f5f5;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      box-shadow: 0 0 8px gray;
+    }
+
+    textarea, select, input {
+      width: 100%;
+      margin-top: 8px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px;
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      background: black;
+      color: white;
+      cursor: pointer;
+    }
+
+    .timeline {
+      border-left: 4px solid black;
+      padding-left: 20px;
+    }
+
+    .evento {
+      background: white;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 5px gray;
+    }
+
+    .tipo {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+
+    .fecha {
+      font-size: 12px;
+      color: gray;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2 id="tituloCliente">📌 Historial del Cliente</h2>
+
+
+  <!-- FORMULARIO -->
+  <form id="formInteraccion">
+    <h3>Registrar nueva interacción</h3>
+
+    <label>Tipo:</label>
+    <select id="tipo">
+      <option value="llamada">Llamada</option>
+      <option value="correo">Correo</option>
+      <option value="reunion">Reunión</option>
+    </select>
+
+    <label>Descripción:</label>
+    <textarea id="descripcion" required></textarea>
+
+    <label>Fecha:</label>
+    <input type="datetime-local" id="fecha" required>
+
+    <button type="submit">Guardar interacción</button>
+  </form>
+
+  <!-- TIMELINE -->
+  <h3>🕒 Línea de tiempo</h3>
+  <div class="timeline" id="timeline"></div>
+  <label><strong>Filtrar por tipo:</strong></label>
+<select id="filtroTipo">
+  <option value="todos">Todas</option>
+  <option value="llamada">Llamadas</option>
+  <option value="correo">Correos</option>
+  <option value="reunion">Reuniones</option>
+</select>
+
+<br><br>
+
+
+<script>
+  const clienteID = 1; // Cambia según el cliente seleccionado
+
+  // Cargar historial
+  async function cargarHistorial() {
+    const res = await fetch(`http://127.0.0.1:8000/api/clientes/${clienteID}/interacciones`);
+    const data = await res.json();
+    document.getElementById("tituloCliente").innerText =
+  "📌 Historial de: " + data.cliente;
+
+
+    const timeline = document.getElementById("timeline");
+    timeline.innerHTML = "";
+
+    const filtro = document.getElementById("filtroTipo").value;
+
+data.interacciones
+  .filter(i => filtro === "todos" || i.tipo === filtro)
+  .forEach(i => {
+
+    let icono = "";
+
+if (i.tipo === "llamada") icono = "📞";
+if (i.tipo === "correo") icono = "📧";
+if (i.tipo === "reunion") icono = "🤝";
+
+timeline.innerHTML += `
+  <div class="evento">
+    <div class="tipo">${icono} ${i.tipo.toUpperCase()}</div>
+    <p>${i.descripcion}</p>
+    <div class="fecha">🗓 ${i.fecha}</div>
+  </div>
+`;
+
+    });
+  }
+
+  // Guardar interacción
+  document.getElementById("formInteraccion").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    await fetch("http://127.0.0.1:8000/api/interacciones", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        cliente_id: clienteID,
+        tipo: document.getElementById("tipo").value,
+        descripcion: document.getElementById("descripcion").value,
+        fecha: document.getElementById("fecha").value
+      })
+    });
+
+    alert("Interacción registrada ✅");
+    cargarHistorial();
+  });
+
+  cargarHistorial();
+  document.getElementById("filtroTipo").addEventListener("change", () => {
+  cargarHistorial();
+});
+
+</script>
+
+</body>
+</html>
