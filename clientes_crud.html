@@ -69,19 +69,6 @@
       </button>
     </div>
 
-    <!-- FILTRO POR ETAPA -->
-    <div class="mb-4">
-      <label for="filtroEtapa" class="font-semibold mr-2">Filtrar por etapa:</label>
-      <select id="filtroEtapa" onchange="loadClients()"
-        class="border rounded p-1">
-        <option value="todos">Todos</option>
-        <option value="Prospecto">Prospecto</option>
-        <option value="Activo">Activo</option>
-        <option value="Frecuente">Frecuente</option>
-        <option value="Inactivo">Inactivo</option>
-      </select>
-    </div>
-
     <!-- Tabla -->
     <div class="overflow-x-auto glass rounded-2xl shadow-lg p-4">
       <table class="w-full text-sm text-center">
@@ -140,6 +127,17 @@
             class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-300">
         </div>
 
+        <div>
+          <label class="block text-sm font-medium">Etapa CRM</label>
+          <select id="etapa_crm"
+            class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-purple-300">
+            <option value="Prospecto">Prospecto</option>
+            <option value="Activo">Activo</option>
+            <option value="Frecuente">Frecuente</option>
+            <option value="Inactivo">Inactivo</option>
+          </select>
+        </div>
+
         <div class="flex justify-end gap-3 pt-2">
           <button type="button" onclick="hideForm()"
             class="px-4 py-2 rounded-xl border hover:bg-gray-100">
@@ -175,69 +173,39 @@
       const res = await fetch(API_URL);
       const clients = await res.json();
 
-      const filtro = document.getElementById("filtroEtapa").value;
       const table = document.getElementById("clientsTable");
       table.innerHTML = "";
 
-      clients
-        .filter(c => filtro === "todos" || c.etapa_crm === filtro)
-        .forEach(client => {
-          table.innerHTML += `
-            <tr class="hover:bg-gray-50">
-              <td class="p-3">${client.id}</td>
-              <td class="p-3 font-medium">${client.nombre}</td>
-              <td class="p-3">${client.correo}</td>
-              <td class="p-3">${client.telefono || "-"}</td>
-              <td class="p-3">${client.empresa || "-"}</td>
-
-              <!-- ETAPA CRM -->
-              <td class="p-3">
-                <span class="px-3 py-1 rounded-full text-white ${etapaColors[client.etapa_crm] || 'bg-gray-400'}">
-                  ${client.etapa_crm}
-                </span>
-              </td>
-
-              <!-- ACCIONES -->
-              <td class="p-3 flex justify-center gap-2">
-                <button onclick="viewClient(${client.id})"
-                  class="px-3 py-1 rounded-lg bg-blue-500 text-white text-xs hover:opacity-80">
-                  Ver
-                </button>
-
-                <button onclick="editClient(${client.id})"
-                  class="px-3 py-1 rounded-lg bg-orange-500 text-white text-xs hover:opacity-80">
-                  Editar
-                </button>
-
-                <button onclick="deleteClient(${client.id})"
-                  class="px-3 py-1 rounded-lg bg-red-500 text-white text-xs hover:opacity-80">
-                  Eliminar
-                </button>
-
-                <!-- CAMBIAR ETAPA -->
-                <select onchange="changeEtapa(${client.id}, this.value)"
-                  class="border rounded p-1 text-xs">
-                  <option value="Prospecto" ${client.etapa_crm === "Prospecto" ? "selected" : ""}>Prospecto</option>
-                  <option value="Activo" ${client.etapa_crm === "Activo" ? "selected" : ""}>Activo</option>
-                  <option value="Frecuente" ${client.etapa_crm === "Frecuente" ? "selected" : ""}>Frecuente</option>
-                  <option value="Inactivo" ${client.etapa_crm === "Inactivo" ? "selected" : ""}>Inactivo</option>
-                </select>
-              </td>
-            </tr>
-          `;
-        });
-    }
-
-    // ==========================
-    // Cambiar etapa CRM
-    // ==========================
-    async function changeEtapa(id, nuevaEtapa) {
-      await fetch(`${API_URL}/${id}/etapa`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ etapa_crm: nuevaEtapa })
+      clients.forEach(client => {
+        table.innerHTML += `
+          <tr class="hover:bg-gray-50">
+            <td class="p-3">${client.id}</td>
+            <td class="p-3 font-medium">${client.nombre}</td>
+            <td class="p-3">${client.correo}</td>
+            <td class="p-3">${client.telefono || "-"}</td>
+            <td class="p-3">${client.empresa || "-"}</td>
+            <td class="p-3">
+              <span class="px-3 py-1 rounded-full text-white ${etapaColors[client.etapa_crm] || 'bg-gray-400'}">
+                ${client.etapa_crm}
+              </span>
+            </td>
+            <td class="p-3 flex justify-center gap-2">
+              <button onclick="viewClient(${client.id})"
+                class="px-3 py-1 rounded-lg bg-blue-500 text-white text-xs hover:opacity-80">
+                Ver
+              </button>
+              <button onclick="editClient(${client.id})"
+                class="px-3 py-1 rounded-lg bg-orange-500 text-white text-xs hover:opacity-80">
+                Editar
+              </button>
+              <button onclick="deleteClient(${client.id})"
+                class="px-3 py-1 rounded-lg bg-red-500 text-white text-xs hover:opacity-80">
+                Eliminar
+              </button>
+            </td>
+          </tr>
+        `;
       });
-      loadClients();
     }
 
     // ==========================
@@ -251,6 +219,7 @@
       document.getElementById("correo").value = "";
       document.getElementById("telefono").value = "";
       document.getElementById("empresa").value = "";
+      document.getElementById("etapa_crm").value = "Prospecto";
     }
 
     function hideForm() {
@@ -269,7 +238,8 @@
         nombre: document.getElementById("nombre").value,
         correo: document.getElementById("correo").value,
         telefono: document.getElementById("telefono").value,
-        empresa: document.getElementById("empresa").value
+        empresa: document.getElementById("empresa").value,
+        etapa_crm: document.getElementById("etapa_crm").value
       };
 
       if (id) {
@@ -297,7 +267,7 @@
       const res = await fetch(`${API_URL}/${id}`);
       const client = await res.json();
 
-      alert(`👤 Cliente:\n\nNombre: ${client.nombre}\nCorreo: ${client.correo}\nTeléfono: ${client.telefono}\nEmpresa: ${client.empresa}`);
+      alert(`👤 Cliente:\n\nNombre: ${client.nombre}\nCorreo: ${client.correo}\nTeléfono: ${client.telefono}\nEmpresa: ${client.empresa}\nEtapa CRM: ${client.etapa_crm}`);
     }
 
     // ==========================
@@ -315,6 +285,7 @@
       document.getElementById("correo").value = client.correo;
       document.getElementById("telefono").value = client.telefono;
       document.getElementById("empresa").value = client.empresa;
+      document.getElementById("etapa_crm").value = client.etapa_crm;
     }
 
     // ==========================
