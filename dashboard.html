@@ -125,8 +125,21 @@
 
   <script>
     async function cargarDashboard() {
+
+        const token = localStorage.getItem('token');
+
       // 1. Consumir el endpoint del backend
-      const respuesta = await fetch("http://127.0.0.1:8000/api/metricas");
+      const respuesta = await fetch("http://127.0.0.1:8000/api/metricas",{
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+
+          "Authorization": `Bearer ${token}`,
+          
+          "Accept": "application/json"
+        }
+
+      });
 
       const data = await respuesta.json();
 
