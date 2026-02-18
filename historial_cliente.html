@@ -56,25 +56,37 @@
     }
 
     .tipo {
-  font-weight: bold;
-  font-size: 16px;
-  margin-bottom: 8px;
-}
-
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
 
     .fecha {
       font-size: 12px;
       color: gray;
+    }
+
+    #resumenCliente {
+      background: white;
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 6px gray;
     }
   </style>
 </head>
 
 <body>
 
-<h2 id="tituloCliente">📌 Historial del Cliente</h2>
+  <h2 id="tituloCliente">📌 Historial del Cliente</h2>
 
+  <!-- ✅ SELECTOR CLIENTES -->
+  <label><strong>Seleccionar cliente:</strong></label>
+  <select id="clienteSelect"></select>
 
-  <!-- FORMULARIO -->
+  <br><br>
+
+  <!-- ✅ FORMULARIO -->
   <form id="formInteraccion">
     <h3>Registrar nueva interacción</h3>
 
@@ -94,104 +106,143 @@
     <button type="submit">Guardar interacción</button>
   </form>
 
-  <div id="resumenCliente" style="
-  background: white;
-  padding: 15px;
-  border-radius: 12px;
-  margin-bottom: 20px;
-  box-shadow: 0 0 6px gray;
-">
-</div>
+  <!-- ✅ RESUMEN CRM -->
+  <div id="resumenCliente"></div>
 
+  <!-- ✅ FILTRO -->
+  <label><strong>Filtrar por tipo:</strong></label>
+  <select id="filtroTipo">
+    <option value="todos">Todas</option>
+    <option value="llamada">Llamadas</option>
+    <option value="correo">Correos</option>
+    <option value="reunion">Reuniones</option>
+  </select>
 
-  <!-- TIMELINE -->
+  <br><br>
+
+  <!-- ✅ TIMELINE -->
   <h3>🕒 Línea de tiempo</h3>
   <div class="timeline" id="timeline"></div>
-  <label><strong>Filtrar por tipo:</strong></label>
-<select id="filtroTipo">
-  <option value="todos">Todas</option>
-  <option value="llamada">Llamadas</option>
-  <option value="correo">Correos</option>
-  <option value="reunion">Reuniones</option>
-</select>
-
-<br><br>
 
 
-<script>
-  const clienteID = 1; // Cambia según el cliente seleccionado
+  <!-- ✅ SCRIPT -->
+  <script>
+    let clienteID = null;
 
-  // Cargar historial
-  async function cargarHistorial() {
-    const res = await fetch(`http://127.0.0.1:8000/api/clientes/${clienteID}/interacciones`);
-    const data = await res.json();
-    document.getElementById("tituloCliente").innerText =
-  "📌 Historial de: " + data.cliente;
-  // Total de interacciones
-let total = data.interacciones.length;
+    // ✅ Cargar lista de clientes
+    async function cargarClientes() {
+      const res = await fetch("http://127.0.0.1:8000/api/clients");
+      const clientes = await res.json();
 
-// Clasificación simple
-let estado = total > 0 ? "Cliente en seguimiento activo ✅" : "Sin interacciones ⚠️";
+      const select = document.getElementById("clienteSelect");
+      select.innerHTML = "<option value=''>-- Selecciona un cliente --</option>";
 
-document.getElementById("resumenCliente").innerHTML = `
-  <h3>📊 Resumen CRM</h3>
-  <p><strong>Total de interacciones:</strong> ${total}</p>
-  <p><strong>Estado:</strong> ${estado}</p>
-`;
+      clientes.forEach(c => {
+        select.innerHTML += `
+          <option value="${c.id}">
+            ${c.nombre} (${c.correo})
+          </option>
+        `;
+      });
+    }
 
+    // ✅ Cargar historial del cliente seleccionado
+    async function cargarHistorial() {
+      if (!clienteID) return;
 
+      const res = await fetch(
+        `http://127.0.0.1:8000/api/clientes/${clienteID}/interacciones`
+      );
 
-    const timeline = document.getElementById("timeline");
-    timeline.innerHTML = "";
+      const data = await res.json();
 
-    const filtro = document.getElementById("filtroTipo").value;
+      // Mostrar título cliente
+      document.getElementById("tituloCliente").innerText =
+        "📌 Historial de: " + data.cliente;
 
-data.interacciones
-  .filter(i => filtro === "todos" || i.tipo === filtro)
-  .forEach(i => {
+      // Total interacciones
+      let total = data.interacciones.length;
 
-    let icono = "";
+      // Estado CRM simple
+      let estado =
+        total > 0 ? "Cliente en seguimiento activo ✅" : "Sin interacciones ⚠️";
 
-if (i.tipo === "llamada") icono = "📞";
-if (i.tipo === "correo") icono = "📧";
-if (i.tipo === "reunion") icono = "🤝";
+      // Mostrar resumen
+      document.getElementById("resumenCliente").innerHTML = `
+        <h3>📊 Resumen CRM</h3>
+        <p><strong>Total de interacciones:</strong> ${total}</p>
+        <p><strong>Estado:</strong> ${estado}</p>
+      `;
 
-timeline.innerHTML += `
-  <div class="evento">
-    <div class="tipo">${icono} ${i.tipo.toUpperCase()}</div>
-    <p>${i.descripcion}</p>
-    <div class="fecha">🗓 ${i.fecha}</div>
-  </div>
-`;
+      // Timeline
+      const timeline = document.getElementById("timeline");
+      timeline.innerHTML = "";
 
+      // Filtro
+      const filtro = document.getElementById("filtroTipo").value;
+
+      data.interacciones
+        .filter(i => filtro === "todos" || i.tipo === filtro)
+        .forEach(i => {
+
+          let icono = "";
+          if (i.tipo === "llamada") icono = "📞";
+          if (i.tipo === "correo") icono = "📧";
+          if (i.tipo === "reunion") icono = "🤝";
+
+          timeline.innerHTML += `
+            <div class="evento">
+              <div class="tipo">${icono} ${i.tipo.toUpperCase()}</div>
+              <p>${i.descripcion}</p>
+              <div class="fecha">🗓 ${i.fecha}</div>
+            </div>
+          `;
+        });
+    }
+
+    // ✅ Seleccionar cliente
+    document.getElementById("clienteSelect").addEventListener("change", e => {
+      clienteID = e.target.value;
+
+      if (clienteID) {
+        cargarHistorial();
+      }
     });
-  }
 
-  // Guardar interacción
-  document.getElementById("formInteraccion").addEventListener("submit", async e => {
-    e.preventDefault();
+    // ✅ Guardar interacción
+    document.getElementById("formInteraccion").addEventListener("submit", async e => {
+      e.preventDefault();
 
-    await fetch("http://127.0.0.1:8000/api/interacciones", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        cliente_id: clienteID,
-        tipo: document.getElementById("tipo").value,
-        descripcion: document.getElementById("descripcion").value,
-        fecha: document.getElementById("fecha").value
-      })
+      if (!clienteID) {
+        alert("⚠️ Selecciona un cliente primero");
+        return;
+      }
+
+      await fetch("http://127.0.0.1:8000/api/interacciones", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          cliente_id: clienteID,
+          tipo: document.getElementById("tipo").value,
+          descripcion: document.getElementById("descripcion").value,
+          fecha: document.getElementById("fecha").value
+        })
+      });
+
+      alert("Interacción registrada ✅");
+
+      document.getElementById("formInteraccion").reset();
+      cargarHistorial();
     });
 
-    alert("Interacción registrada ✅");
-    cargarHistorial();
-  });
+    // ✅ Cambiar filtro tipo
+    document.getElementById("filtroTipo").addEventListener("change", () => {
+      cargarHistorial();
+    });
 
-  cargarHistorial();
-  document.getElementById("filtroTipo").addEventListener("change", () => {
-  cargarHistorial();
-});
-
-</script>
+    // ✅ Inicializar todo
+    cargarClientes();
+  </script>
 
 </body>
 </html>

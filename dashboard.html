@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Dashboard CRM</title>
+
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
@@ -124,53 +126,80 @@
   </div>
 
   <script>
+    let graficaPie = null;
+
     async function cargarDashboard() {
 
-        const token = localStorage.getItem('token');
+      // ✅ Validar token
+      const token = localStorage.getItem("token");
 
-      // 1. Consumir el endpoint del backend
-      const respuesta = await fetch("http://127.0.0.1:8000/api/metricas",{
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
+      if (!token) {
+        alert("⚠️ No has iniciado sesión. Ve al login.");
+        window.location.href = "login.html";
+        return;
+      }
 
-          "Authorization": `Bearer ${token}`,
-          
-          "Accept": "application/json"
+      try {
+        // ✅ Consumir endpoint protegido
+        const respuesta = await fetch("http://127.0.0.1:8000/api/metricas", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+            "Accept": "application/json"
+          }
+        });
+
+        // ❌ Error si no autorizado
+        if (!respuesta.ok) {
+          alert("⚠️ Error al cargar métricas. Token inválido.");
+          return;
         }
 
-      });
+        const data = await respuesta.json();
 
-      const data = await respuesta.json();
+        // ✅ Mostrar contadores
+        document.getElementById("total").textContent = data.total_clientes;
+        document.getElementById("activos").textContent = data.activos;
+        document.getElementById("inactivos").textContent = data.inactivos;
 
-      // 2. Mostrar contadores
-      document.getElementById("total").textContent = data.total_clientes;
-      document.getElementById("activos").textContent = data.activos;
-      document.getElementById("inactivos").textContent = data.inactivos;
-
-      // 3. Crear gráfica pastel
-      new Chart(document.getElementById("grafica"), {
-        type: "pie",
-        data: {
-          labels: ["Activos", "Inactivos"],
-          datasets: [{
-            data: [data.activos, data.inactivos]
-          }]
+        // ✅ Destruir gráfica anterior si existe
+        if (graficaPie) {
+          graficaPie.destroy();
         }
-      });
 
-      // 4. Mostrar clientes en riesgo
-      const lista = document.getElementById("listaRiesgo");
-      lista.innerHTML = "";
+        // ✅ Crear gráfica pastel
+        graficaPie = new Chart(document.getElementById("grafica"), {
+          type: "pie",
+          data: {
+            labels: ["Activos", "Inactivos"],
+            datasets: [{
+              data: [data.activos, data.inactivos]
+            }]
+          }
+        });
 
-      data.clientes_en_riesgo.forEach(cliente => {
-        const li = document.createElement("li");
-        li.innerHTML = `
-          ${cliente.nombre}
-          <span class="badge">${cliente.etapa_crm}</span>
-        `;
-        lista.appendChild(li);
-      });
+        // ✅ Mostrar clientes en riesgo
+        const lista = document.getElementById("listaRiesgo");
+        lista.innerHTML = "";
+
+        if (data.clientes_en_riesgo.length === 0) {
+          lista.innerHTML = "<li>✅ No hay clientes en riesgo</li>";
+        } else {
+          data.clientes_en_riesgo.forEach(cliente => {
+            const li = document.createElement("li");
+            li.innerHTML = `
+              ${cliente.nombre}
+              <span class="badge">${cliente.etapa_crm}</span>
+            `;
+            lista.appendChild(li);
+          });
+        }
+
+      } catch (error) {
+        console.error("Error:", error);
+        alert("❌ No se pudo conectar con el backend.");
+      } 
     }
 
     cargarDashboard();

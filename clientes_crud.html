@@ -2,21 +2,22 @@
 <html lang="es">
 
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Honey Pop - CRUD Clientes">
-  <title>Honey Pop - Clientes</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="icon" href="/honeypop.webp" />
+  <!-- Tailwind v4 -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <title>Honey Pop - CRM Clientes</title>
+
   <link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&family=Pacifico&display=swap"
     rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
   <style>
     .glass {
       background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(8px) saturate(140%);
-      -webkit-backdrop-filter: blur(8px) saturate(140%);
+      backdrop-filter: blur(10px) saturate(150%);
+      -webkit-backdrop-filter: blur(10px) saturate(150%);
     }
 
     .bg-accent {
@@ -25,284 +26,239 @@
   </style>
 </head>
 
-<body class="min-h-screen bg-gradient-to-b from-gray-100 to-white font-sans text-gray-800">
+<body class="min-h-screen bg-gradient-to-b from-gray-100 to-white font-sans text-gray-800 p-10">
 
-  <!-- Header -->
-  <header
-    class="fixed top-4 left-1/2 transform -translate-x-1/2 w-11/12 sm:w-4/5 lg:w-3/4 z-50 flex items-center justify-between py-3 px-6 bg-accent rounded-3xl shadow-lg text-white">
+  <!-- CONTENEDOR PRINCIPAL -->
+  <div class="max-w-6xl mx-auto glass p-8 rounded-3xl shadow-xl">
 
-    <div class="flex items-center gap-3">
-      <img src="/honeypop.webp" alt="Honey Pop"
-        class="w-10 h-10 object-contain rounded-full bg-white/10 p-1" />
-      <div>
-        <div class="text-lg font-semibold">Honey Pop</div>
-        <div class="text-xs opacity-80">Panel interno - Clientes</div>
-      </div>
-    </div>
+    <!-- TÍTULO -->
+    <h1 class="text-3xl font-bold mb-8 text-gray-800">
+      Gestión de Clientes 🍯 (CRM)
+    </h1>
 
-    <nav class="flex items-center gap-4">
-      <a href="#" class="hidden md:inline-block text-sm hover:scale-105 transition">Dashboard</a>
-      <a href="#" class="hidden md:inline-block text-sm hover:scale-105 transition">Inventario</a>
-      <a href="clientes_crud.html"
-        class="hidden md:inline-block text-sm font-bold underline hover:scale-105 transition">
-        Clientes
-      </a>
-      <a href="admin_segui.html" class="hidden md:inline-block text-sm hover:scale-105 transition">
-        Pedidos
-      </a>
-      <a href="#" class="hidden md:inline-block text-sm hover:scale-105 transition">Reportes</a>
-    </nav>
-  </header>
+    <!-- FORMULARIO -->
+    <h2 id="tituloForm" class="text-xl font-semibold mb-4">
+      Registrar Cliente
+    </h2>
 
-  <!-- CONTENIDO PRINCIPAL -->
-  <main class="pt-32 w-11/12 sm:w-4/5 lg:w-3/4 mx-auto">
+    <form id="formCliente" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
 
-    <!-- Título y botón -->
-    <div class="flex items-center justify-between mb-6">
-      <h1 class="text-3xl font-bold text-gray-800">
-        Gestión de Clientes 🍯
-      </h1>
+      <!-- ID oculto -->
+      <input type="hidden" id="clienteId">
 
-      <button onclick="showForm()"
-        class="px-5 py-2 rounded-xl bg-accent text-white font-semibold shadow hover:scale-105 transition">
-        ➕ Nuevo Cliente
+      <input id="nombre" type="text" placeholder="Nombre completo"
+        class="border p-3 rounded-xl focus:ring focus:ring-pink-300" required>
+
+      <input id="correo" type="email" placeholder="Correo"
+        class="border p-3 rounded-xl focus:ring focus:ring-orange-300" required>
+
+      <input id="telefono" type="text" placeholder="Teléfono"
+        class="border p-3 rounded-xl focus:ring focus:ring-green-300">
+
+      <input id="empresa" type="text" placeholder="Empresa"
+        class="border p-3 rounded-xl focus:ring focus:ring-blue-300">
+
+      <select id="estado"
+        class="border p-3 rounded-xl focus:ring focus:ring-purple-300">
+        <option value="1">Activo</option>
+        <option value="0">Inactivo</option>
+      </select>
+
+      <!-- BOTÓN GUARDAR -->
+      <button type="submit"
+        class="bg-accent text-white font-semibold py-3 rounded-xl shadow hover:scale-105 transition col-span-1 md:col-span-2">
+        Guardar Cliente
       </button>
+
+      <!-- BOTÓN CANCELAR -->
+      <button type="button" id="cancelarEdicion"
+        class="hidden bg-gray-400 hover:bg-gray-500 text-white font-semibold py-3 rounded-xl col-span-1 md:col-span-2">
+        Cancelar Edición
+      </button>
+
+    </form>
+
+    <!-- BUSCADOR + FILTRO -->
+    <div class="flex flex-col md:flex-row gap-4 mb-6">
+
+      <input id="busqueda" type="text"
+        placeholder="Buscar cliente..."
+        class="w-full border p-3 rounded-xl focus:ring focus:ring-pink-300">
+
+      <select id="filtroEstado"
+        class="border p-3 rounded-xl focus:ring focus:ring-orange-300">
+        <option value="">Todos</option>
+        <option value="1">Activos</option>
+        <option value="0">Inactivos</option>
+      </select>
+
     </div>
 
-    <!-- Tabla -->
-    <div class="overflow-x-auto glass rounded-2xl shadow-lg p-4">
-      <table class="w-full text-sm text-center">
-        <thead>
-          <tr class="text-gray-700 font-semibold border-b">
-            <th class="p-3">ID</th>
+    <!-- TABLA -->
+    <div class="overflow-x-auto rounded-2xl shadow-lg">
+      <table class="w-full text-sm text-center bg-white rounded-xl overflow-hidden">
+        <thead class="bg-accent text-white">
+          <tr>
             <th class="p-3">Nombre</th>
             <th class="p-3">Correo</th>
-            <th class="p-3">Teléfono</th>
             <th class="p-3">Empresa</th>
-            <th class="p-3">Etapa CRM</th>
+            <th class="p-3">Estado</th>
             <th class="p-3">Acciones</th>
           </tr>
         </thead>
 
-        <tbody id="clientsTable" class="divide-y">
-          <!-- Clientes dinámicos -->
-        </tbody>
+        <tbody id="tablaClientes" class="divide-y"></tbody>
       </table>
     </div>
 
-    <!-- FORMULARIO -->
-    <div id="clientFormContainer"
-      class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+  </div>
 
-      <form id="clientForm"
-        class="bg-white rounded-2xl shadow-xl w-96 p-6 space-y-4">
-
-        <h2 id="formTitle" class="text-xl font-bold text-gray-800">
-          Nuevo Cliente
-        </h2>
-
-        <input type="hidden" id="clientId">
-
-        <div>
-          <label class="block text-sm font-medium">Nombre</label>
-          <input type="text" id="nombre" required
-            class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-pink-300">
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium">Correo</label>
-          <input type="email" id="correo" required
-            class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-orange-300">
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium">Teléfono</label>
-          <input type="text" id="telefono" required
-            class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-green-300">
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium">Empresa</label>
-          <input type="text" id="empresa" required
-            class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-blue-300">
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium">Etapa CRM</label>
-          <select id="etapa_crm"
-            class="w-full mt-1 p-2 border rounded-lg focus:ring focus:ring-purple-300">
-            <option value="Prospecto">Prospecto</option>
-            <option value="Activo">Activo</option>
-            <option value="Frecuente">Frecuente</option>
-            <option value="Inactivo">Inactivo</option>
-          </select>
-        </div>
-
-        <div class="flex justify-end gap-3 pt-2">
-          <button type="button" onclick="hideForm()"
-            class="px-4 py-2 rounded-xl border hover:bg-gray-100">
-            Cancelar
-          </button>
-
-          <button type="submit"
-            class="px-4 py-2 rounded-xl bg-accent text-white font-semibold hover:scale-105 transition">
-            Guardar
-          </button>
-        </div>
-
-      </form>
-    </div>
-
-  </main>
-
-  <!-- SCRIPT CRUD -->
+  <!-- SCRIPT -->
   <script>
     const API_URL = "http://127.0.0.1:8000/api/clients";
+    let clientes = [];
 
-    const etapaColors = {
-      "Prospecto": "bg-orange-500",
-      "Activo": "bg-green-500",
-      "Frecuente": "bg-blue-500",
-      "Inactivo": "bg-gray-500"
-    };
-
-    // ==========================
-    // Cargar clientes
-    // ==========================
-    async function loadClients() {
+    // ✅ GET clientes
+    async function cargarClientes() {
       const res = await fetch(API_URL);
-      const clients = await res.json();
+      clientes = await res.json();
+      mostrarClientes(clientes);
+    }
 
-      const table = document.getElementById("clientsTable");
-      table.innerHTML = "";
+    // ✅ Mostrar tabla
+    function mostrarClientes(lista) {
+      const tabla = document.getElementById("tablaClientes");
+      tabla.innerHTML = "";
 
-      clients.forEach(client => {
-        table.innerHTML += `
+      lista.forEach(c => {
+        tabla.innerHTML += `
           <tr class="hover:bg-gray-50">
-            <td class="p-3">${client.id}</td>
-            <td class="p-3 font-medium">${client.nombre}</td>
-            <td class="p-3">${client.correo}</td>
-            <td class="p-3">${client.telefono || "-"}</td>
-            <td class="p-3">${client.empresa || "-"}</td>
+            <td class="p-3 font-medium">${c.nombre}</td>
+            <td class="p-3">${c.correo}</td>
+            <td class="p-3">${c.empresa ?? ""}</td>
+
             <td class="p-3">
-              <span class="px-3 py-1 rounded-full text-white ${etapaColors[client.etapa_crm] || 'bg-gray-400'}">
-                ${client.etapa_crm}
+              <span class="px-3 py-1 rounded-full text-white ${c.estado ? "bg-green-500" : "bg-gray-500"}">
+                ${c.estado ? "Activo" : "Inactivo"}
               </span>
             </td>
+
             <td class="p-3 flex justify-center gap-2">
-              <button onclick="viewClient(${client.id})"
-                class="px-3 py-1 rounded-lg bg-blue-500 text-white text-xs hover:opacity-80">
-                Ver
-              </button>
-              <button onclick="editClient(${client.id})"
+
+              <button onclick="editarCliente(${c.id})"
                 class="px-3 py-1 rounded-lg bg-orange-500 text-white text-xs hover:opacity-80">
                 Editar
               </button>
-              <button onclick="deleteClient(${client.id})"
+
+              <button onclick="eliminarCliente(${c.id})"
                 class="px-3 py-1 rounded-lg bg-red-500 text-white text-xs hover:opacity-80">
                 Eliminar
               </button>
+
             </td>
           </tr>
         `;
       });
     }
 
-    // ==========================
-    // Mostrar / Ocultar formulario
-    // ==========================
-    function showForm() {
-      document.getElementById("clientFormContainer").classList.remove("hidden");
-      document.getElementById("formTitle").innerText = "Nuevo Cliente";
-      document.getElementById("clientId").value = "";
-      document.getElementById("nombre").value = "";
-      document.getElementById("correo").value = "";
-      document.getElementById("telefono").value = "";
-      document.getElementById("empresa").value = "";
-      document.getElementById("etapa_crm").value = "Prospecto";
-    }
-
-    function hideForm() {
-      document.getElementById("clientFormContainer").classList.add("hidden");
-    }
-
-    // ==========================
-    // Guardar Cliente (POST / PUT)
-    // ==========================
-    document.getElementById("clientForm").addEventListener("submit", async function (e) {
+    // ✅ POST o PUT cliente
+    document.getElementById("formCliente").addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const id = document.getElementById("clientId").value;
+      const id = clienteId.value;
 
-      const data = {
-        nombre: document.getElementById("nombre").value,
-        correo: document.getElementById("correo").value,
-        telefono: document.getElementById("telefono").value,
-        empresa: document.getElementById("empresa").value,
-        etapa_crm: document.getElementById("etapa_crm").value
+      const cliente = {
+        nombre: nombre.value,
+        correo: correo.value,
+        telefono: telefono.value,
+        empresa: empresa.value,
+        estado: estado.value == "1"
       };
 
       if (id) {
         await fetch(`${API_URL}/${id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
+          body: JSON.stringify(cliente)
         });
+
+        alert("Cliente actualizado correctamente");
+
       } else {
         await fetch(API_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
+          body: JSON.stringify(cliente)
         });
+
+        alert("Cliente registrado correctamente");
       }
 
-      hideForm();
-      loadClients();
+      resetFormulario();
+      cargarClientes();
     });
 
-    // ==========================
-    // Ver Cliente
-    // ==========================
-    async function viewClient(id) {
-      const res = await fetch(`${API_URL}/${id}`);
-      const client = await res.json();
-
-      alert(`👤 Cliente:\n\nNombre: ${client.nombre}\nCorreo: ${client.correo}\nTeléfono: ${client.telefono}\nEmpresa: ${client.empresa}\nEtapa CRM: ${client.etapa_crm}`);
-    }
-
-    // ==========================
-    // Editar Cliente
-    // ==========================
-    async function editClient(id) {
-      const res = await fetch(`${API_URL}/${id}`);
-      const client = await res.json();
-
-      showForm();
-      document.getElementById("formTitle").innerText = "Editar Cliente";
-
-      document.getElementById("clientId").value = client.id;
-      document.getElementById("nombre").value = client.nombre;
-      document.getElementById("correo").value = client.correo;
-      document.getElementById("telefono").value = client.telefono;
-      document.getElementById("empresa").value = client.empresa;
-      document.getElementById("etapa_crm").value = client.etapa_crm;
-    }
-
-    // ==========================
-    // Eliminar Cliente
-    // ==========================
-    async function deleteClient(id) {
+    // ✅ Eliminar cliente
+    async function eliminarCliente(id) {
       if (!confirm("¿Seguro que deseas eliminar este cliente?")) return;
 
       await fetch(`${API_URL}/${id}`, {
         method: "DELETE"
       });
 
-      loadClients();
+      alert("Cliente eliminado correctamente");
+      cargarClientes();
     }
 
-    // Inicializar
-    loadClients();
+    // ✅ Editar cliente
+    function editarCliente(id) {
+      const cliente = clientes.find(c => c.id === id);
+
+      clienteId.value = cliente.id;
+      nombre.value = cliente.nombre;
+      correo.value = cliente.correo;
+      telefono.value = cliente.telefono ?? "";
+      empresa.value = cliente.empresa ?? "";
+      estado.value = cliente.estado ? "1" : "0";
+
+      tituloForm.innerText = "Editar Cliente";
+      cancelarEdicion.classList.remove("hidden");
+    }
+
+    // ✅ Cancelar edición
+    cancelarEdicion.addEventListener("click", resetFormulario);
+
+    function resetFormulario() {
+      formCliente.reset();
+      clienteId.value = "";
+      tituloForm.innerText = "Registrar Cliente";
+      cancelarEdicion.classList.add("hidden");
+    }
+
+    // ✅ Buscar + filtrar
+    function aplicarFiltros() {
+      const texto = busqueda.value.toLowerCase();
+      const filtro = filtroEstado.value;
+
+      let filtrados = clientes.filter(c =>
+        c.nombre.toLowerCase().includes(texto) ||
+        c.correo.toLowerCase().includes(texto)
+      );
+
+      if (filtro !== "") {
+        filtrados = filtrados.filter(c =>
+          String(Number(c.estado)) === filtro
+        );
+      }
+
+      mostrarClientes(filtrados);
+    }
+
+    busqueda.addEventListener("input", aplicarFiltros);
+    filtroEstado.addEventListener("change", aplicarFiltros);
+
+    // ✅ Inicializar
+    cargarClientes();
   </script>
 
 </body>
