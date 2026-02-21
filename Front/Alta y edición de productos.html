@@ -209,43 +209,85 @@
     </div>
 
     <script>
-        let productos = [];
+        const API = "http://127.0.0.1:8000/api";
 
-        function guardarProducto() {
-            const nombre = document.getElementById("nombre").value;
-            const descripcion = document.getElementById("descripcion").value;
-            const precio = document.getElementById("precio").value;
-            const editIndex = document.getElementById("editIndex").value;
+        document.addEventListener("DOMContentLoaded", cargarProductos);
 
-            if (!nombre || !precio) {
+        async function cargarProductos() {
+            const res = await fetch(`${API}/productos`);
+            const productos = await res.json();
+
+            const tabla = document.getElementById("tablaProductos");
+            tabla.innerHTML = "";
+
+            productos.forEach(p => {
+                tabla.innerHTML += `
+                <tr>
+                    <td>${p.nombre}</td>
+                    <td>${p.descripcion ?? ''}</td>
+                    <td class="price">$${p.costo_unitario}</td>
+                    <td>
+                        <button class="btn-orange" onclick="editarProducto(${p.id}, '${p.nombre}', '${p.descripcion}', ${p.costo_unitario})">
+                            Editar
+                        </button>
+                        <button class="btn-danger" onclick="eliminarProducto(${p.id})">
+                            Eliminar
+                        </button>
+                    </td>
+                </tr>
+            `;
+            });
+        }
+
+        async function guardarProducto() {
+            const id = document.getElementById("editIndex").value;
+
+            const data = {
+                nombre: document.getElementById("nombre").value,
+                descripcion: document.getElementById("descripcion").value,
+                categoria: "General",              // ⚠ requerido por backend
+                stock_actual: 0,                   // ⚠ requerido por backend
+                stock_minimo: 0,                   // ⚠ requerido por backend
+                proveedor_id: 1,                   // ⚠ AJUSTA ESTO
+                costo_unitario: parseFloat(document.getElementById("precio").value)
+            };
+
+            if (!data.nombre || !data.costo_unitario) {
                 alert("Completa nombre y precio 🙂");
                 return;
             }
 
-            const producto = { nombre, descripcion, precio };
-
-            if (editIndex === "") {
-                productos.push(producto);
+            if (id === "") {
+                await fetch(`${API}/productos`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
             } else {
-                productos[editIndex] = producto;
+                await fetch(`${API}/productos/${id}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
             }
 
             limpiarFormulario();
-            renderTabla();
+            cargarProductos();
         }
 
-        function editarProducto(index) {
-            const p = productos[index];
-
-            document.getElementById("nombre").value = p.nombre;
-            document.getElementById("descripcion").value = p.descripcion;
-            document.getElementById("precio").value = p.precio;
-            document.getElementById("editIndex").value = index;
+        function editarProducto(id, nombre, descripcion, precio) {
+            document.getElementById("nombre").value = nombre;
+            document.getElementById("descripcion").value = descripcion ?? '';
+            document.getElementById("precio").value = precio;
+            document.getElementById("editIndex").value = id;
         }
 
-        function eliminarProducto(index) {
-            productos.splice(index, 1);
-            renderTabla();
+        async function eliminarProducto(id) {
+            await fetch(`${API}/productos/${id}`, {
+                method: "DELETE"
+            });
+
+            cargarProductos();
         }
 
         function limpiarFormulario() {
@@ -253,25 +295,6 @@
             document.getElementById("descripcion").value = "";
             document.getElementById("precio").value = "";
             document.getElementById("editIndex").value = "";
-        }
-
-        function renderTabla() {
-            const tabla = document.getElementById("tablaProductos");
-            tabla.innerHTML = "";
-
-            productos.forEach((p, i) => {
-                tabla.innerHTML += `
-                <tr>
-                    <td>${p.nombre}</td>
-                    <td>${p.descripcion}</td>
-                    <td class="price">$${p.precio}</td>
-                    <td>
-                        <button class="btn-orange" onclick="editarProducto(${i})">Editar</button>
-                        <button class="btn-danger" onclick="eliminarProducto(${i})">Eliminar</button>
-                    </td>
-                </tr>
-            `;
-            });
         }
     </script>
 

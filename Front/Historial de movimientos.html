@@ -189,34 +189,51 @@
     </div>
 
     <script>
+        const API = "http://127.0.0.1:8000/api";
         const STOCK_BAJO = 10;
 
-        const movimientos = [
-            { producto: "Fresas Pop", tipo: "Entrada", cantidad: 25, fecha: "2026-02-18", detalle: "Preparación del día" },
-            { producto: "Fresas Pop", tipo: "Salida", cantidad: 20, fecha: "2026-02-18", detalle: "Ventas del día" },
+        let movimientos = [];
+        let productos = {};
 
-            { producto: "Waffle", tipo: "Entrada", cantidad: 18, fecha: "2026-02-19", detalle: "Producción fresca" },
-            { producto: "Waffle", tipo: "Salida", cantidad: 4, fecha: "2026-02-19", detalle: "Pedido cliente" },
+        document.addEventListener("DOMContentLoaded", init);
 
-            { producto: "Frosty Cuki", tipo: "Entrada", cantidad: 12, fecha: "2026-02-19", detalle: "Nuevo lote" },
-            { producto: "Frosty Cuki", tipo: "Salida", cantidad: 3, fecha: "2026-02-19", detalle: "Venta Uber Eats" },
+        async function init() {
+            await cargarProductos();
+            await cargarMovimientos();
+            renderTabla();
+        }
 
-            { producto: "Agua de Mazapán", tipo: "Entrada", cantidad: 30, fecha: "2026-02-20", detalle: "Reposición de bebidas" },
-            { producto: "Agua de Mazapán", tipo: "Salida", cantidad: 28, fecha: "2026-02-20", detalle: "Alta demanda" },
+        async function cargarProductos() {
+            const res = await fetch(`${API}/productos`);
+            const data = await res.json();
 
-            { producto: "Paleta Monchísima", tipo: "Entrada", cantidad: 20, fecha: "2026-02-20", detalle: "Producción del día" },
-            { producto: "Paleta Monchísima", tipo: "Ajuste", cantidad: -15, fecha: "2026-02-20", detalle: "Merma / daño" },
-        ];
+            productos = {};
+            const select = document.getElementById("filtroProducto");
+
+            data.forEach(p => {
+                productos[p.id] = p.nombre;
+
+                select.innerHTML += `<option value="${p.id}">${p.nombre}</option>`;
+            });
+        }
+
+        async function cargarMovimientos() {
+            const res = await fetch(`${API}/movimientos`);
+            movimientos = await res.json();
+        }
 
         function calcularStock() {
             const stock = {};
 
             movimientos.forEach(m => {
-                if (!stock[m.producto]) stock[m.producto] = 0;
+                const nombreProducto = productos[m.producto_id];
+                if (!nombreProducto) return;
 
-                if (m.tipo === "Entrada") stock[m.producto] += m.cantidad;
-                if (m.tipo === "Salida") stock[m.producto] -= m.cantidad;
-                if (m.tipo === "Ajuste") stock[m.producto] += m.cantidad;
+                if (!stock[nombreProducto]) stock[nombreProducto] = 0;
+
+                if (m.tipo === "Entrada") stock[nombreProducto] += m.cantidad;
+                if (m.tipo === "Salida") stock[nombreProducto] -= m.cantidad;
+                if (m.tipo === "Ajuste") stock[nombreProducto] += m.cantidad;
             });
 
             return stock;
@@ -232,36 +249,36 @@
             const stock = calcularStock();
 
             movimientos
-                .filter(m => !productoFiltro || m.producto === productoFiltro)
+                .filter(m => !productoFiltro || m.producto_id == productoFiltro)
                 .filter(m => !tipoFiltro || m.tipo === tipoFiltro)
                 .forEach(m => {
+
+                    const nombreProducto = productos[m.producto_id] ?? "Producto";
 
                     let claseTipo = "";
                     if (m.tipo === "Entrada") claseTipo = "entrada";
                     if (m.tipo === "Salida") claseTipo = "salida";
                     if (m.tipo === "Ajuste") claseTipo = "ajuste";
 
-                    const stockActual = stock[m.producto];
+                    const stockActual = stock[nombreProducto] ?? 0;
                     const stockBajo = stockActual < STOCK_BAJO;
 
                     tabla.innerHTML += `
                     <tr class="${stockBajo ? 'stock-bajo' : ''}">
-                        <td>${m.producto}</td>
+                        <td>${nombreProducto}</td>
                         <td class="${claseTipo}">${m.tipo}</td>
                         <td>${m.cantidad}</td>
                         <td>${m.fecha}</td>
                         <td>
                             ${stockBajo
                             ? '<span class="alerta">⚠ Stock Bajo (' + stockActual + ')</span>'
-                            : '<span class="badge">' + m.detalle + '</span>'
+                            : '<span class="badge">' + (m.detalle ?? '') + '</span>'
                         }
                         </td>
                     </tr>
                 `;
                 });
         }
-
-        renderTabla();
     </script>
 
 </body>
