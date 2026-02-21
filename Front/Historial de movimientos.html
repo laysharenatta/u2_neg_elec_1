@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Honey Pop – Movimientos</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #ff66b3;
+            color: white;
+        }
+
+        header {
+            background: #ff4fa3;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        header button {
+            background: #ff9f1c;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .panel {
+            background: #0f172a;
+            border-radius: 18px;
+            padding: 22px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #ff66b3;
+        }
+
+        select,
+        input {
+            background: #1e293b;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            color: white;
+            margin-right: 10px;
+            outline: none;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            color: #ff66b3;
+            padding-bottom: 10px;
+        }
+
+        td {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 14px;
+        }
+
+        .entrada {
+            color: #22c55e;
+            font-weight: bold;
+        }
+
+        .salida {
+            color: #ef4444;
+            font-weight: bold;
+        }
+
+        .ajuste {
+            color: #ff9f1c;
+            font-weight: bold;
+        }
+
+        .badge {
+            background: #ff9f1c;
+            padding: 4px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            color: black;
+        }
+
+        .stock-bajo {
+            background: rgba(239, 68, 68, 0.15);
+        }
+
+        .alerta {
+            background: #ef4444;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .badge {
+            background: #ff9f1c;
+            padding: 4px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>📦 Honey Pop – Historial de Movimientos</h1>
+        <button>Volver</button>
+    </header>
+
+    <div class="container">
+
+        <!-- FILTROS -->
+        <div class="panel">
+            <h2>Filtros</h2>
+
+            <select id="filtroProducto" onchange="renderTabla()">
+                <option value="">Todos los productos</option>
+                <option value="Mini Hokeis">Mini Hokeis</option>
+                <option value="Choco Fresas">Choco Fresas</option>
+                <option value="Gommy Ice">Gommy Ice</option>
+                <option value="Fresas Pop">Fresas Pop</option>
+                <option value="Waffle">Waffle</option>
+                <option value="Frosty Cuki">Frosty Cuki</option>
+                <option value="Agua de Mazapán">Agua de Mazapán</option>
+                <option value="Paleta Monchísima">Paleta Monchísima</option>
+            </select>
+
+            <select id="filtroTipo" onchange="renderTabla()">
+                <option value="">Todos los movimientos</option>
+                <option value="Entrada">Entradas</option>
+                <option value="Salida">Salidas</option>
+                <option value="Ajuste">Ajustes</option>
+            </select>
+        </div>
+
+        <!-- TABLA -->
+        <div class="panel">
+            <h2>Movimientos Registrados</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Tipo</th>
+                        <th>Cantidad</th>
+                        <th>Fecha</th>
+                        <th>Detalle</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaMovimientos"></tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <script>
+        const STOCK_BAJO = 10;
+
+        const movimientos = [
+            { producto: "Fresas Pop", tipo: "Entrada", cantidad: 25, fecha: "2026-02-18", detalle: "Preparación del día" },
+            { producto: "Fresas Pop", tipo: "Salida", cantidad: 20, fecha: "2026-02-18", detalle: "Ventas del día" },
+
+            { producto: "Waffle", tipo: "Entrada", cantidad: 18, fecha: "2026-02-19", detalle: "Producción fresca" },
+            { producto: "Waffle", tipo: "Salida", cantidad: 4, fecha: "2026-02-19", detalle: "Pedido cliente" },
+
+            { producto: "Frosty Cuki", tipo: "Entrada", cantidad: 12, fecha: "2026-02-19", detalle: "Nuevo lote" },
+            { producto: "Frosty Cuki", tipo: "Salida", cantidad: 3, fecha: "2026-02-19", detalle: "Venta Uber Eats" },
+
+            { producto: "Agua de Mazapán", tipo: "Entrada", cantidad: 30, fecha: "2026-02-20", detalle: "Reposición de bebidas" },
+            { producto: "Agua de Mazapán", tipo: "Salida", cantidad: 28, fecha: "2026-02-20", detalle: "Alta demanda" },
+
+            { producto: "Paleta Monchísima", tipo: "Entrada", cantidad: 20, fecha: "2026-02-20", detalle: "Producción del día" },
+            { producto: "Paleta Monchísima", tipo: "Ajuste", cantidad: -15, fecha: "2026-02-20", detalle: "Merma / daño" },
+        ];
+
+        function calcularStock() {
+            const stock = {};
+
+            movimientos.forEach(m => {
+                if (!stock[m.producto]) stock[m.producto] = 0;
+
+                if (m.tipo === "Entrada") stock[m.producto] += m.cantidad;
+                if (m.tipo === "Salida") stock[m.producto] -= m.cantidad;
+                if (m.tipo === "Ajuste") stock[m.producto] += m.cantidad;
+            });
+
+            return stock;
+        }
+
+        function renderTabla() {
+            const productoFiltro = document.getElementById("filtroProducto").value;
+            const tipoFiltro = document.getElementById("filtroTipo").value;
+
+            const tabla = document.getElementById("tablaMovimientos");
+            tabla.innerHTML = "";
+
+            const stock = calcularStock();
+
+            movimientos
+                .filter(m => !productoFiltro || m.producto === productoFiltro)
+                .filter(m => !tipoFiltro || m.tipo === tipoFiltro)
+                .forEach(m => {
+
+                    let claseTipo = "";
+                    if (m.tipo === "Entrada") claseTipo = "entrada";
+                    if (m.tipo === "Salida") claseTipo = "salida";
+                    if (m.tipo === "Ajuste") claseTipo = "ajuste";
+
+                    const stockActual = stock[m.producto];
+                    const stockBajo = stockActual < STOCK_BAJO;
+
+                    tabla.innerHTML += `
+                    <tr class="${stockBajo ? 'stock-bajo' : ''}">
+                        <td>${m.producto}</td>
+                        <td class="${claseTipo}">${m.tipo}</td>
+                        <td>${m.cantidad}</td>
+                        <td>${m.fecha}</td>
+                        <td>
+                            ${stockBajo
+                            ? '<span class="alerta">⚠ Stock Bajo (' + stockActual + ')</span>'
+                            : '<span class="badge">' + m.detalle + '</span>'
+                        }
+                        </td>
+                    </tr>
+                `;
+                });
+        }
+
+        renderTabla();
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Honey Pop – Productos</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #ff66b3;
+            color: white;
+        }
+
+        header {
+            background: #ff4fa3;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        header button {
+            background: #ff9f1c;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        header button:hover {
+            transform: scale(1.05);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 25px;
+            padding: 0 20px;
+        }
+
+        .panel {
+            background: #0f172a;
+            border-radius: 18px;
+            padding: 22px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+        }
+
+        .panel h2 {
+            margin-top: 0;
+            color: #ff66b3;
+            font-size: 20px;
+        }
+
+        label {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            margin-top: 6px;
+            margin-bottom: 14px;
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            background: #1e293b;
+            color: white;
+        }
+
+        textarea {
+            resize: none;
+            height: 70px;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: #ff4fa3;
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .btn-primary:hover {
+            background: #ff2e93;
+        }
+
+        .btn-orange {
+            background: #ff9f1c;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-right: 6px;
+        }
+
+        .btn-orange:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            color: #ff66b3;
+            padding-bottom: 10px;
+        }
+
+        td {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 14px;
+        }
+
+        .price {
+            color: #ff9f1c;
+            font-weight: bold;
+        }
+
+        .title-bar {
+            margin-bottom: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>🍯 Honey Pop – Gestión de Productos</h1>
+        <button>Volver al catálogo</button>
+    </header>
+
+    <div class="container">
+
+        <!-- FORMULARIO -->
+        <div class="panel">
+            <h2>Alta / Edición</h2>
+
+            <input type="hidden" id="editIndex">
+
+            <label>Nombre del producto</label>
+            <input type="text" id="nombre" placeholder="Ej. Choco Fresas">
+
+            <label>Descripción</label>
+            <textarea id="descripcion" placeholder="Describe el postre..."></textarea>
+
+            <label>Precio</label>
+            <input type="number" id="precio" placeholder="$">
+
+            <button class="btn-primary" onclick="guardarProducto()">
+                Guardar Producto
+            </button>
+        </div>
+
+        <!-- TABLA -->
+        <div class="panel">
+            <div class="title-bar">Productos Registrados</div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaProductos"></tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <script>
+        let productos = [];
+
+        function guardarProducto() {
+            const nombre = document.getElementById("nombre").value;
+            const descripcion = document.getElementById("descripcion").value;
+            const precio = document.getElementById("precio").value;
+            const editIndex = document.getElementById("editIndex").value;
+
+            if (!nombre || !precio) {
+                alert("Completa nombre y precio 🙂");
+                return;
+            }
+
+            const producto = { nombre, descripcion, precio };
+
+            if (editIndex === "") {
+                productos.push(producto);
+            } else {
+                productos[editIndex] = producto;
+            }
+
+            limpiarFormulario();
+            renderTabla();
+        }
+
+        function editarProducto(index) {
+            const p = productos[index];
+
+            document.getElementById("nombre").value = p.nombre;
+            document.getElementById("descripcion").value = p.descripcion;
+            document.getElementById("precio").value = p.precio;
+            document.getElementById("editIndex").value = index;
+        }
+
+        function eliminarProducto(index) {
+            productos.splice(index, 1);
+            renderTabla();
+        }
+
+        function limpiarFormulario() {
+            document.getElementById("nombre").value = "";
+            document.getElementById("descripcion").value = "";
+            document.getElementById("precio").value = "";
+            document.getElementById("editIndex").value = "";
+        }
+
+        function renderTabla() {
+            const tabla = document.getElementById("tablaProductos");
+            tabla.innerHTML = "";
+
+            productos.forEach((p, i) => {
+                tabla.innerHTML += `
+                <tr>
+                    <td>${p.nombre}</td>
+                    <td>${p.descripcion}</td>
+                    <td class="price">$${p.precio}</td>
+                    <td>
+                        <button class="btn-orange" onclick="editarProducto(${i})">Editar</button>
+                        <button class="btn-danger" onclick="eliminarProducto(${i})">Eliminar</button>
+                    </td>
+                </tr>
+            `;
+            });
+        }
+    </script>
+
+</body>
+
+</html>
