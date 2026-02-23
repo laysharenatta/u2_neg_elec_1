@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard SCM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .nivel-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+            margin: auto;
+            transition: 0.3s;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+
+    <h2 class="text-center mb-4">Indicador de Madurez SCM</h2>
+
+  
+    <div class="text-center mb-4">
+        <div id="nivelCircle" class="nivel-circle bg-secondary">-</div>
+    </div>
+
+    
+    <div class="card mb-4 shadow">
+        <div class="card-body">
+            <h5>Descripción del Nivel Actual</h5>
+            <p id="descripcionNivel">Cargando datos...</p>
+        </div>
+    </div>
+
+    <div class="card shadow">
+        <div class="card-body">
+            <h5>Checklist de Avance</h5>
+            <ul class="list-group" id="checklist"></ul>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function() {
+    evaluarSCM();
+});
+
+async function evaluarSCM() {
+
+    try {
+
+        const proveedoresRes = await fetch("http://127.0.0.1:8000/api/proveedores");
+        const productosRes = await fetch("http://127.0.0.1:8000/api/productos");
+
+        const proveedores = await proveedoresRes.json();
+        const productos = await productosRes.json();
+
+        let nivel = 1;
+        let descripcion = "";
+        let checklist = [];
+
+        const tieneProveedores = proveedores.length > 0;
+        const tieneProductos = productos.length > 0;
+        const productosConStockMinimo = productos.filter(p => p.stock_minimo > 0).length;
+        const productosConProveedor = productos.filter(p => p.proveedor_id != null).length;
+
+        checklist = [
+            { nombre: "Proveedores registrados", completado: tieneProveedores },
+            { nombre: "Productos registrados", completado: tieneProductos },
+            { nombre: "Productos con stock mínimo configurado", completado: productosConStockMinimo === productos.length && tieneProductos },
+            { nombre: "Productos vinculados a proveedor", completado: productosConProveedor === productos.length && tieneProductos }
+        ];
+
+        if (!tieneProveedores) {
+            nivel = 1;
+            descripcion = "Nivel 1 - Operación básica sin proveedores registrados.";
+        }
+        else if (tieneProveedores && !tieneProductos) {
+            nivel = 2;
+            descripcion = "Nivel 2 - Proveedores registrados pero sin gestión de productos.";
+        }
+        else if (tieneProductos && productosConStockMinimo < productos.length) {
+            nivel = 3;
+            descripcion = "Nivel 3 - Gestión de productos activa, pero sin control completo de inventario.";
+        }
+        else {
+            nivel = 4;
+            descripcion = "Nivel 4 - Gestión SCM integrada y controlada.";
+        }
+
+        renderDashboard(nivel, descripcion, checklist);
+
+    } catch (error) {
+        console.error("Error al evaluar SCM:", error);
+    }
+}
+
+function renderDashboard(nivel, descripcion, checklist) {
+
+    let circle = document.getElementById("nivelCircle");
+    circle.innerText = nivel;
+
+    if (nivel == 1) circle.className = "nivel-circle bg-danger";
+    if (nivel == 2) circle.className = "nivel-circle bg-warning";
+    if (nivel == 3) circle.className = "nivel-circle bg-info";
+    if (nivel == 4) circle.className = "nivel-circle bg-success";
+
+    document.getElementById("descripcionNivel").innerText = descripcion;
+
+    let lista = document.getElementById("checklist");
+    lista.innerHTML = "";
+
+    checklist.forEach(item => {
+        lista.innerHTML += `
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                ${item.nombre}
+                ${item.completado 
+                    ? '<span class="badge bg-success">✔</span>' 
+                    : '<span class="badge bg-secondary">Pendiente</span>'}
+            </li>
+        `;
+    });
+}
+
+</script>
+
+</body>
+</html>

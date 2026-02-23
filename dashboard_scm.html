@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard SCM Pro</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body {
+    background: #0f172a;
+    color: white;
+}
+
+.card-dark {
+    background: #1e293b;
+    border: none;
+    border-radius: 15px;
+    color: white;
+}
+
+.kpi-number {
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.gradient-blue {
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+}
+
+.gradient-green {
+    background: linear-gradient(135deg, #16a34a, #065f46);
+}
+
+.gradient-red {
+    background: linear-gradient(135deg, #dc2626, #7f1d1d);
+}
+
+canvas {
+    max-height: 300px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container mt-5">
+
+<h2 class="text-center mb-5 fw-bold">Dashboard SCM</h2>
+
+<div class="row g-4 mb-5">
+
+    <div class="col-md-4">
+        <div class="card card-dark gradient-blue text-center p-4 shadow-lg">
+            <h6>Total Proveedores</h6>
+            <div id="totalProveedores" class="kpi-number">0</div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card card-dark gradient-green text-center p-4 shadow-lg">
+            <h6>Total Productos</h6>
+            <div id="totalProductos" class="kpi-number">0</div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card card-dark gradient-red text-center p-4 shadow-lg">
+            <h6>Bajo Stock</h6>
+            <div id="bajoStock" class="kpi-number">0</div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row g-4">
+
+    <div class="col-md-6">
+        <div class="card card-dark p-4 shadow-lg">
+            <h5 class="mb-3 text-center">Estado de Inventario</h5>
+            <canvas id="graficaInventario"></canvas>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card card-dark p-4 shadow-lg">
+            <h5 class="mb-3 text-center">Push vs Pull</h5>
+            <canvas id="graficaPushPull"></canvas>
+        </div>
+    </div>
+
+</div>
+
+</div>
+
+<script>
+
+const API = "http://127.0.0.1:8000/api";
+
+document.addEventListener("DOMContentLoaded", cargarDashboard);
+
+async function cargarDashboard() {
+
+    const proveedoresRes = await fetch(`${API}/proveedores`);
+    const productosRes = await fetch(`${API}/productos`);
+
+    const proveedores = await proveedoresRes.json();
+    const productos = await productosRes.json();
+
+    document.getElementById("totalProveedores").innerText = proveedores.length;
+    document.getElementById("totalProductos").innerText = productos.length;
+
+    let bajoStock = productos.filter(p => p.stock_actual <= p.stock_minimo).length;
+    document.getElementById("bajoStock").innerText = bajoStock;
+
+    let stockOk = productos.length - bajoStock;
+
+    crearGraficaInventario(stockOk, bajoStock);
+    crearGraficaPushPull(productos);
+}
+
+function crearGraficaInventario(stockOk, bajoStock) {
+
+    new Chart(document.getElementById("graficaInventario"), {
+        type: 'doughnut',
+        data: {
+            labels: ['Stock OK', 'Bajo Stock'],
+            datasets: [{
+                data: [stockOk, bajoStock],
+                backgroundColor: ['#22c55e', '#ef4444'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            plugins: {
+                legend: { labels: { color: "white" } }
+            }
+        }
+    });
+}
+
+function crearGraficaPushPull(productos) {
+
+    let push = 0;
+    let pull = 0;
+
+    productos.forEach(p => {
+        if (p.stock_actual > p.stock_minimo * 2) {
+            push++;
+        } else {
+            pull++;
+        }
+    });
+
+    new Chart(document.getElementById("graficaPushPull"), {
+        type: 'bar',
+        data: {
+            labels: ['Push (Sobre Stock)', 'Pull (Demanda Ajustada)'],
+            datasets: [{
+                label: 'Productos',
+                data: [push, pull],
+                backgroundColor: ['#3b82f6', '#facc15'],
+                borderRadius: 8
+            }]
+        },
+        options: {
+            plugins: {
+                legend: { labels: { color: "white" } }
+            },
+            scales: {
+                x: { ticks: { color: "white" } },
+                y: { ticks: { color: "white" } }
+            }
+        }
+    });
+}
+
+</script>
+
+</body>
+</html>
