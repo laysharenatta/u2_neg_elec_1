@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Honey Pop ERP - Login</title>
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Segoe UI;
+            background: linear-gradient(135deg, #ff5fa2, #ff914d);
+        }
+
+        .login-box {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            width: 320px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #ff5fa2;
+            margin-bottom: 20px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #ff914d;
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #ff6f1a;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+            color: #ff5fa2;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-box">
+
+        <div class="logo">Honey Pop ERP</div>
+
+        <h1>Iniciar Sesión</h1>
+
+        <input type="text" id="usuario" placeholder="Usuario">
+
+        <input type="password" id="password" placeholder="Contraseña">
+
+        <select id="rol">
+            <option value="">Seleccionar rol</option>
+            <option value="admin">Administrador</option>
+            <option value="vendedor">Vendedor</option>
+            <option value="logistica">Logística</option>
+        </select>
+
+        <button onclick="login()">Entrar</button>
+
+    </div>
+
+    <script>
+
+        function login() {
+
+            let rol = document.getElementById("rol").value;
+
+            if (rol === "admin") {
+                window.location.href = "admin.html";
+            }
+
+            else if (rol === "vendedor") {
+                window.location.href = "vendedor.html";
+            }
+
+            else if (rol === "logistica") {
+                window.location.href = "logistica.html";
+            }
+
+            else {
+                alert("Selecciona un rol");
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
