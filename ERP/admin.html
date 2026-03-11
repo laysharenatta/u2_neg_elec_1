@@ -50,16 +50,12 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
-        /* PANEL PRINCIPAL */
+        /* PANEL */
 
         .main {
             flex: 1;
             padding: 30px;
             overflow: auto;
-        }
-
-        h1 {
-            margin-bottom: 10px;
         }
 
         /* TARJETAS */
@@ -76,30 +72,6 @@
             padding: 20px;
             border-radius: 12px;
             backdrop-filter: blur(10px);
-        }
-
-        .card h3 {
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-
-        .card p {
-            font-size: 22px;
-            font-weight: bold;
-        }
-
-        /* GRAFICAS */
-
-        .charts {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 25px;
-        }
-
-        .chartBox {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 20px;
-            border-radius: 12px;
         }
 
         /* TABLAS */
@@ -133,7 +105,72 @@
         .section.active {
             display: block;
         }
+
+        /* BOTONES */
+
+        button {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .nuevaOrden {
+            background: #ff914d;
+            color: white;
+            margin-top: 10px;
+        }
+
+        .editar {
+            background: #ffc857;
+        }
+
+        .eliminar {
+            background: #ff4d4d;
+            color: white;
+        }
+
+        /* LOGOUT */
+
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: #ff0000;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* MODAL */
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            color: black;
+            padding: 25px;
+            border-radius: 10px;
+            width: 300px;
+        }
+
+        .modal-content input,
+        .modal-content select {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+        }
     </style>
+
 </head>
 
 <body>
@@ -152,6 +189,8 @@
             <div onclick="showSection('recursos')">Recursos</div>
             <div onclick="showSection('erp')">Estado ERP</div>
 
+            <button class="logout-btn" onclick="logout()">Cerrar sesión</button>
+
         </div>
 
     </div>
@@ -163,7 +202,6 @@
         <div id="dashboard" class="section active">
 
             <h1>Dashboard Empresarial</h1>
-            <p>Vista general del sistema Honey Pop</p>
 
             <div class="cards">
 
@@ -174,7 +212,7 @@
 
                 <div class="card">
                     <h3>Órdenes</h3>
-                    <p>14</p>
+                    <p id="totalOrdenes">2</p>
                 </div>
 
                 <div class="card">
@@ -189,17 +227,7 @@
 
             </div>
 
-            <div class="charts">
-
-                <div class="chartBox">
-                    <canvas id="ventas"></canvas>
-                </div>
-
-                <div class="chartBox">
-                    <canvas id="categorias"></canvas>
-                </div>
-
-            </div>
+            <canvas id="ventas"></canvas>
 
         </div>
 
@@ -209,27 +237,33 @@
 
             <h1>Órdenes</h1>
 
-            <table>
+            <button class="nuevaOrden" onclick="abrirModal()">Nueva Orden</button>
+
+            <table id="tablaOrdenes">
 
                 <tr>
                     <th>ID</th>
                     <th>Cliente</th>
                     <th>Producto</th>
-                    <th>Estado</th>
+                    <th>Cantidad</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                    <th>Acciones</th>
                 </tr>
 
                 <tr>
                     <td>001</td>
                     <td>Laura Díaz</td>
                     <td>Honey Pop Original</td>
-                    <td>Pendiente</td>
-                </tr>
+                    <td>2</td>
+                    <td>10/03/2026</td>
+                    <td>$120</td>
 
-                <tr>
-                    <td>002</td>
-                    <td>Pedro López</td>
-                    <td>Honey Pop Fresa</td>
-                    <td>Enviado</td>
+                    <td>
+                        <button class="editar">Editar</button>
+                        <button class="eliminar" onclick="eliminarFila(this)">Eliminar</button>
+                    </td>
+
                 </tr>
 
             </table>
@@ -299,46 +333,69 @@
         <!-- PROCESOS -->
 
         <div id="procesos" class="section">
-
             <h1>Procesos Empresariales</h1>
-
             <ul>
                 <li>Recepción de pedidos</li>
                 <li>Validación de pago</li>
                 <li>Preparación de productos</li>
                 <li>Distribución logística</li>
             </ul>
-
         </div>
 
         <!-- RECURSOS -->
 
         <div id="recursos" class="section">
-
             <h1>Recursos</h1>
-
             <ul>
                 <li>Equipo de ventas</li>
                 <li>Sistema CRM</li>
                 <li>Inventario</li>
                 <li>Transporte</li>
             </ul>
-
         </div>
 
         <!-- ERP -->
 
         <div id="erp" class="section">
-
             <h1>Estado del ERP</h1>
-
-            <p>Flujo del sistema empresarial</p>
-
             <ul>
                 <li>CRM → Gestión de clientes</li>
-                <li>CSM → Atención y seguimiento</li>
+                <li>CSM → Atención</li>
                 <li>ERP → Gestión empresarial</li>
             </ul>
+        </div>
+
+    </div>
+
+    <!-- MODAL NUEVA ORDEN -->
+
+    <div id="modalOrden" class="modal">
+
+        <div class="modal-content">
+
+            <h2>Nueva Orden</h2>
+
+            <label>Cliente</label>
+            <select id="cliente">
+                <option>Laura Díaz</option>
+                <option>María Torres</option>
+                <option>Carlos Ruiz</option>
+            </select>
+
+            <label>Producto</label>
+            <select id="producto" onchange="calcularTotal()">
+                <option value="60">Honey Pop Original - $60</option>
+                <option value="70">Honey Pop Fresa - $70</option>
+                <option value="65">Honey Pop Mango - $65</option>
+            </select>
+
+            <label>Cantidad</label>
+            <input type="number" id="cantidad" value="1" onchange="calcularTotal()">
+
+            <h3>Total: $<span id="total">60</span></h3>
+
+            <button onclick="guardarOrden()">Guardar</button>
+            <button onclick="cerrarModal()">Cancelar</button>
 
         </div>
 
@@ -346,17 +403,90 @@
 
     <script>
 
-        function showSection(id) {
+        /* CAMBIO SECCIONES */
 
+        function showSection(id) {
             document.querySelectorAll(".section").forEach(sec => {
                 sec.classList.remove("active");
             })
-
             document.getElementById(id).classList.add("active")
+        }
+
+        /* MODAL */
+
+        function abrirModal() {
+            document.getElementById("modalOrden").style.display = "flex"
+        }
+
+        function cerrarModal() {
+            document.getElementById("modalOrden").style.display = "none"
+        }
+
+        /* CALCULO TOTAL */
+
+        function calcularTotal() {
+
+            let precio = document.getElementById("producto").value
+            let cantidad = document.getElementById("cantidad").value
+
+            let total = precio * cantidad
+
+            document.getElementById("total").innerText = total
 
         }
 
-        /* GRAFICA VENTAS */
+        /* GUARDAR ORDEN */
+
+        function guardarOrden() {
+
+            let cliente = document.getElementById("cliente").value
+            let productoTexto = document.getElementById("producto")
+            let producto = productoTexto.options[productoTexto.selectedIndex].text
+            let cantidad = document.getElementById("cantidad").value
+            let total = document.getElementById("total").innerText
+
+            let fecha = new Date().toLocaleDateString()
+
+            let tabla = document.getElementById("tablaOrdenes")
+
+            let fila = tabla.insertRow()
+
+            fila.innerHTML = `
+<td>${tabla.rows.length - 1}</td>
+<td>${cliente}</td>
+<td>${producto}</td>
+<td>${cantidad}</td>
+<td>${fecha}</td>
+<td>$${total}</td>
+<td>
+<button class="editar">Editar</button>
+<button class="eliminar" onclick="eliminarFila(this)">Eliminar</button>
+</td>
+`
+
+            cerrarModal()
+
+        }
+
+        /* ELIMINAR */
+
+        function eliminarFila(btn) {
+
+            btn.parentElement.parentElement.remove()
+
+        }
+
+        /* LOGOUT */
+
+        function logout() {
+
+            if (confirm("¿Deseas cerrar sesión?")) {
+                window.location.href = "login.html";
+            }
+
+        }
+
+        /* GRAFICA */
 
         new Chart(document.getElementById("ventas"), {
 
@@ -364,7 +494,6 @@
 
             data: {
                 labels: ["Sep", "Oct", "Nov", "Dic", "Ene", "Feb"],
-
                 datasets: [{
                     label: "Ventas",
                     data: [180000, 210000, 195000, 240000, 220000, 260000],
@@ -374,30 +503,8 @@
 
         })
 
-        /* GRAFICA CATEGORIAS */
-
-        new Chart(document.getElementById("categorias"), {
-
-            type: "doughnut",
-
-            data: {
-                labels: ["Bebidas", "Dulces", "Snacks", "Otros"],
-
-                datasets: [{
-                    data: [40, 25, 20, 15],
-                    backgroundColor: [
-                        "#ff5fa2",
-                        "#ff914d",
-                        "#ffc857",
-                        "#ff7eb3"
-                    ]
-                }]
-            }
-
-        })
-
     </script>
 
 </body>
 
-</html>
+</html>x
