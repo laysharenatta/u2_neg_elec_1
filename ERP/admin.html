@@ -43,19 +43,29 @@
             margin: 6px 0;
             border-radius: 8px;
             cursor: pointer;
-            transition: 0.3s;
         }
 
         .menu div:hover {
             background: rgba(255, 255, 255, 0.2);
         }
 
-        /* PANEL */
+        /* MAIN */
 
         .main {
             flex: 1;
             padding: 30px;
             overflow: auto;
+            position: relative;
+        }
+
+        /* SECCIONES */
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
         }
 
         /* TARJETAS */
@@ -71,7 +81,6 @@
             background: rgba(255, 255, 255, 0.15);
             padding: 20px;
             border-radius: 12px;
-            backdrop-filter: blur(10px);
         }
 
         /* TABLAS */
@@ -96,16 +105,6 @@
             background: rgba(255, 255, 255, 0.1);
         }
 
-        /* SECCIONES */
-
-        .section {
-            display: none;
-        }
-
-        .section.active {
-            display: block;
-        }
-
         /* BOTONES */
 
         button {
@@ -121,24 +120,31 @@
             margin-top: 10px;
         }
 
-        .editar {
-            background: #ffc857;
-        }
-
         .eliminar {
             background: #ff4d4d;
             color: white;
         }
 
-        /* LOGOUT */
+        /* CLIENTES */
 
-        .logout-btn {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            background: #ff0000;
-            color: white;
-            font-weight: bold;
+        #buscador {
+            width: 100%;
+            padding: 10px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border: none;
+        }
+
+        .clientes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .cliente-card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 12px;
         }
 
         /* MODAL */
@@ -163,14 +169,23 @@
             width: 300px;
         }
 
-        .modal-content input,
-        .modal-content select {
+        .modal-content input {
             width: 100%;
             padding: 8px;
             margin: 8px 0;
         }
-    </style>
 
+        /* LOGOUT */
+
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: red;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
@@ -180,7 +195,6 @@
         <div class="logo">🍯 Honey Pop ERP</div>
 
         <div class="menu">
-
             <div onclick="showSection('dashboard')">Dashboard</div>
             <div onclick="showSection('ordenes')">Órdenes</div>
             <div onclick="showSection('clientes')">Clientes</div>
@@ -188,14 +202,13 @@
             <div onclick="showSection('procesos')">Procesos</div>
             <div onclick="showSection('recursos')">Recursos</div>
             <div onclick="showSection('erp')">Estado ERP</div>
-
-            <button class="logout-btn" onclick="logout()">Cerrar sesión</button>
-
         </div>
 
     </div>
 
     <div class="main">
+
+        <button class="logout-btn" onclick="logout()">Cerrar sesión</button>
 
         <!-- DASHBOARD -->
 
@@ -212,12 +225,12 @@
 
                 <div class="card">
                     <h3>Órdenes</h3>
-                    <p id="totalOrdenes">2</p>
+                    <p>2</p>
                 </div>
 
                 <div class="card">
-                    <h3>Clientes Activos</h3>
-                    <p>9</p>
+                    <h3>Clientes</h3>
+                    <p id="totalClientes">0</p>
                 </div>
 
                 <div class="card">
@@ -237,66 +250,39 @@
 
             <h1>Órdenes</h1>
 
-            <button class="nuevaOrden" onclick="abrirModal()">Nueva Orden</button>
-
-            <table id="tablaOrdenes">
+            <table>
 
                 <tr>
                     <th>ID</th>
                     <th>Cliente</th>
                     <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Fecha</th>
-                    <th>Total</th>
-                    <th>Acciones</th>
+                    <th>Estado</th>
                 </tr>
 
                 <tr>
                     <td>001</td>
                     <td>Laura Díaz</td>
                     <td>Honey Pop Original</td>
-                    <td>2</td>
-                    <td>10/03/2026</td>
-                    <td>$120</td>
-
-                    <td>
-                        <button class="editar">Editar</button>
-                        <button class="eliminar" onclick="eliminarFila(this)">Eliminar</button>
-                    </td>
-
+                    <td>Pendiente</td>
                 </tr>
 
             </table>
 
         </div>
 
-        <!-- CLIENTES -->
+        <!-- CLIENTES (BD) -->
 
         <div id="clientes" class="section">
 
             <h1>Clientes</h1>
 
-            <table>
+            <input type="text" id="buscador" placeholder="Buscar cliente..." onkeyup="filtrarClientes()">
 
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Email</th>
-                </tr>
+            <button class="nuevaOrden" onclick="abrirCliente()">+ Nuevo Cliente</button>
 
-                <tr>
-                    <td>1</td>
-                    <td>María Torres</td>
-                    <td>maria@email.com</td>
-                </tr>
+            <p>Total clientes: <span id="totalClientes">0</span></p>
 
-                <tr>
-                    <td>2</td>
-                    <td>Carlos Ruiz</td>
-                    <td>carlos@email.com</td>
-                </tr>
-
-            </table>
+            <div class="clientes-grid" id="contenedorClientes"></div>
 
         </div>
 
@@ -307,7 +293,6 @@
             <h1>Inventario</h1>
 
             <table>
-
                 <tr>
                     <th>ID</th>
                     <th>Producto</th>
@@ -325,7 +310,6 @@
                     <td>Honey Pop Fresa</td>
                     <td>52</td>
                 </tr>
-
             </table>
 
         </div>
@@ -333,165 +317,158 @@
         <!-- PROCESOS -->
 
         <div id="procesos" class="section">
+
             <h1>Procesos Empresariales</h1>
+
             <ul>
                 <li>Recepción de pedidos</li>
                 <li>Validación de pago</li>
                 <li>Preparación de productos</li>
                 <li>Distribución logística</li>
             </ul>
+
         </div>
 
         <!-- RECURSOS -->
 
         <div id="recursos" class="section">
+
             <h1>Recursos</h1>
+
             <ul>
                 <li>Equipo de ventas</li>
                 <li>Sistema CRM</li>
                 <li>Inventario</li>
                 <li>Transporte</li>
             </ul>
+
         </div>
 
         <!-- ERP -->
 
         <div id="erp" class="section">
+
             <h1>Estado del ERP</h1>
+
             <ul>
                 <li>CRM → Gestión de clientes</li>
                 <li>CSM → Atención</li>
                 <li>ERP → Gestión empresarial</li>
             </ul>
+
         </div>
 
     </div>
 
-    <!-- MODAL NUEVA ORDEN -->
+    <!-- MODAL CLIENTE -->
 
-    <div id="modalOrden" class="modal">
-
+    <div id="modalCliente" class="modal">
         <div class="modal-content">
 
-            <h2>Nueva Orden</h2>
+            <h2>Nuevo Cliente</h2>
 
-            <label>Cliente</label>
-            <select id="cliente">
-                <option>Laura Díaz</option>
-                <option>María Torres</option>
-                <option>Carlos Ruiz</option>
-            </select>
+            <input type="text" id="nombreCliente" placeholder="Nombre">
+            <input type="email" id="emailCliente" placeholder="Email">
 
-            <label>Producto</label>
-            <select id="producto" onchange="calcularTotal()">
-                <option value="60">Honey Pop Original - $60</option>
-                <option value="70">Honey Pop Fresa - $70</option>
-                <option value="65">Honey Pop Mango - $65</option>
-            </select>
-
-            <label>Cantidad</label>
-            <input type="number" id="cantidad" value="1" onchange="calcularTotal()">
-
-            <h3>Total: $<span id="total">60</span></h3>
-
-            <button onclick="guardarOrden()">Guardar</button>
-            <button onclick="cerrarModal()">Cancelar</button>
+            <button onclick="guardarCliente()">Guardar</button>
+            <button onclick="cerrarCliente()">Cancelar</button>
 
         </div>
-
     </div>
 
     <script>
 
-        /* CAMBIO SECCIONES */
+        /* NAV */
 
         function showSection(id) {
-            document.querySelectorAll(".section").forEach(sec => {
-                sec.classList.remove("active");
-            })
+            document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"))
             document.getElementById(id).classList.add("active")
         }
 
-        /* MODAL */
+        /* CLIENTES BD */
 
-        function abrirModal() {
-            document.getElementById("modalOrden").style.display = "flex"
+        function abrirCliente() {
+            document.getElementById("modalCliente").style.display = "flex"
         }
 
-        function cerrarModal() {
-            document.getElementById("modalOrden").style.display = "none"
+        function cerrarCliente() {
+            document.getElementById("modalCliente").style.display = "none"
         }
 
-        /* CALCULO TOTAL */
+        function guardarCliente() {
 
-        function calcularTotal() {
+            let nombre = document.getElementById("nombreCliente").value
+            let email = document.getElementById("emailCliente").value
 
-            let precio = document.getElementById("producto").value
-            let cantidad = document.getElementById("cantidad").value
+            fetch("guardar_cliente.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: `nombre=${nombre}&email=${email}`
+            })
+                .then(res => res.text())
+                .then(respuesta => {
 
-            let total = precio * cantidad
+                    if (respuesta == "ok") {
+                        cargarClientes()
+                        cerrarCliente()
+                    } else {
+                        alert("Error al guardar")
+                    }
 
-            document.getElementById("total").innerText = total
+                })
 
         }
 
-        /* GUARDAR ORDEN */
+        function cargarClientes() {
 
-        function guardarOrden() {
+            fetch("obtener_clientes.php")
+                .then(res => res.json())
+                .then(clientes => {
 
-            let cliente = document.getElementById("cliente").value
-            let productoTexto = document.getElementById("producto")
-            let producto = productoTexto.options[productoTexto.selectedIndex].text
-            let cantidad = document.getElementById("cantidad").value
-            let total = document.getElementById("total").innerText
+                    let contenedor = document.getElementById("contenedorClientes")
+                    contenedor.innerHTML = ""
 
-            let fecha = new Date().toLocaleDateString()
+                    clientes.forEach(c => {
 
-            let tabla = document.getElementById("tablaOrdenes")
+                        let card = document.createElement("div")
+                        card.className = "cliente-card"
 
-            let fila = tabla.insertRow()
-
-            fila.innerHTML = `
-<td>${tabla.rows.length - 1}</td>
-<td>${cliente}</td>
-<td>${producto}</td>
-<td>${cantidad}</td>
-<td>${fecha}</td>
-<td>$${total}</td>
-<td>
-<button class="editar">Editar</button>
-<button class="eliminar" onclick="eliminarFila(this)">Eliminar</button>
-</td>
+                        card.innerHTML = `
+<h3>${c.nombre}</h3>
+<p>📧 ${c.email}</p>
 `
 
-            cerrarModal()
+                        contenedor.appendChild(card)
+
+                    })
+
+                    document.getElementById("totalClientes").innerText = clientes.length
+
+                })
 
         }
 
-        /* ELIMINAR */
-
-        function eliminarFila(btn) {
-
-            btn.parentElement.parentElement.remove()
-
+        function filtrarClientes() {
+            let input = document.getElementById("buscador").value.toLowerCase()
+            document.querySelectorAll(".cliente-card").forEach(card => {
+                card.style.display = card.innerText.toLowerCase().includes(input) ? "block" : "none"
+            })
         }
 
         /* LOGOUT */
 
         function logout() {
-
-            if (confirm("¿Deseas cerrar sesión?")) {
-                window.location.href = "login.html";
+            if (confirm("¿Cerrar sesión?")) {
+                window.location.href = "login.html"
             }
-
         }
 
-        /* GRAFICA */
+        /* CHART */
 
         new Chart(document.getElementById("ventas"), {
-
             type: "bar",
-
             data: {
                 labels: ["Sep", "Oct", "Nov", "Dic", "Ene", "Feb"],
                 datasets: [{
@@ -500,11 +477,16 @@
                     backgroundColor: "#ff5fa2"
                 }]
             }
-
         })
+
+        /* CARGA CLIENTES */
+
+        window.onload = function () {
+            cargarClientes()
+        }
 
     </script>
 
 </body>
 
-</html>x
+</html>
