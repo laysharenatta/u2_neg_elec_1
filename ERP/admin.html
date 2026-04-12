@@ -376,117 +376,140 @@
         </div>
     </div>
 
-    <script>
+ <script>
 
-        /* NAV */
+function showSection(id) {
+    document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"))
+    document.getElementById(id).classList.add("active")
+}
 
-        function showSection(id) {
-            document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"))
-            document.getElementById(id).classList.add("active")
-        }
+/* MODAL */
 
-        /* CLIENTES BD */
+function abrirCliente() {
+    document.getElementById("modalCliente").style.display = "flex"
+}
 
-        function abrirCliente() {
-            document.getElementById("modalCliente").style.display = "flex"
-        }
+function cerrarCliente() {
+    document.getElementById("modalCliente").style.display = "none"
+}
 
-        function cerrarCliente() {
-            document.getElementById("modalCliente").style.display = "none"
-        }
+/* GUARDAR CLIENTE */
 
-        function guardarCliente() {
+function guardarCliente() {
 
-            let nombre = document.getElementById("nombreCliente").value
-            let email = document.getElementById("emailCliente").value
+    let nombre = document.getElementById("nombreCliente").value
+    let email = document.getElementById("emailCliente").value
 
-            fetch("guardar_cliente.php", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                },
-                body: `nombre=${nombre}&email=${email}`
-            })
-                .then(res => res.text())
-                .then(respuesta => {
-
-                    if (respuesta == "ok") {
-                        cargarClientes()
-                        cerrarCliente()
-                    } else {
-                        alert("Error al guardar")
-                    }
-
-                })
-
-        }
-
-        function cargarClientes() {
-
-            fetch("obtener_clientes.php")
-                .then(res => res.json())
-                .then(clientes => {
-
-                    let contenedor = document.getElementById("contenedorClientes")
-                    contenedor.innerHTML = ""
-
-                    clientes.forEach(c => {
-
-                        let card = document.createElement("div")
-                        card.className = "cliente-card"
-
-                        card.innerHTML = `
-<h3>${c.nombre}</h3>
-<p>📧 ${c.email}</p>
-`
-
-                        contenedor.appendChild(card)
-
-                    })
-
-                    document.getElementById("totalClientes").innerText = clientes.length
-
-                })
-
-        }
-
-        function filtrarClientes() {
-            let input = document.getElementById("buscador").value.toLowerCase()
-            document.querySelectorAll(".cliente-card").forEach(card => {
-                card.style.display = card.innerText.toLowerCase().includes(input) ? "block" : "none"
-            })
-        }
-
-        /* LOGOUT */
-
-        function logout() {
-            if (confirm("¿Cerrar sesión?")) {
-                window.location.href = "login.html"
-            }
-        }
-
-        /* CHART */
-
-        new Chart(document.getElementById("ventas"), {
-            type: "bar",
-            data: {
-                labels: ["Sep", "Oct", "Nov", "Dic", "Ene", "Feb"],
-                datasets: [{
-                    label: "Ventas",
-                    data: [180000, 210000, 195000, 240000, 220000, 260000],
-                    backgroundColor: "#ff5fa2"
-                }]
-            }
+    fetch("http://127.0.0.1:8000/api/clients", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            name: nombre,
+            email: email
         })
+    })
+    .then(res => res.json())
+    .then(data => {
 
-        /* CARGA CLIENTES */
+        console.log(data)
 
-        window.onload = function () {
-            cargarClientes()
-        }
+        alert("Cliente guardado ✅")
 
-    </script>
+        cargarClientes()
+        cerrarCliente()
 
-</body>
+    })
+    .catch(error => {
+        console.error(error)
+        alert("Error al guardar ❌")
+    })
+}
 
-</html>
+/* CARGAR CLIENTES */
+
+function cargarClientes() {
+
+    fetch("http://127.0.0.1:8000/api/clients")
+        .then(res => res.json())
+        .then(clientes => {
+
+            let contenedor = document.getElementById("contenedorClientes")
+            contenedor.innerHTML = ""
+
+            clientes.forEach(c => {
+
+                let card = document.createElement("div")
+                card.className = "cliente-card"
+
+                card.innerHTML = `
+                    <h3>${c.nombre}</h3>
+                    <p>📧 ${c.correo}</p>
+                    <button onclick="eliminarCliente(${c.id})" style="background:red;color:white;margin-top:10px;">
+                        Eliminar
+                    </button>
+                `
+
+                contenedor.appendChild(card)
+
+            })
+
+            document.getElementById("totalClientes").innerText = clientes.length
+
+        })
+}
+
+/* ELIMINAR */
+
+function eliminarCliente(id) {
+
+    if (!confirm("¿Eliminar cliente?")) return
+
+    fetch(`http://127.0.0.1:8000/api/clients/${id}`, {
+        method: "DELETE"
+    })
+    .then(() => {
+        alert("Cliente eliminado 🗑️")
+        cargarClientes()
+    })
+}
+
+/* BUSCADOR */
+
+function filtrarClientes() {
+    let input = document.getElementById("buscador").value.toLowerCase()
+    document.querySelectorAll(".cliente-card").forEach(card => {
+        card.style.display = card.innerText.toLowerCase().includes(input) ? "block" : "none"
+    })
+}
+
+/* LOGOUT */
+
+function logout() {
+    if (confirm("¿Cerrar sesión?")) {
+        window.location.href = "login.html"
+    }
+}
+
+/* CHART */
+
+new Chart(document.getElementById("ventas"), {
+    type: "bar",
+    data: {
+        labels: ["Sep", "Oct", "Nov", "Dic", "Ene", "Feb"],
+        datasets: [{
+            label: "Ventas",
+            data: [180000, 210000, 195000, 240000, 220000, 260000],
+            backgroundColor: "#ff5fa2"
+        }]
+    }
+})
+
+/* INICIO */
+
+window.onload = function () {
+    cargarClientes()
+}
+
+</script>

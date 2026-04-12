@@ -447,38 +447,39 @@
 
 
   <script>
-    async function cargarProductos() {
-      try {
-        const res = await fetch("src/data/products.json");
-        const productos = await res.json();
-        const contenedor = document.getElementById("products-container");
+  async function cargarProductos() {
+    try {
+      const res = await fetch("http://127.0.0.1:8000/api/products");
+      const productos = await res.json();
+      const contenedor = document.getElementById("products-container");
 
-        productos.forEach(producto => {
-          const card = document.createElement("div");
-          card.className =
-            "bg-gray-900 text-white rounded-xl shadow-lg shadow-black overflow-hidden w-full max-w-md mx-auto transition transform hover:scale-105 duration-300 ease-in-out flex flex-col";
+      contenedor.innerHTML = ""; // limpiar antes
 
-          card.innerHTML = `
-            <img src="${producto.imagen}" alt="${producto.nombre}" class="w-full h-70 object-cover" loading="lazy">
-            <div class="p-4 flex flex-col gap-2 flex-1">
-              <h3 class="text-xl font-semibold text-pink-400">${producto.nombre}</h3>
-              <p class="text-lg font-light text-gray-300">${producto.descripcion}</p>
-              <p class="mt-2 text-[#F2884B] text-xl font-medium text-right">$${producto.precio}</p>
-              <button class="mt-4 bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors w-full">
-                Ver más
-              </button>
-            </div>
-          `;
+      productos.forEach(producto => {
+        const card = document.createElement("div");
+        card.className =
+          "bg-gray-900 text-white rounded-xl shadow-lg shadow-black overflow-hidden w-full max-w-md mx-auto transition transform hover:scale-105 duration-300 ease-in-out flex flex-col";
 
-          contenedor.appendChild(card);
-        });
-      } catch (error) {
-        console.error("Error al cargar productos:", error);
-      }
+        card.innerHTML = `
+          <div class="p-4 flex flex-col gap-2 flex-1">
+            <h3 class="text-xl font-semibold text-pink-400">${producto.name}</h3>
+            <p class="text-lg text-gray-300">${producto.email}</p>
+            <p class="text-sm text-gray-400">ID: ${producto.id}</p>
+          </div>
+        `;
+
+        contenedor.appendChild(card);
+      });
+
+      console.log("Datos cargados:", productos);
+
+    } catch (error) {
+      console.error("Error al cargar desde Laravel:", error);
     }
+  }
 
-    cargarProductos();
-  </script>
+  cargarProductos();
+</script>
 
   <script>
     document.querySelectorAll('.clickable-submenu > a').forEach(link => {
