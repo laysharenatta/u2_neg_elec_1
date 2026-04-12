@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honey Pop - Carrito</title>
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
+
 <body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
 
-  <!-- Header -->
   <header class="bg-pink-500 text-white py-4 shadow-md">
     <div class="container mx-auto flex justify-between items-center px-6">
       <h1 class="text-2xl font-bold">🛒 Carrito</h1>
@@ -16,7 +17,6 @@
     </div>
   </header>
 
-  <!-- Carrito -->
   <main class="flex-grow container mx-auto px-6 py-10">
     <h2 class="text-3xl font-semibold mb-6">Tus productos</h2>
 
@@ -31,72 +31,30 @@
             <th class="py-3 px-4 text-center">Acciones</th>
           </tr>
         </thead>
-        <tbody>
-          <!-- Producto 1 -->
-          <tr class="border-t">
-            <td class="py-3 px-4 flex items-center gap-3">
-              <img src="miniHokeisZoomed.webp" alt="Mini Hokeis" class="w-16 h-16 rounded-lg object-cover">
-              <span>Mini Hokeis</span>
-            </td>
-            <td class="py-3 px-4 text-center">
-              <div class="flex justify-center items-center gap-2">
-                <button class="bg-gray-200 px-2 py-1 rounded hover:bg-gray-300">–</button>
-                <span>2</span>
-                <button class="bg-gray-200 px-2 py-1 rounded hover:bg-gray-300">+</button>
-              </div>
-            </td>
-            <td class="py-3 px-4 text-right">$25.00</td>
-            <td class="py-3 px-4 text-right">$50.00</td>
-            <td class="py-3 px-4 text-center">
-              <button class="text-red-500 hover:text-red-700 font-semibold">Eliminar</button>
-            </td>
-          </tr>
-
-          <!-- Producto 2 -->
-          <tr class="border-t">
-            <td class="py-3 px-4 flex items-center gap-3">
-              <img src="fresasPop1.webp" alt="Fresas Pop" class="w-16 h-16 rounded-lg object-cover">
-              <span>Fresas Pop</span>
-            </td>
-            <td class="py-3 px-4 text-center">
-              <div class="flex justify-center items-center gap-2">
-                <button class="bg-gray-200 px-2 py-1 rounded hover:bg-gray-300">–</button>
-                <span>1</span>
-                <button class="bg-gray-200 px-2 py-1 rounded hover:bg-gray-300">+</button>
-              </div>
-            </td>
-            <td class="py-3 px-4 text-right">$30.00</td>
-            <td class="py-3 px-4 text-right">$30.00</td>
-            <td class="py-3 px-4 text-center">
-              <button class="text-red-500 hover:text-red-700 font-semibold">Eliminar</button>
-            </td>
-          </tr>
+        <tbody id="cartTableBody">
         </tbody>
       </table>
     </div>
 
-    <!-- Total -->
     <div class="mt-6 flex justify-end">
       <div class="bg-gray-100 p-6 rounded-lg shadow-md w-full sm:w-1/3">
         <div class="flex justify-between text-lg font-medium mb-2">
           <span>Subtotal:</span>
-          <span>$80.00</span>
+          <span id="cartSubtotal">$0.00</span>
         </div>
         <div class="flex justify-between text-xl font-bold text-pink-600">
           <span>Total:</span>
-          <span>$80.00</span>
+          <span id="cartTotalAmount">$0.00</span>
         </div>
-<a href="formpago.html">
-  <button class="mt-6 w-full bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg transition">
-    Proceder al pago
-  </button>
-</a>
-
+        <a href="formpago.html">
+          <button
+            class="mt-6 w-full bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg transition shadow-md">
+            Proceder al pago
+          </button>
+        </a>
       </div>
     </div>
   </main>
-
-  <!-- Footer -->
 
   <footer class="bg-gray-800 text-white py-4 px-2 mt-6">
     <div class="flex flex-col justify-center items-center gap-2">
@@ -109,40 +67,110 @@
       </p>
 
       <div class="flex gap-3 text-xs text-pink-300 mt-2">
-
-        <button onclick="openModal('avisoModal')" class="hover:underline hover:text-pink-400 transition">
-          Aviso de privacidad
-        </button>
+        <button class="hover:underline hover:text-pink-400 transition">Aviso de privacidad</button>
         <span>|</span>
-
-        <button onclick="openModal('terminosModal')" class="hover:underline hover:text-pink-400 transition">
-          Términos y condiciones
-        </button>
+        <button class="hover:underline hover:text-pink-400 transition">Términos y condiciones</button>
         <span>|</span>
-
-        <button onclick="openModal('politicaModal')" class="hover:underline hover:text-pink-400 transition">
-          Políticas de compra y venta
-        </button>
+        <button class="hover:underline hover:text-pink-400 transition">Políticas de compra y venta</button>
         <span>|</span>
-
-        <button onclick="openModal('cumplimientoModal')" class="hover:underline hover:text-pink-400 transition">
-          Cumplimiento legal
-        </button>
-
+        <button class="hover:underline hover:text-pink-400 transition">Cumplimiento legal</button>
       </div>
-
 
       <div class="mt-3 text-center text-xs text-gray-500 border-t border-gray-700 pt-2">
         © 2025 Honey Pop. Todos los derechos reservados.
       </div>
-
-
+    </div>
   </footer>
 
+  <script>
+    // Leemos la memoria del navegador. Si está vacía, usamos un arreglo vacío [].
+    let carrito = JSON.parse(localStorage.getItem('honeyPopCart')) || [];
 
-  
+    const cartTableBody = document.getElementById('cartTableBody');
+    const subtotalElement = document.getElementById('cartSubtotal');
+    const totalElement = document.getElementById('cartTotalAmount');
 
+    // Función principal para dibujar la tabla
+    function renderizarCarrito() {
+      cartTableBody.innerHTML = '';
+      let total = 0;
 
+      // Si no hay productos, mostrar mensaje
+      if (carrito.length === 0) {
+        cartTableBody.innerHTML = `
+          <tr>
+            <td colspan="5" class="py-10 text-center text-gray-500 text-xl font-semibold">
+              Tu carrito está vacío. <br>
+              <a href="index.html" class="text-pink-500 underline text-sm mt-2 inline-block">¡Agrega unos deliciosos postres!</a>
+            </td>
+          </tr>
+        `;
+        subtotalElement.innerText = '$0.00';
+        totalElement.innerText = '$0.00';
+        return;
+      }
+
+      // Si hay productos, dibujarlos uno por uno
+      carrito.forEach((item, index) => {
+        const subtotal = item.precio * item.cantidad;
+        total += subtotal;
+
+        // Por si algún producto viejo no se le guardó la imagen, ponemos una por defecto
+        const imgSrc = item.imagen ? item.imagen : 'honeypop.webp';
+
+        cartTableBody.innerHTML += `
+          <tr class="border-t hover:bg-gray-50 transition">
+            <td class="py-3 px-4 flex items-center gap-4">
+              <img src="${imgSrc}" alt="${item.nombre}" class="w-16 h-16 sm:w-20 sm:h-20 rounded-lg object-cover shadow-sm">
+              <span class="font-semibold text-lg">${item.nombre}</span>
+            </td>
+            <td class="py-3 px-4 text-center">
+              <div class="flex justify-center items-center gap-2">
+                <button onclick="cambiarCantidadCartPage(${index}, -1)" class="bg-gray-200 px-3 py-1 rounded-md hover:bg-gray-300 font-bold transition text-gray-700">–</button>
+                <span class="w-6 text-center font-bold">${item.cantidad}</span>
+                <button onclick="cambiarCantidadCartPage(${index}, 1)" class="bg-gray-200 px-3 py-1 rounded-md hover:bg-gray-300 font-bold transition text-gray-700">+</button>
+              </div>
+            </td>
+            <td class="py-3 px-4 text-right text-gray-600">$${item.precio.toFixed(2)}</td>
+            <td class="py-3 px-4 text-right font-bold text-[#F2884B] text-lg">$${subtotal.toFixed(2)}</td>
+            <td class="py-3 px-4 text-center">
+              <button onclick="eliminarProductoCartPage(${index})" class="text-red-500 hover:text-white hover:bg-red-500 p-2 rounded transition font-semibold">
+                Eliminar
+              </button>
+            </td>
+          </tr>
+        `;
+      });
+
+      // Actualizar los textos de total
+      subtotalElement.innerText = `$${total.toFixed(2)}`;
+      totalElement.innerText = `$${total.toFixed(2)}`;
+
+      // Actualizar la memoria cada vez que hay un cambio aquí también
+      localStorage.setItem('honeyPopCart', JSON.stringify(carrito));
+    }
+
+    // Funciones de botones + y -
+    function cambiarCantidadCartPage(index, delta) {
+      carrito[index].cantidad += delta;
+
+      // Si llega a cero, lo sacamos del carrito
+      if (carrito[index].cantidad <= 0) {
+        carrito.splice(index, 1);
+      }
+      renderizarCarrito(); // Redibujar
+    }
+
+    // Función del botón eliminar
+    function eliminarProductoCartPage(index) {
+      carrito.splice(index, 1);
+      renderizarCarrito(); // Redibujar
+    }
+
+    // Arrancamos la función apenas cargue la página
+    renderizarCarrito();
+  </script>
 
 </body>
+
 </html>

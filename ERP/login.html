@@ -66,12 +66,11 @@
 
     <div class="login-box">
 
-        <div class="logo">Honey Pop ERP</div>
+        <div class="logo">🍯 Honey Pop ERP</div>
 
         <h1>Iniciar Sesión</h1>
 
         <input type="text" id="usuario" placeholder="Usuario">
-
         <input type="password" id="password" placeholder="Contraseña">
 
         <select id="rol">
@@ -79,6 +78,7 @@
             <option value="admin">Administrador</option>
             <option value="vendedor">Vendedor</option>
             <option value="logistica">Logística</option>
+            <option value="cliente">Cliente</option> <!-- 🔥 NUEVO -->
         </select>
 
         <button onclick="login()">Entrar</button>
@@ -89,22 +89,31 @@
 
         function login() {
 
+            let usuario = document.getElementById("usuario").value.trim();
+            let password = document.getElementById("password").value.trim();
             let rol = document.getElementById("rol").value;
+
+            if (usuario === "" || password === "") {
+                alert("Completa usuario y contraseña");
+                return;
+            }
+
+            if (rol === "") {
+                alert("Selecciona un rol");
+                return;
+            }
 
             if (rol === "admin") {
                 window.location.href = "admin.html";
             }
-
             else if (rol === "vendedor") {
                 window.location.href = "vendedor.html";
             }
-
             else if (rol === "logistica") {
                 window.location.href = "logistica.html";
             }
-
-            else {
-                alert("Selecciona un rol");
+            else if (rol === "cliente") {
+                window.location.href = "cliente.html"; // 🔥 NUEVO
             }
 
         }

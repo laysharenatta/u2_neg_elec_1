@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Honey Pop - Cliente</title>
+
+    <style>
+        body {
+            font-family: Segoe UI;
+            margin: 0;
+            background: linear-gradient(120deg, #ff5fa2, #ff914d);
+            color: white;
+        }
+
+        /* HEADER */
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        button {
+            background: #ff914d;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            color: white;
+        }
+
+        /* PRODUCTOS */
+
+        .productos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            transition: 0.2s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        /* MODAL CARRITO GRANDE */
+
+        .modal-carrito {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .carrito-contenido {
+            background: white;
+            color: black;
+            width: 600px;
+            /* 🔥 MÁS GRANDE */
+            height: 80%;
+            /* 🔥 MÁS ALTO */
+            padding: 25px;
+            border-radius: 18px;
+            display: flex;
+            flex-direction: column;
+            animation: aparecer 0.3s ease;
+        }
+
+        @keyframes aparecer {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* HEADER */
+
+        .carrito-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .carrito-header h3 {
+            font-size: 22px;
+        }
+
+        .carrito-header button {
+            background: red;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        #contador {
+            background: #ff5fa2;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+        }
+
+        /* LISTA */
+
+        .lista-carrito {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .item {
+            background: #f2f2f2;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 16px;
+        }
+
+        .item button {
+            background: red;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        /* FOOTER */
+
+        .carrito-footer {
+            margin-top: 10px;
+        }
+
+        .carrito-footer h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .btn-vaciar {
+            background: #999;
+            width: 100%;
+            margin-bottom: 8px;
+            padding: 10px;
+        }
+
+        .btn-comprar {
+            background: #ff914d;
+            color: white;
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h2>🍯 Honey Pop</h2>
+        <button onclick="toggleCarrito()">🛒 Ver carrito</button>
+    </header>
+
+    <div class="productos" id="productos"></div>
+
+    <!-- CARRITO MODAL GRANDE -->
+
+    <div class="modal-carrito" id="modalCarrito">
+
+        <div class="carrito-contenido">
+
+            <div class="carrito-header">
+                <h3>🛒 Carrito de compras</h3>
+                <span id="contador">0</span>
+                <button onclick="toggleCarrito()">✖</button>
+            </div>
+
+            <div id="listaCarrito" class="lista-carrito"></div>
+
+            <div class="carrito-footer">
+                <h3>Total: $<span id="total">0</span></h3>
+
+                <button class="btn-vaciar" onclick="vaciarCarrito()">Vaciar carrito</button>
+                <button class="btn-comprar" onclick="comprar()">Comprar</button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        /* PRODUCTOS */
+
+        let productos = [
+            { id: 1, nombre: "Honey Pop Original", precio: 50 },
+            { id: 2, nombre: "Honey Pop Fresa", precio: 55 },
+            { id: 3, nombre: "Honey Pop Mango", precio: 60 },
+            { id: 4, nombre: "Honey Pop Piña", precio: 58 }
+        ]
+
+        let carrito = []
+
+        /* MOSTRAR PRODUCTOS */
+
+        function cargarProductos() {
+
+            let cont = document.getElementById("productos")
+
+            productos.forEach(p => {
+
+                let card = document.createElement("div")
+                card.className = "card"
+
+                card.innerHTML = `
+<h3>${p.nombre}</h3>
+<p>$${p.precio}</p>
+<button onclick="agregar(${p.id})">Agregar al carrito</button>
+`
+
+                cont.appendChild(card)
+
+            })
+
+        }
+
+        /* MODAL */
+
+        function toggleCarrito() {
+
+            let modal = document.getElementById("modalCarrito")
+
+            modal.style.display = modal.style.display === "flex" ? "none" : "flex"
+
+        }
+
+        window.onclick = function (e) {
+            let modal = document.getElementById("modalCarrito")
+            if (e.target === modal) {
+                modal.style.display = "none"
+            }
+        }
+
+        /* CARRITO */
+
+        function agregar(id) {
+
+            let producto = productos.find(p => p.id === id)
+            carrito.push(producto)
+
+            renderCarrito()
+
+        }
+
+        function eliminar(index) {
+            carrito.splice(index, 1)
+            renderCarrito()
+        }
+
+        function vaciarCarrito() {
+            carrito = []
+            renderCarrito()
+        }
+
+        function renderCarrito() {
+
+            let lista = document.getElementById("listaCarrito")
+            lista.innerHTML = ""
+
+            let total = 0
+
+            carrito.forEach((p, i) => {
+
+                total += p.precio
+
+                lista.innerHTML += `
+<div class="item">
+<span>${p.nombre} - $${p.precio}</span>
+<button onclick="eliminar(${i})">Eliminar</button>
+</div>
+`
+
+            })
+
+            document.getElementById("total").innerText = total
+            document.getElementById("contador").innerText = carrito.length
+
+        }
+
+        /* COMPRAR */
+
+        function comprar() {
+
+            if (carrito.length === 0) {
+                alert("Carrito vacío")
+                return
+            }
+
+            alert("Compra realizada 🛍️")
+
+            carrito = []
+            renderCarrito()
+
+        }
+
+        cargarProductos()
+
+    </script>
+
+</body>
+
+</html>
