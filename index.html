@@ -478,10 +478,18 @@
 
   cargarProductos();
 
-  // ----- COOKIES -----
-  function showCookieBanner() {
+ // Mostrar solo si no ha aceptado antes
+function showCookieBanner() {
+  if (!localStorage.getItem('cookiesAceptadas')) {
     document.getElementById('cookieBanner').classList.remove('hidden');
   }
+}
 
-  document.addEventListener('DOMContentLoaded', showCookieBanner);
-</script>
+// Botón aceptar
+document.getElementById('acceptCookies').addEventListener('click', () => {
+  localStorage.setItem('cookiesAceptadas', 'true');
+  document.getElementById('cookieBanner').classList.add('hidden');
+});
+
+// Ejecutar al cargar
+document.addEventListener('DOMContentLoaded', showCookieBanner);
