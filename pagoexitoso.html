@@ -4,68 +4,163 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pago Exitoso</title>
+  <title>Pago Exitoso - Honey Pop</title>
+  <link rel="icon" href="/honeypop.webp" />
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
   <script>
-    // Generar número de pedido aleatorio simulado
+    // Generar número de pedido aleatorio simulado al cargar
     document.addEventListener("DOMContentLoaded", () => {
       const order = "HP-" + Math.floor(100000 + Math.random() * 900000);
       document.getElementById("orderNumber").textContent = order;
+      document.getElementById("trackOrderNumber").textContent = order; // Pone el mismo número en el modal
+
+      // Generar fechas simuladas para el seguimiento
+      const ahora = new Date();
+
+      // Formato: DD/MM/AA, HH:MM
+      const opciones = { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' };
+      document.getElementById("fecha1").textContent = ahora.toLocaleDateString('es-MX', opciones);
+
+      // Simular que pasaron 2 horas para el paso de "En almacén"
+      const enAlmacen = new Date(ahora.getTime() + (2 * 60 * 60 * 1000));
+      document.getElementById("fecha2").textContent = enAlmacen.toLocaleDateString('es-MX', opciones);
     });
+
+    // Funciones para abrir y cerrar la ventana de seguimiento
+    function abrirSeguimiento() {
+      document.getElementById('trackingModal').classList.remove('hidden');
+      document.body.classList.add('overflow-hidden'); // Evita que el fondo haga scroll
+    }
+
+    function cerrarSeguimiento() {
+      document.getElementById('trackingModal').classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    }
   </script>
 </head>
 
-<body class="bg-gradient-to-b from-[#F266B3] to-[#F2884B] min-h-screen flex items-center justify-center p-6">
+<body class="bg-gradient-to-b from-[#F266B3] to-[#F2884B] min-h-screen flex items-center justify-center p-6 relative">
 
-  <div class="bg-white p-10 rounded-3xl shadow-xl text-center max-w-md w-full">
+  <div class="bg-white p-10 rounded-3xl shadow-xl text-center max-w-md w-full z-10">
 
     <h1 class="text-3xl font-bold text-[#F266B3] mb-4">
       ¡Pago Exitoso! 🎉
     </h1>
 
-    <p class="text-gray-700 text-lg mb-4">
+    <p class="text-gray-700 text-sm sm:text-base mb-4">
       Gracias por tu compra. Tu pedido se ha procesado correctamente.
     </p>
 
-    <p class="text-gray-800 font-semibold text-xl mb-6">
-      Número de Pedido:  
+    <p class="text-gray-800 font-semibold text-lg sm:text-xl mb-6">
+      Número de Pedido:
       <span id="orderNumber" class="text-[#F266B3]"></span>
     </p>
 
-    <!-- Botones -->
     <div class="flex flex-col gap-3">
 
-     <button
-  class="bg-pink-500 text-white py-3 rounded-xl hover:bg-pink-600 transition font-semibold"
-  onclick="window.location.href='factura.html'">
-  Descargar Factura
-</button>
-
-
-     <button
-  class="bg-orange-400 text-white py-3 rounded-xl hover:bg-orange-500 transition font-semibold"
-  onclick="window.location.href='comprobante.html'">
-  Ver Comprobante
-</button>
-
-  <button
-  class="bg-orange-400 text-white py-3 rounded-xl hover:bg-orange-500 transition font-semibold"
-  onclick="window.location.href='certificacion.html'">
-  Certificación Digital
-</button>
+      <button
+        class="bg-[#F266B3] text-white py-3 rounded-xl hover:bg-pink-600 transition font-semibold shadow-md flex justify-center items-center gap-2 text-sm sm:text-base"
+        onclick="abrirSeguimiento()">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+        Seguimiento de envío
+      </button>
 
       <button
-        class="bg-gray-200 text-gray-600 py-3 rounded-xl hover:bg-gray-300 transition font-semibold"
+        class="bg-pink-400 text-white py-3 rounded-xl hover:bg-pink-500 transition font-semibold text-sm sm:text-base"
+        onclick="window.location.href='factura.html'">
+        Descargar Factura
+      </button>
+
+      <button
+        class="bg-[#F2884B] text-white py-3 rounded-xl hover:bg-orange-500 transition font-semibold text-sm sm:text-base"
+        onclick="window.location.href='comprobante.html'">
+        Ver Comprobante
+      </button>
+
+      <button
+        class="bg-[#F2884B] text-white py-3 rounded-xl hover:bg-orange-500 transition font-semibold text-sm sm:text-base"
+        onclick="window.location.href='certificacion.html'">
+        Certificación Digital
+      </button>
+
+      <button
+        class="bg-gray-100 text-gray-600 py-3 rounded-xl hover:bg-gray-200 transition font-semibold mt-2 text-sm sm:text-base"
         onclick="window.location.href='index.html'">
         Regresar al Inicio
       </button>
 
     </div>
-
   </div>
 
-  
+  <div id="trackingModal"
+    class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4 transition-opacity backdrop-blur-sm">
+    <div class="bg-white text-gray-800 p-8 rounded-3xl shadow-2xl max-w-md w-full relative border-2 border-pink-200">
+
+      <button onclick="cerrarSeguimiento()"
+        class="absolute top-5 right-5 text-gray-400 hover:text-pink-500 transition text-2xl leading-none">
+        &times;
+      </button>
+
+      <h2 class="text-lg font-bold mb-1 text-[#F266B3]">Mis compras y seguimiento</h2>
+      <p class="text-xs text-gray-500 mb-5">Consulta el estado de tu envío.</p>
+
+      <div class="bg-pink-50 p-4 rounded-lg mb-6 border border-pink-100">
+        <div class="flex items-center gap-2 mb-1">
+          <span class="text-[10px] sm:text-xs font-mono bg-[#F266B3] text-white px-2 py-1 rounded">PED-<span
+              id="trackOrderNumber"></span></span>
+          <span class="text-[10px] sm:text-xs bg-[#F2884B] text-white px-2 py-1 rounded font-medium shadow-sm">En
+            almacén</span>
+        </div>
+        <p class="text-[10px] sm:text-xs text-gray-500 mt-2">Guía: <span
+            class="font-mono font-bold text-gray-700">ENV-UDXEPAHM</span></p>
+      </div>
+
+      <div class="relative border-l-2 border-pink-300 ml-3 space-y-5">
+
+        <div class="relative pl-6">
+          <div class="absolute -left-[9px] top-1.5 w-4 h-4 bg-[#F266B3] rounded-full border-4 border-white shadow-sm">
+          </div>
+          <h3 class="font-semibold text-gray-800 text-xs sm:text-sm">Pedido confirmado</h3>
+          <p class="text-[10px] sm:text-xs text-gray-500">Pago aprobado</p>
+          <p class="text-[10px] sm:text-xs text-pink-500 mt-0.5 font-medium" id="fecha1"></p>
+        </div>
+
+        <div class="relative pl-6">
+          <div class="absolute -left-[9px] top-1.5 w-4 h-4 bg-[#F266B3] rounded-full border-4 border-white shadow-sm">
+          </div>
+          <h3 class="font-semibold text-gray-800 text-xs sm:text-sm">En almacén</h3>
+          <p class="text-[10px] sm:text-xs text-gray-500">Empacando tu pedido</p>
+          <p class="text-[10px] sm:text-xs text-pink-500 mt-0.5 font-medium" id="fecha2"></p>
+        </div>
+
+        <div class="relative pl-6">
+          <div class="absolute -left-[9px] top-1.5 w-4 h-4 bg-gray-300 rounded-full border-4 border-white"></div>
+          <h3 class="font-semibold text-gray-400 text-xs sm:text-sm">En ruta</h3>
+          <p class="text-[10px] sm:text-xs text-gray-400">Tu paquete va con el repartidor</p>
+        </div>
+
+        <div class="relative pl-6">
+          <div class="absolute -left-[9px] top-1.5 w-4 h-4 bg-gray-300 rounded-full border-4 border-white"></div>
+          <h3 class="font-semibold text-gray-400 text-xs sm:text-sm">Entrega estimada</h3>
+          <p class="text-[10px] sm:text-xs text-gray-400">Llegada a tu domicilio</p>
+          <p class="text-[10px] sm:text-xs text-gray-400 mt-0.5">Pendiente</p>
+        </div>
+
+      </div>
+
+      <button onclick="cerrarSeguimiento()"
+        class="w-full mt-6 bg-[#F266B3] hover:bg-pink-600 text-white font-semibold py-2 rounded-xl transition shadow-md text-sm sm:text-base">
+        Cerrar ventana
+      </button>
+    </div>
+  </div>
+
 </body>
 
 </html>

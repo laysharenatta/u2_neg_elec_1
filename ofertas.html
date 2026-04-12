@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Aprovecha las mejores promociones y descuentos en Honey Pop.">
+    <link rel="icon" href="/honeypop.webp" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Honey Pop - Ofertas Especiales</title>
+    <link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&family=Pacifico&display=swap"
+        rel="stylesheet" />
+    <style>
+        body {
+            font-family: Inter, system-ui, -apple-system, sans-serif;
+        }
+
+        .brand {
+            font-family: 'Pacifico', cursive;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 flex flex-col min-h-screen">
+
+    <div class="w-16 h-16 fixed bottom-4 right-4 z-60">
+        <a href="https://whatsapp.com" target="_blank">
+            <img src="whatsapp.png" alt="logo whats"
+                class="w-full h-full object-contain drop-shadow-lg hover:scale-110 transition">
+        </a>
+    </div>
+
+    <header class="bg-[#F266B3] text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="flex items-center gap-2 hover:opacity-90 transition">
+                    <img src="/honeypop.webp" alt="Honey Pop"
+                        class="w-10 h-10 rounded-full object-cover shadow-sm bg-white" />
+                    <h1 class="text-xl brand">Honey Pop</h1>
+                </a>
+            </div>
+            <nav class="hidden md:flex items-center gap-6 font-medium text-sm">
+                <a href="index.html" class="hover:text-pink-200 transition">Inicio</a>
+                <a href="index.html#menu" class="hover:text-pink-200 transition">Menú</a>
+                <a href="ofertas.html" class="text-yellow-300 font-bold drop-shadow-sm">Ofertas</a>
+                <a href="index.html#ubicacion" class="hover:text-pink-200 transition">Ubicación</a>
+                <a href="index.html#contacto" class="hover:text-pink-200 transition">Contacto</a>
+            </nav>
+            <div class="flex items-center gap-4">
+                <a href="cart.html" class="relative hover:scale-110 transition flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 9h14l-2-9M10 21a1 1 0 100-2 1 1 0 000 2zm6 0a1 1 0 100-2 1 1 0 000 2z" />
+                    </svg>
+                </a>
+                <a href="login.html"
+                    class="bg-[#F2884B] text-white text-sm font-semibold px-4 py-1.5 rounded-full shadow hover:bg-[#e0763f] transition">
+                    Entrar
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-6xl mx-auto px-4 py-10 w-full">
+        <div class="text-center mb-10">
+            <h2 class="text-3xl sm:text-4xl font-bold text-pink-600 mb-2">Promociones Especiales 🔥</h2>
+            <p class="text-gray-600 text-sm sm:text-base">Aprovecha estos descuentos exclusivos. ¡Agrega tu oferta al
+                carrito antes de que terminen!</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <div
+                class="bg-white rounded-xl shadow-md border border-pink-100 overflow-hidden flex flex-col hover:shadow-lg transition">
+                <div class="relative h-48 bg-gray-200">
+                    <img src="/honeypop.webp" alt="Mini Hokeis" class="w-full h-full object-cover">
+                    <div
+                        class="absolute top-2 right-2 bg-yellow-400 text-yellow-900 text-xs font-bold px-2 py-1 rounded-md shadow">
+                        2x1
+                    </div>
+                </div>
+                <div class="p-5 flex flex-col flex-grow">
+                    <h3 class="text-lg font-bold text-gray-800">Promo 2x1 Mini Hokeis</h3>
+                    <p class="text-sm text-gray-500 mt-1 flex-grow">Lleva dos raciones de nuestros deliciosos Mini
+                        Hokeis por el precio de una. ¡Perfecto para compartir!</p>
+                    <div class="flex justify-between items-end mt-4">
+                        <div>
+                            <span class="text-xs text-gray-400 line-through block">$140.00</span>
+                            <span class="text-xl font-extrabold text-[#F2884B]">$70.00</span>
+                        </div>
+                        <button onclick="comprarOferta('Promo 2x1 Mini Hokeis', 70.00, '/honeypop.webp')"
+                            class="bg-pink-500 hover:bg-pink-600 text-white text-sm font-semibold py-2 px-4 rounded-lg shadow-md transition">
+                            ¡Lo quiero!
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="bg-white rounded-xl shadow-md border border-pink-100 overflow-hidden flex flex-col hover:shadow-lg transition">
+                <div class="relative h-48 bg-gray-200">
+                    <img src="/honeypop.webp" alt="Choco Fresas" class="w-full h-full object-cover">
+                    <div
+                        class="absolute top-2 right-2 bg-pink-500 text-white text-xs font-bold px-2 py-1 rounded-md shadow">
+                        Combo Especial
+                    </div>
+                </div>
+                <div class="p-5 flex flex-col flex-grow">
+                    <h3 class="text-lg font-bold text-gray-800">Combo 2 Choco Fresas</h3>
+                    <p class="text-sm text-gray-500 mt-1 flex-grow">Disfruta de dos deliciosos vasos de Choco Fresas con
+                        un descuento especial al llevarlos juntos.</p>
+                    <div class="flex justify-between items-end mt-4">
+                        <div>
+                            <span class="text-xs text-gray-400 line-through block">$160.00</span>
+                            <span class="text-xl font-extrabold text-[#F2884B]">$140.00</span>
+                        </div>
+                        <button onclick="comprarOferta('Combo 2 Choco Fresas', 140.00, '/honeypop.webp')"
+                            class="bg-pink-500 hover:bg-pink-600 text-white text-sm font-semibold py-2 px-4 rounded-lg shadow-md transition">
+                            ¡Lo quiero!
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="bg-white rounded-xl shadow-md border border-pink-100 overflow-hidden flex flex-col hover:shadow-lg transition">
+                <div class="relative h-48 bg-gray-200">
+                    <img src="/honeypop.webp" alt="Gommy Ice" class="w-full h-full object-cover">
+                    <div
+                        class="absolute top-2 right-2 bg-[#F2884B] text-white text-xs font-bold px-2 py-1 rounded-md shadow">
+                        -15% OFF
+                    </div>
+                </div>
+                <div class="p-5 flex flex-col flex-grow">
+                    <h3 class="text-lg font-bold text-gray-800">Gommy Ice (15% OFF)</h3>
+                    <p class="text-sm text-gray-500 mt-1 flex-grow">Refresca tu tarde con un descuento directo en
+                        nuestro popular Gommy Ice. Ideal para el calor.</p>
+                    <div class="flex justify-between items-end mt-4">
+                        <div>
+                            <span class="text-xs text-gray-400 line-through block">$55.00</span>
+                            <span class="text-xl font-extrabold text-[#F2884B]">$46.75</span>
+                        </div>
+                        <button onclick="comprarOferta('Gommy Ice (15% OFF)', 46.75, '/honeypop.webp')"
+                            class="bg-pink-500 hover:bg-pink-600 text-white text-sm font-semibold py-2 px-4 rounded-lg shadow-md transition">
+                            ¡Lo quiero!
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-6 mt-10">
+        <div class="flex flex-col justify-center items-center gap-3">
+            <img src="/honeypop.webp" alt="Honey Pop Logo" class="w-12 h-12 object-contain">
+            <p class="text-xs text-gray-300 text-center max-w-sm">
+                En Honey Pop creemos que cada bocado debe ser un momento feliz. ¡Gracias por endulzar tu día con
+                nosotros!
+            </p>
+            <div class="mt-2 text-center text-xs text-gray-500 border-t border-gray-700 pt-3 w-full max-w-md">
+                © 2025 Honey Pop. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Función que se encarga de guardar la oferta y redirigir
+        function comprarOferta(nombreOferta, precioOferta, imagenOferta) {
+            // 1. Leemos el carrito actual de la memoria (o creamos uno vacío)
+            let carrito = JSON.parse(localStorage.getItem('honeyPopCart')) || [];
+
+            // 2. Revisamos si esta oferta exacta ya está en el carrito
+            const itemExistente = carrito.find(item => item.nombre === nombreOferta);
+
+            if (itemExistente) {
+                // Si ya está, solo sumamos 1 a la cantidad
+                itemExistente.cantidad++;
+            } else {
+                // Si no está, lo agregamos como un producto nuevo
+                carrito.push({
+                    nombre: nombreOferta,
+                    precio: precioOferta,
+                    cantidad: 1,
+                    imagen: imagenOferta
+                });
+            }
+
+            // 3. Guardamos el carrito actualizado en la memoria
+            localStorage.setItem('honeyPopCart', JSON.stringify(carrito));
+
+            // 4. Redirigimos inmediatamente al carrito
+            window.location.href = 'cart.html';
+        }
+    </script>
+
+</body>
+
+</html>
