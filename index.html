@@ -384,7 +384,7 @@
     document.getElementById(id).classList.add("active")
 }
 
-/* MODAL */
+
 
 function abrirCliente() {
     document.getElementById("modalCliente").style.display = "flex"
@@ -394,7 +394,6 @@ function cerrarCliente() {
     document.getElementById("modalCliente").style.display = "none"
 }
 
-/* GUARDAR CLIENTE */
 
 function guardarCliente() {
 
@@ -428,7 +427,7 @@ function guardarCliente() {
     })
 }
 
-/* CARGAR CLIENTES */
+
 
 function cargarClientes() {
 
@@ -461,7 +460,7 @@ function cargarClientes() {
         })
 }
 
-/* ELIMINAR */
+
 
 function eliminarCliente(id) {
 
@@ -476,7 +475,7 @@ function eliminarCliente(id) {
     })
 }
 
-/* BUSCADOR */
+
 
 function filtrarClientes() {
     let input = document.getElementById("buscador").value.toLowerCase()
@@ -485,7 +484,7 @@ function filtrarClientes() {
     })
 }
 
-/* LOGOUT */
+
 
 function logout() {
     if (confirm("¿Cerrar sesión?")) {
@@ -493,7 +492,7 @@ function logout() {
     }
 }
 
-/* CHART */
+
 
 new Chart(document.getElementById("ventas"), {
     type: "bar",
@@ -507,15 +506,13 @@ new Chart(document.getElementById("ventas"), {
     }
 })
 
-/* INICIO */
+
 
 window.onload = function () {
     cargarClientes()
 }
 
-  // =========================
-  // CARRITO LOCAL (NO SE ROMPE)
-  // =========================
+  
   let carrito = JSON.parse(localStorage.getItem('honeyPopCart')) || [];
   let totalCarrito = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
 
@@ -545,9 +542,7 @@ window.onload = function () {
     }
   });
 
-  // =========================
-  // 🔥 NUEVO: AGREGAR AL CARRITO (BACKEND)
-  // =========================
+
   async function agregarAlCarrito(nombre, precio, imagen, producto_id) {
 
     // LOCAL (para UI)
@@ -602,9 +597,7 @@ window.onload = function () {
     localStorage.setItem('honeyPopCart', JSON.stringify(carrito));
   }
 
-  // =========================
-  // 🔥 CATÁLOGO DESDE BACKEND
-  // =========================
+ 
   async function cargarProductos() {
     try {
       const res = await fetch("http://127.0.0.1:8000/api/products");
@@ -641,9 +634,7 @@ window.onload = function () {
 
   cargarProductos();
 
-  // =========================
-  // 🔥 OBTENER CARRITO BACKEND
-  // =========================
+  
   async function obtenerCarrito() {
     try {
       const res = await fetch("http://127.0.0.1:8000/api/carrito/1");
@@ -658,9 +649,8 @@ window.onload = function () {
 
   obtenerCarrito();
 
-  // =========================
-  // 🔥 PAGOS (CHECKOUT)
-  // =========================
+  
+ 
  async function procesarPago() {
   try {
     const res = await fetch("http://127.0.0.1:8000/api/pagos/procesar", {
@@ -683,9 +673,7 @@ window.onload = function () {
   }
 }
 
-  // =========================
-  // COOKIES (LO DEJAMOS IGUAL)
-  // =========================
+  
   function showCookieBanner() {
     if (!localStorage.getItem('cookiesAceptadas')) {
       document.getElementById('cookieBanner').classList.remove('hidden');
