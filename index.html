@@ -661,32 +661,27 @@ window.onload = function () {
   // =========================
   // 🔥 PAGOS (CHECKOUT)
   // =========================
-  async function procesarPago() {
-    try {
-      const res = await fetch("http://127.0.0.1:8000/api/pagos/procesar", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          cliente_id: 1,
-          metodo_pago: "efectivo"
-        })
-      });
+ async function procesarPago() {
+  try {
+    const res = await fetch("http://127.0.0.1:8000/api/pagos/procesar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        cliente_id: 1,
+        carrito_id: 1
+      })
+    });
 
-      const data = await res.json();
-      console.log(data);
+    const data = await res.json();
+    console.log(data);
+    alert("Pago realizado correctamente");
 
-      alert("Compra realizada ✅");
-
-      carrito = [];
-      totalCarrito = 0;
-      actualizarCarritoUI();
-
-    } catch (error) {
-      console.error(error);
-    }
+  } catch (error) {
+    console.error(error);
   }
+}
 
   // =========================
   // COOKIES (LO DEJAMOS IGUAL)
