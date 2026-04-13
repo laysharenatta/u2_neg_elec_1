@@ -376,8 +376,146 @@
 
   
 
+
+
 <script>
-  // Recuperar carrito guardado al iniciar la página
+  function showSection(id) {
+    document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"))
+    document.getElementById(id).classList.add("active")
+}
+
+/* MODAL */
+
+function abrirCliente() {
+    document.getElementById("modalCliente").style.display = "flex"
+}
+
+function cerrarCliente() {
+    document.getElementById("modalCliente").style.display = "none"
+}
+
+/* GUARDAR CLIENTE */
+
+function guardarCliente() {
+
+    let nombre = document.getElementById("nombreCliente").value
+    let email = document.getElementById("emailCliente").value
+
+    fetch("http://127.0.0.1:8000/api/clients", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            name: nombre,
+            email: email
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+
+        console.log(data)
+
+        alert("Cliente guardado ✅")
+
+        cargarClientes()
+        cerrarCliente()
+
+    })
+    .catch(error => {
+        console.error(error)
+        alert("Error al guardar ❌")
+    })
+}
+
+/* CARGAR CLIENTES */
+
+function cargarClientes() {
+
+    fetch("http://127.0.0.1:8000/api/clients")
+        .then(res => res.json())
+        .then(clientes => {
+
+            let contenedor = document.getElementById("contenedorClientes")
+            contenedor.innerHTML = ""
+
+            clientes.forEach(c => {
+
+                let card = document.createElement("div")
+                card.className = "cliente-card"
+
+                card.innerHTML = `
+                    <h3>${c.nombre}</h3>
+                    <p>📧 ${c.correo}</p>
+                    <button onclick="eliminarCliente(${c.id})" style="background:red;color:white;margin-top:10px;">
+                        Eliminar
+                    </button>
+                `
+
+                contenedor.appendChild(card)
+
+            })
+
+            document.getElementById("totalClientes").innerText = clientes.length
+
+        })
+}
+
+/* ELIMINAR */
+
+function eliminarCliente(id) {
+
+    if (!confirm("¿Eliminar cliente?")) return
+
+    fetch(`http://127.0.0.1:8000/api/clients/${id}`, {
+        method: "DELETE"
+    })
+    .then(() => {
+        alert("Cliente eliminado 🗑️")
+        cargarClientes()
+    })
+}
+
+/* BUSCADOR */
+
+function filtrarClientes() {
+    let input = document.getElementById("buscador").value.toLowerCase()
+    document.querySelectorAll(".cliente-card").forEach(card => {
+        card.style.display = card.innerText.toLowerCase().includes(input) ? "block" : "none"
+    })
+}
+
+/* LOGOUT */
+
+function logout() {
+    if (confirm("¿Cerrar sesión?")) {
+        window.location.href = "login.html"
+    }
+}
+
+/* CHART */
+
+new Chart(document.getElementById("ventas"), {
+    type: "bar",
+    data: {
+        labels: ["Sep", "Oct", "Nov", "Dic", "Ene", "Feb"],
+        datasets: [{
+            label: "Ventas",
+            data: [180000, 210000, 195000, 240000, 220000, 260000],
+            backgroundColor: "#ff5fa2"
+        }]
+    }
+})
+
+/* INICIO */
+
+window.onload = function () {
+    cargarClientes()
+}
+
+  // =========================
+  // CARRITO LOCAL (NO SE ROMPE)
+  // =========================
   let carrito = JSON.parse(localStorage.getItem('honeyPopCart')) || [];
   let totalCarrito = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
 
@@ -407,7 +545,12 @@
     }
   });
 
-  function agregarAlCarrito(nombre, precio, imagen) {
+  // =========================
+  // 🔥 NUEVO: AGREGAR AL CARRITO (BACKEND)
+  // =========================
+  async function agregarAlCarrito(nombre, precio, imagen, producto_id) {
+
+    // LOCAL (para UI)
     const itemExistente = carrito.find(item => item.nombre === nombre);
 
     if (itemExistente) {
@@ -418,6 +561,24 @@
 
     totalCarrito += parseFloat(precio);
     actualizarCarritoUI();
+
+    // BACKEND
+    try {
+      await fetch("http://127.0.0.1:8000/api/carrito/agregar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          cliente_id: 1,
+          producto_id: producto_id,
+          cantidad: 1,
+          precio_unitario: precio
+        })
+      });
+    } catch (error) {
+      console.error("Error backend carrito:", error);
+    }
   }
 
   function actualizarCarritoUI() {
@@ -426,13 +587,11 @@
     if (carrito.length === 0) {
       cartItemsContainer.innerHTML = '<li>Tu carrito está vacío</li>';
     } else {
-      carrito.forEach((item, index) => {
+      carrito.forEach((item) => {
         const precioTotalItem = (item.precio * item.cantidad).toFixed(2);
 
         cartItemsContainer.innerHTML += `
-          <li>
-            ${item.nombre} x${item.cantidad} - $${precioTotalItem}
-          </li>
+          <li>${item.nombre} x${item.cantidad} - $${precioTotalItem}</li>
         `;
       });
     }
@@ -443,7 +602,9 @@
     localStorage.setItem('honeyPopCart', JSON.stringify(carrito));
   }
 
-  // ----- CARGA DE PRODUCTOS (YA SIN CONFLICTO) -----
+  // =========================
+  // 🔥 CATÁLOGO DESDE BACKEND
+  // =========================
   async function cargarProductos() {
     try {
       const res = await fetch("http://127.0.0.1:8000/api/products");
@@ -455,15 +616,17 @@
       productos.forEach(producto => {
         const card = document.createElement("div");
 
-        card.className = "bg-gray-900 text-white rounded-xl shadow-lg overflow-hidden";
+        card.className = "bg-gray-900 text-white rounded-xl shadow-lg overflow-hidden p-4";
 
         card.innerHTML = `
-          <img src="${producto.imagen}" alt="${producto.nombre}">
-          <h3>${producto.nombre}</h3>
-          <p>${producto.descripcion}</p>
-          <p>$${producto.precio}</p>
+          <img src="${producto.imagen}" class="w-full h-40 object-cover rounded">
+          <h3 class="text-xl font-bold mt-2">${producto.nombre}</h3>
+          <p class="text-sm">${producto.descripcion}</p>
+          <p class="text-lg font-bold mt-2">$${producto.precio}</p>
 
-          <button onclick="agregarAlCarrito('${producto.nombre}', ${producto.precio}, '${producto.imagen}')">
+          <button 
+            onclick="agregarAlCarrito('${producto.nombre}', ${producto.precio}, '${producto.imagen}', ${producto.id})"
+            class="bg-pink-500 px-3 py-2 rounded mt-3 w-full hover:bg-pink-600">
             Agregar al carrito
           </button>
         `;
@@ -472,24 +635,72 @@
       });
 
     } catch (error) {
-      console.error(error);
+      console.error("Error productos:", error);
     }
   }
 
   cargarProductos();
 
- // Mostrar solo si no ha aceptado antes
-function showCookieBanner() {
-  if (!localStorage.getItem('cookiesAceptadas')) {
-    document.getElementById('cookieBanner').classList.remove('hidden');
+  // =========================
+  // 🔥 OBTENER CARRITO BACKEND
+  // =========================
+  async function obtenerCarrito() {
+    try {
+      const res = await fetch("http://127.0.0.1:8000/api/carrito/1");
+      const data = await res.json();
+
+      console.log("Carrito backend:", data);
+
+    } catch (error) {
+      console.error(error);
+    }
   }
-}
 
-// Botón aceptar
-document.getElementById('acceptCookies').addEventListener('click', () => {
-  localStorage.setItem('cookiesAceptadas', 'true');
-  document.getElementById('cookieBanner').classList.add('hidden');
-});
+  obtenerCarrito();
 
-// Ejecutar al cargar
-document.addEventListener('DOMContentLoaded', showCookieBanner);
+  // =========================
+  // 🔥 PAGOS (CHECKOUT)
+  // =========================
+  async function procesarPago() {
+    try {
+      const res = await fetch("http://127.0.0.1:8000/api/pagos/procesar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          cliente_id: 1,
+          metodo_pago: "efectivo"
+        })
+      });
+
+      const data = await res.json();
+      console.log(data);
+
+      alert("Compra realizada ✅");
+
+      carrito = [];
+      totalCarrito = 0;
+      actualizarCarritoUI();
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  // =========================
+  // COOKIES (LO DEJAMOS IGUAL)
+  // =========================
+  function showCookieBanner() {
+    if (!localStorage.getItem('cookiesAceptadas')) {
+      document.getElementById('cookieBanner').classList.remove('hidden');
+    }
+  }
+
+  document.getElementById('acceptCookies').addEventListener('click', () => {
+    localStorage.setItem('cookiesAceptadas', 'true');
+    document.getElementById('cookieBanner').classList.add('hidden');
+  });
+
+  document.addEventListener('DOMContentLoaded', showCookieBanner);
+</script>
