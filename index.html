@@ -475,10 +475,147 @@
     }
   </style>
 
-  <script>
-    // Recuperar carrito guardado al iniciar la página
-    let carrito = JSON.parse(localStorage.getItem('honeyPopCart')) || [];
-    let totalCarrito = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+  
+
+
+
+<script>
+  function showSection(id) {
+    document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"))
+    document.getElementById(id).classList.add("active")
+}
+
+
+
+function abrirCliente() {
+    document.getElementById("modalCliente").style.display = "flex"
+}
+
+function cerrarCliente() {
+    document.getElementById("modalCliente").style.display = "none"
+}
+
+
+function guardarCliente() {
+
+    let nombre = document.getElementById("nombreCliente").value
+    let email = document.getElementById("emailCliente").value
+
+    fetch("http://127.0.0.1:8000/api/clients", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            name: nombre,
+            email: email
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+
+        console.log(data)
+
+        alert("Cliente guardado ✅")
+
+        cargarClientes()
+        cerrarCliente()
+
+    })
+    .catch(error => {
+        console.error(error)
+        alert("Error al guardar ❌")
+    })
+}
+
+
+
+function cargarClientes() {
+
+    fetch("http://127.0.0.1:8000/api/clients")
+        .then(res => res.json())
+        .then(clientes => {
+
+            let contenedor = document.getElementById("contenedorClientes")
+            contenedor.innerHTML = ""
+
+            clientes.forEach(c => {
+
+                let card = document.createElement("div")
+                card.className = "cliente-card"
+
+                card.innerHTML = `
+                    <h3>${c.nombre}</h3>
+                    <p>📧 ${c.correo}</p>
+                    <button onclick="eliminarCliente(${c.id})" style="background:red;color:white;margin-top:10px;">
+                        Eliminar
+                    </button>
+                `
+
+                contenedor.appendChild(card)
+
+            })
+
+            document.getElementById("totalClientes").innerText = clientes.length
+
+        })
+}
+
+
+
+function eliminarCliente(id) {
+
+    if (!confirm("¿Eliminar cliente?")) return
+
+    fetch(`http://127.0.0.1:8000/api/clients/${id}`, {
+        method: "DELETE"
+    })
+    .then(() => {
+        alert("Cliente eliminado 🗑️")
+        cargarClientes()
+    })
+}
+
+
+
+function filtrarClientes() {
+    let input = document.getElementById("buscador").value.toLowerCase()
+    document.querySelectorAll(".cliente-card").forEach(card => {
+        card.style.display = card.innerText.toLowerCase().includes(input) ? "block" : "none"
+    })
+}
+
+
+
+function logout() {
+    if (confirm("¿Cerrar sesión?")) {
+        window.location.href = "login.html"
+    }
+}
+
+
+
+new Chart(document.getElementById("ventas"), {
+    type: "bar",
+    data: {
+        labels: ["Sep", "Oct", "Nov", "Dic", "Ene", "Feb"],
+        datasets: [{
+            label: "Ventas",
+            data: [180000, 210000, 195000, 240000, 220000, 260000],
+            backgroundColor: "#ff5fa2"
+        }]
+    }
+})
+
+
+
+window.onload = function () {
+    cargarClientes()
+}
+
+  
+  let carrito = JSON.parse(localStorage.getItem('honeyPopCart')) || [];
+  let totalCarrito = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
 
     const cartButton = document.getElementById('cartButton');
     const cartDropdown = document.getElementById('cartDropdown');
@@ -487,108 +624,71 @@
     const cartTotalElement = document.getElementById('cartTotal');
     const cartBadge = document.getElementById('cartBadge');
 
-    // Variable global para guardar todos los productos cargados
-    let todosLosProductos = [];
+  actualizarCarritoUI();
 
-    // Inicializar UI apenas cargue
-    actualizarCarritoUI();
+  cartDropdown.addEventListener('click', (event) => event.stopPropagation());
 
-    cartDropdown.addEventListener('click', (event) => {
-      event.stopPropagation();
-    });
+  cartButton.addEventListener('click', (event) => {
+    event.stopPropagation();
+    cartDropdown.classList.toggle('hidden');
+  });
 
-    cartButton.addEventListener('click', (event) => {
-      event.stopPropagation();
-      cartDropdown.classList.toggle('hidden');
-    });
+  closeCartBtn.addEventListener('click', () => {
+    cartDropdown.classList.add('hidden');
+  });
 
-    closeCartBtn.addEventListener('click', () => {
+  document.addEventListener('click', (event) => {
+    if (!cartButton.contains(event.target) && !cartDropdown.contains(event.target)) {
       cartDropdown.classList.add('hidden');
-    });
+    }
+  });
 
-    document.addEventListener('click', (event) => {
-      if (!cartButton.contains(event.target) && !cartDropdown.contains(event.target)) {
-        cartDropdown.classList.add('hidden');
-      }
-    });
-
+    // Se añadió el parámetro de 'imagen'
     function agregarAlCarrito(nombre, precio, imagen) {
       const itemExistente = carrito.find(item => item.nombre === nombre);
 
-      if (itemExistente) {
-        itemExistente.cantidad++;
-      } else {
-        carrito.push({ nombre: nombre, precio: parseFloat(precio), cantidad: 1, imagen: imagen });
-      }
-
-      totalCarrito += parseFloat(precio);
-      actualizarCarritoUI();
-
-      cartButton.classList.add('scale-110');
-      setTimeout(() => cartButton.classList.remove('scale-110'), 200);
+    if (itemExistente) {
+      itemExistente.cantidad++;
+    } else {
+      carrito.push({ nombre, precio: parseFloat(precio), cantidad: 1, imagen });
     }
 
-    function cambiarCantidad(event, index, delta) {
-      if (event) event.stopPropagation();
+    totalCarrito += parseFloat(precio);
+    actualizarCarritoUI();
 
-      const item = carrito[index];
-      item.cantidad += delta;
-      totalCarrito += (item.precio * delta);
-
-      if (item.cantidad <= 0) {
-        carrito.splice(index, 1);
-      }
-
-      actualizarCarritoUI();
+    // BACKEND
+    try {
+      await fetch("http://127.0.0.1:8000/api/carrito/agregar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          cliente_id: 1,
+          producto_id: producto_id,
+          cantidad: 1,
+          precio_unitario: precio
+        })
+      });
+    } catch (error) {
+      console.error("Error backend carrito:", error);
     }
+  }
 
-    function eliminarDelCarrito(event, index) {
-      if (event) event.stopPropagation();
+  function actualizarCarritoUI() {
+    cartItemsContainer.innerHTML = '';
 
-      const item = carrito[index];
-      totalCarrito -= (item.precio * item.cantidad);
-      carrito.splice(index, 1);
-      actualizarCarritoUI();
+    if (carrito.length === 0) {
+      cartItemsContainer.innerHTML = '<li>Tu carrito está vacío</li>';
+    } else {
+      carrito.forEach((item) => {
+        const precioTotalItem = (item.precio * item.cantidad).toFixed(2);
+
+        cartItemsContainer.innerHTML += `
+          <li>${item.nombre} x${item.cantidad} - $${precioTotalItem}</li>
+        `;
+      });
     }
-
-    // Actualiza la interfaz del carrito y guarda en localStorage
-    function actualizarCarritoUI() {
-      cartItemsContainer.innerHTML = '';
-
-      if (carrito.length === 0) {
-        cartItemsContainer.innerHTML = '<li class="text-center text-gray-500 py-10 text-xl">Tu carrito está vacío</li>';
-      } else {
-        carrito.forEach((item, index) => {
-          const precioTotalItem = (item.precio * item.cantidad).toFixed(2);
-
-          cartItemsContainer.innerHTML += `
-            <li class="flex justify-between items-center border-b border-gray-100 pb-4 mb-4">
-              
-              <div class="flex flex-col w-1/2 pr-4">
-                <span class="font-bold text-lg sm:text-xl truncate" title="${item.nombre}">${item.nombre}</span>
-                <span class="text-sm sm:text-base text-gray-400 mt-1">$${item.precio.toFixed(2)} c/u</span>
-              </div>
-              
-              <div class="flex items-center justify-end w-1/2 gap-3 sm:gap-4">
-                
-                <div class="flex items-center bg-gray-100 rounded-lg px-2 py-1 shadow-inner">
-                  <button onclick="cambiarCantidad(event, ${index}, -1)" class="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center text-gray-600 hover:text-pink-500 font-bold text-xl sm:text-2xl rounded-md hover:bg-gray-200 transition">-</button>
-                  <span class="w-8 sm:w-10 text-center text-lg sm:text-xl font-bold">${item.cantidad}</span>
-                  <button onclick="cambiarCantidad(event, ${index}, 1)" class="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center text-gray-600 hover:text-pink-500 font-bold text-xl sm:text-2xl rounded-md hover:bg-gray-200 transition">+</button>
-                </div>
-                
-                <span class="font-extrabold text-[#F2884B] w-20 sm:w-28 text-right text-lg sm:text-2xl">$${precioTotalItem}</span>
-                
-                <button onclick="eliminarDelCarrito(event, ${index})" class="text-red-400 hover:text-white hover:bg-red-500 p-2 sm:p-3 ml-2 sm:ml-4 bg-red-50 rounded-full transition shadow-md" title="Eliminar">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
-                  </svg>
-                </button>
-              </div>
-            </li>
-          `;
-        });
-      }
 
       cartTotalElement.innerText = `$${Math.abs(totalCarrito).toFixed(2)}`;
 
@@ -601,156 +701,95 @@
         cartBadge.classList.add('hidden');
       }
 
+      // LA MAGIA: Guardar todo en la memoria del navegador
       localStorage.setItem('honeyPopCart', JSON.stringify(carrito));
     }
 
-    // ----- FUNCIÓN PARA DIBUJAR LOS PRODUCTOS EN PANTALLA -----
-    function renderizarCatalogo(productosAMostrar) {
-      const contenedor = document.getElementById("products-container");
-      contenedor.innerHTML = ""; // Limpiar antes de dibujar
-
-      if (productosAMostrar.length === 0) {
-        // Mensaje si no se encuentra nada
-        contenedor.innerHTML = `
-          <div class="col-span-full text-center py-10">
-            <p class="text-white text-2xl font-semibold drop-shadow-md">No encontramos postres con esa búsqueda 🥺</p>
-            <p class="text-pink-200 mt-2">Intenta con otro ingrediente, nombre o precio.</p>
-          </div>
-        `;
-        return;
-      }
-
-      productosAMostrar.forEach(producto => {
-        const card = document.createElement("div");
-        card.className =
-          "bg-gray-900 text-white rounded-xl shadow-lg shadow-black overflow-hidden w-full max-w-md mx-auto transition transform hover:scale-105 duration-300 ease-in-out flex flex-col";
-
-        card.innerHTML = `
-          <img src="${producto.imagen}" alt="${producto.nombre}" class="w-full h-70 object-cover" loading="lazy">
-          <div class="p-4 flex flex-col gap-2 flex-1">
-            <h3 class="text-xl font-semibold text-pink-400">${producto.nombre}</h3>
-            <p class="text-lg font-light text-gray-300 flex-1">${producto.descripcion}</p>
-            <p class="mt-2 text-[#F2884B] text-xl font-medium text-right">$${producto.precio}</p>
-            
-            <button onclick="agregarAlCarrito('${producto.nombre}', ${producto.precio}, '${producto.imagen}')" 
-              class="mt-4 bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors w-full flex justify-center items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 9h14l-2-9M10 21a1 1 0 100-2 1 1 0 000 2zm6 0a1 1 0 100-2 1 1 0 000 2z" />
-              </svg>
-              Agregar al carrito
-            </button>
-          </div>
-        `;
-        contenedor.appendChild(card);
-      });
-    }
 
     // ----- CARGA DINÁMICA DE PRODUCTOS -----
     async function cargarProductos() {
       try {
         const res = await fetch("src/data/products.json");
-        todosLosProductos = await res.json(); 
-        renderizarCatalogo(todosLosProductos); 
+        const productos = await res.json();
+        const contenedor = document.getElementById("products-container");
+
+        productos.forEach(producto => {
+          const card = document.createElement("div");
+          card.className =
+            "bg-gray-900 text-white rounded-xl shadow-lg shadow-black overflow-hidden w-full max-w-md mx-auto transition transform hover:scale-105 duration-300 ease-in-out flex flex-col";
+
+          // AQUÍ TAMBIÉN MANDAMOS LA IMAGEN (producto.imagen) a la función agregarAlCarrito
+          card.innerHTML = `
+            <img src="${producto.imagen}" alt="${producto.nombre}" class="w-full h-70 object-cover" loading="lazy">
+            <div class="p-4 flex flex-col gap-2 flex-1">
+              <h3 class="text-xl font-semibold text-pink-400">${producto.nombre}</h3>
+              <p class="text-lg font-light text-gray-300 flex-1">${producto.descripcion}</p>
+              <p class="mt-2 text-[#F2884B] text-xl font-medium text-right">$${producto.precio}</p>
+              
+              <button onclick="agregarAlCarrito('${producto.nombre}', ${producto.precio}, '${producto.imagen}')" 
+                class="mt-4 bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors w-full flex justify-center items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 9h14l-2-9M10 21a1 1 0 100-2 1 1 0 000 2zm6 0a1 1 0 100-2 1 1 0 000 2z" />
+                </svg>
+                Agregar al carrito
+              </button>
+            </div>
+          `;
+
+          contenedor.appendChild(card);
+        });
       } catch (error) {
         console.error("Error al cargar productos:", error);
       }
     }
 
-    // ----- LÓGICA DE BÚSQUEDA Y FILTRO COMBINADA -----
-    const searchInput = document.getElementById('searchInput');
-    const filterSelect = document.getElementById('filterSelect');
-
-    function aplicarFiltros() {
-      const textoBusqueda = searchInput.value.toLowerCase();
-      const filtroSeleccionado = filterSelect.value;
-      
-      // 1. Filtrar por el texto ingresado en la barra de búsqueda
-      let resultados = todosLosProductos.filter(producto => {
-        const coincideNombre = producto.nombre.toLowerCase().includes(textoBusqueda);
-        const coincideDesc = producto.descripcion.toLowerCase().includes(textoBusqueda);
-        const coincidePrecio = producto.precio.toString().includes(textoBusqueda);
-        
-        return coincideNombre || coincideDesc || coincidePrecio;
-      });
-
-      // 2. Aplicar el filtro de categoría/precio seleccionado en el dropdown
-      if (filtroSeleccionado === 'menor70') {
-        resultados = resultados.filter(p => p.precio < 70);
-      } else if (filtroSeleccionado === 'mayor70') {
-        resultados = resultados.filter(p => p.precio >= 70);
-      }
-
-      // 3. Aplicar el ordenamiento si es seleccionado
-      if (filtroSeleccionado === 'asc') {
-        resultados.sort((a, b) => a.precio - b.precio);
-      } else if (filtroSeleccionado === 'desc') {
-        resultados.sort((a, b) => b.precio - a.precio);
-      }
-
-      // Redibujar el catálogo con los resultados finales
-      renderizarCatalogo(resultados);
-    }
-
-    // Detectar cuando el cliente escribe o cambia el menú desplegable
-    searchInput?.addEventListener('input', aplicarFiltros);
-    filterSelect?.addEventListener('change', aplicarFiltros);
-
-    // Iniciar carga
     cargarProductos();
+
 
     // ----- OTRAS FUNCIONES (Modales, Cookies y Submenús) -----
     function openModal(id) {
       document.getElementById(id).classList.remove('hidden');
       document.body.classList.add('overflow-hidden');
     }
-    function closeModal(id) {
-      document.getElementById(id).classList.add('hidden');
-      document.body.classList.remove('overflow-hidden');
-    }
+  }
 
-    const cookieBanner = document.getElementById('cookieBanner');
-    const cookieModalContent = document.getElementById('cookieModalContent');
+  obtenerCarrito();
 
-    function showCookieBanner() {
-      cookieBanner.classList.remove('hidden');
-      setTimeout(() => {
-        cookieModalContent.classList.remove('scale-95', 'opacity-0');
-        cookieModalContent.classList.add('scale-100', 'opacity-100');
-      }, 10);
-    }
-
-    function hideCookieBanner() {
-      cookieModalContent.classList.remove('scale-100', 'opacity-100');
-      cookieModalContent.classList.add('scale-95', 'opacity-0');
-      setTimeout(() => {
-        cookieBanner.classList.add('hidden');
-      }, 300);
-    }
-
-    document.getElementById('acceptCookies').addEventListener('click', hideCookieBanner);
-
-    document.addEventListener('DOMContentLoaded', showCookieBanner);
-
-    document.querySelectorAll('.clickable-submenu > a').forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        const submenu = link.nextElementSibling;
-        submenu.classList.toggle('opacity-100');
-        submenu.classList.toggle('visible');
-        submenu.classList.toggle('invisible');
-      });
+  
+ 
+ async function procesarPago() {
+  try {
+    const res = await fetch("http://127.0.0.1:8000/api/pagos/procesar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        cliente_id: 1,
+        carrito_id: 1
+      })
     });
 
-    document.addEventListener('click', e => {
-      document.querySelectorAll('.clickable-submenu .submenu').forEach(sm => {
-        if (!sm.contains(e.target) && !sm.previousElementSibling.contains(e.target)) {
-          sm.classList.remove('opacity-100', 'visible');
-          sm.classList.add('invisible');
-        }
-      });
-    });
-  </script>
+    const data = await res.json();
+    console.log(data);
+    alert("Pago realizado correctamente");
 
-</body>
+  } catch (error) {
+    console.error(error);
+  }
+}
 
-</html>
+  
+  function showCookieBanner() {
+    if (!localStorage.getItem('cookiesAceptadas')) {
+      document.getElementById('cookieBanner').classList.remove('hidden');
+    }
+  }
+
+  document.getElementById('acceptCookies').addEventListener('click', () => {
+    localStorage.setItem('cookiesAceptadas', 'true');
+    document.getElementById('cookieBanner').classList.add('hidden');
+  });
+
+  document.addEventListener('DOMContentLoaded', showCookieBanner);
+</script>
