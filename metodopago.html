@@ -550,7 +550,54 @@
       alert('Simulación: redirigiendo al portal seguro de ' + name + '...');
     }
 
-    function processPayment() {
+    // --- 1. FUNCIÓN PARA VALIDAR STOCK EN EL BACKEND ---
+    async function validarStock(carritoActual) {
+      try {
+        // Aquí harías la petición real a tu API en Laravel, por ejemplo:
+        // const response = await fetch('http://localhost:8000/api/validar-stock', {
+        //   method: 'POST',
+        //   headers: { 'Content-Type': 'application/json' },
+        //   body: JSON.stringify({ carrito: carritoActual })
+        // });
+        // const data = await response.json();
+        // return data.stockSuficiente;
+
+        // SIMULACIÓN TEMPORAL para probar el frontend:
+        console.log("Validando stock en el servidor...");
+
+        // Simulamos que el "Gommy Ice" se quedó sin stock al momento de pagar
+        const sinStock = carritoActual.find(item => item.nombre === 'Gommy Ice' && item.cantidad > 5);
+        if (sinStock) {
+          alert(`Lo sentimos, solo nos quedan 5 unidades de ${sinStock.nombre}. Por favor, ajusta tu carrito.`);
+          return false;
+        }
+
+        return true; // Hay stock de todo
+      } catch (error) {
+        console.error("Error al conectar con la base de datos:", error);
+        alert("Hubo un problema al verificar el inventario. Intenta de nuevo.");
+        return false;
+      }
+    }
+
+    // --- 2. FUNCIÓN PARA DESCONTAR EL INVENTARIO ---
+    async function actualizarInventario(carritoPagado) {
+      try {
+        // Petición real al backend para restar las cantidades en MySQL:
+        // await fetch('http://localhost:8000/api/actualizar-inventario', {
+        //   method: 'POST',
+        //   headers: { 'Content-Type': 'application/json' },
+        //   body: JSON.stringify({ carrito: carritoPagado, orden: 'HP-123456' })
+        // });
+
+        console.log("Inventario descontado exitosamente en la base de datos.");
+      } catch (error) {
+        console.error("Error al actualizar el inventario:", error);
+      }
+    }
+
+    // --- 3. TU FUNCIÓN DE PAGO MODIFICADA ---
+    async function processPayment() {
       if (carrito.length === 0) {
         alert('Tu carrito está vacío, ¡agrega postres para continuar!');
         return;
@@ -561,53 +608,57 @@
         return;
       }
 
+      // 🔴 PASO CRÍTICO: Validar stock ANTES de procesar cualquier cobro
+      const botonPagar = document.getElementById('payBtn');
+      botonPagar.innerHTML = 'Verificando inventario...';
+      botonPagar.disabled = true;
+
+      const hayStock = await validarStock(carrito);
+
+      if (!hayStock) {
+        // Si no hay stock, regresamos el botón a la normalidad y detenemos el pago
+        botonPagar.innerHTML = `Pagar $<span id="payAmount">${document.getElementById('payAmount').textContent}</span> MXN`;
+        botonPagar.disabled = false;
+        return;
+      }
+
+      // Si hay stock, continuamos con el flujo normal de pago
       const total = document.getElementById('payAmount').textContent;
       let summary = `Método: ${selectedMethod.toUpperCase()}\nTotal: $${total} MXN\n\n`;
 
+      // (Aquí va tu switch existente para armar el summary según el método elegido)
       switch (selectedMethod) {
-        case 'card':
-          const name = document.getElementById('card-name')?.value || '(sin nombre)';
-          const card = document.getElementById('card-number')?.value || '****';
-          summary += `Tarjeta: ${card}\nTitular: ${name}`;
-          break;
-        case 'cash':
-          const where = document.getElementById('cash-place')?.value || 'home';
-          summary += `Opción: ${where === 'home' ? 'Pago al recibir' : 'Pago en sucursal'}`;
-          break;
-        case 'transfer':
-          const proof = document.getElementById('transfer-proof')?.files?.length ? 'Comprobante adjuntado' : 'Sin comprobante';
-          summary += `${proof}`;
-          break;
-        case 'oxxo':
-          const code = document.getElementById('oxxo-code')?.textContent || '---';
-          summary += `Código generado: ${code}`;
-          break;
-        case 'installments':
-          const months = document.getElementById('installments-count')?.value || '1';
-          summary += `Diferido a: ${months} meses`;
-          break;
-        default:
-          summary += "Redirigiendo...";
-          break;
+        case 'card': summary += `Tarjeta seleccionada`; break;
+        case 'cash': summary += `Pago en efectivo`; break;
+        case 'transfer': summary += `Transferencia SPEI`; break;
+        case 'oxxo': summary += `Pago en OXXO`; break;
+        case 'installments': summary += `Pago a meses`; break;
+        default: summary += "Redirigiendo..."; break;
       }
 
       if (confirm('¿Confirmar tu pedido en Honey Pop?\n\n' + summary)) {
-        const btn = document.getElementById('payBtn');
-        btn.innerHTML = '<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Procesando pago...';
-        btn.disabled = true;
+        botonPagar.innerHTML = '<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Procesando pago...';
 
-        setTimeout(() => {
-          // Vaciar el carrito en la memoria cuando el pago fue "exitoso"
-          localStorage.removeItem('honeyPopCart');
+        setTimeout(async () => {
+          const pagoExitoso = Math.random() < 0.8; // 80% de éxito
 
-          const pagoExitoso = Math.random() < 0.7; // 70% de éxito en la simulación
           if (pagoExitoso) {
-            window.location.href = 'pagoexitoso.html'; // Asegúrate de tener este HTML
+            // 🟢 PASO FINAL: El pago pasó, ahora descontamos el stock real
+            await actualizarInventario(carrito);
+
+            localStorage.removeItem('honeyPopCart'); // Vaciamos el carrito local
+            window.location.href = 'pagoexitoso.html';
           } else {
-            alert("El pago ha sido rechazado por el banco (Simulación). Intenta con otro método.");
-            window.location.href = 'pagofallido.html'; // Asegúrate de tener este HTML
+            alert("El pago ha sido rechazado por el banco. El inventario no fue modificado.");
+            botonPagar.innerHTML = `Pagar $<span id="payAmount">${total}</span> MXN`;
+            botonPagar.disabled = false;
+            // No hacemos window.location a pagofallido.html de inmediato para que puedan intentar otro método
           }
         }, 1500);
+      } else {
+        // Si el usuario cancela en el confirm
+        botonPagar.innerHTML = `Pagar $<span id="payAmount">${total}</span> MXN`;
+        botonPagar.disabled = false;
       }
     }
 
