@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Honey Pop - Soporte y Tickets</title>
+    <link rel="icon" href="/honeypop.webp" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&family=Pacifico&display=swap"
+        rel="stylesheet" />
+    <style>
+        body {
+            font-family: Inter, system-ui, -apple-system, sans-serif;
+        }
+
+        .brand {
+            font-family: 'Pacifico', cursive;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 flex flex-col min-h-screen">
+
+    <header class="bg-[#F266B3] text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="flex items-center gap-2 hover:opacity-90 transition">
+                    <img src="/honeypop.webp" alt="Honey Pop"
+                        class="w-10 h-10 rounded-full object-cover shadow-sm bg-white" />
+                    <h1 class="text-xl brand">Honey Pop</h1>
+                </a>
+            </div>
+            <nav class="hidden md:flex items-center gap-6 font-medium text-sm">
+                <a href="index.html" class="hover:text-pink-200 transition">Inicio</a>
+                <a href="index.html#menu" class="hover:text-pink-200 transition">Menú</a>
+                <a href="ofertas.html" class="text-yellow-300 font-bold drop-shadow-sm">Ofertas</a>
+            </nav>
+            <div class="flex items-center gap-4">
+                <a href="cart.html" class="relative hover:scale-110 transition flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 9h14l-2-9M10 21a1 1 0 100-2 1 1 0 000 2zm6 0a1 1 0 100-2 1 1 0 000 2z" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-5xl mx-auto px-4 py-10 w-full">
+
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-[#F266B3] mb-2">Centro de Ayuda Honey Pop 🍯</h2>
+            <p class="text-gray-600">Envíanos un mensaje o revisa el estado de tus consultas anteriores.</p>
+        </div>
+
+        <div class="flex justify-center gap-4 mb-8 border-b-2 border-pink-100 pb-4">
+            <button onclick="mostrarSeccion('nuevo-ticket')" id="btn-nuevo"
+                class="px-6 py-2 rounded-full font-semibold bg-[#F266B3] text-white shadow-md transition">
+                Crear nuevo ticket
+            </button>
+            <button onclick="mostrarSeccion('historial-tickets')" id="btn-historial"
+                class="px-6 py-2 rounded-full font-semibold bg-white text-gray-600 border border-gray-200 hover:bg-pink-50 transition">
+                Mis Tickets
+            </button>
+        </div>
+
+        <div id="nuevo-ticket"
+            class="max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-lg border border-pink-100 block">
+            <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">¿En qué podemos ayudarte?</h3>
+            <form id="formTicket" onsubmit="generarTicket(event)" class="space-y-4">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                        <input type="text" id="tkt-nombre" required
+                            class="w-full border-2 border-gray-200 rounded-lg p-2 focus:outline-none focus:border-pink-400">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Número de Pedido (Opcional)</label>
+                        <input type="text" id="tkt-pedido" placeholder="Ej. HP-123456"
+                            class="w-full border-2 border-gray-200 rounded-lg p-2 focus:outline-none focus:border-pink-400">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Motivo de contacto</label>
+                    <select id="tkt-motivo" required
+                        class="w-full border-2 border-gray-200 rounded-lg p-2 focus:outline-none focus:border-pink-400 bg-white">
+                        <option value="Duda sobre un pedido">Duda sobre un pedido</option>
+                        <option value="Problema con el pago">Problema con el pago</option>
+                        <option value="Sugerencia / Felicitación">Sugerencia / Felicitación</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Detalla tu mensaje</label>
+                    <textarea id="tkt-mensaje" required rows="4" placeholder="Escribe aquí los detalles..."
+                        class="w-full border-2 border-gray-200 rounded-lg p-2 focus:outline-none focus:border-pink-400"></textarea>
+                </div>
+
+                <button type="submit"
+                    class="w-full bg-[#F2884B] hover:bg-[#e0763f] text-white font-bold py-3 rounded-xl transition shadow-md">
+                    Enviar Ticket
+                </button>
+            </form>
+        </div>
+
+        <div id="historial-tickets" class="hidden">
+            <div class="bg-white rounded-2xl shadow-lg border border-pink-100 overflow-hidden">
+                <div class="p-6 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
+                    <h3 class="text-xl font-bold text-gray-800">Tus consultas recientes</h3>
+                </div>
+
+                <div class="p-0 overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-pink-50 text-pink-800 text-sm">
+                                <th class="p-4 font-semibold">Folio</th>
+                                <th class="p-4 font-semibold">Motivo</th>
+                                <th class="p-4 font-semibold">Fecha</th>
+                                <th class="p-4 font-semibold">Estado</th>
+                                <th class="p-4 font-semibold text-center">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-tickets" class="text-gray-700 text-sm">
+                        </tbody>
+                    </table>
+                    <div id="mensaje-vacio" class="hidden p-10 text-center text-gray-500">
+                        Aún no tienes tickets de soporte generados.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <div id="modalTicket" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div
+            class="bg-white rounded-2xl shadow-2xl w-full max-w-lg flex flex-col h-[80vh] max-h-[600px] overflow-hidden border-2 border-pink-200">
+
+            <div class="bg-pink-50 p-4 border-b border-pink-100 flex justify-between items-center shrink-0">
+                <div>
+                    <h4 class="font-bold text-pink-700" id="detalle-folio">TKT-0000</h4>
+                    <p class="text-xs text-gray-500" id="detalle-motivo">Motivo</p>
+                </div>
+                <button onclick="cerrarModalTicket()"
+                    class="text-gray-500 hover:text-red-500 font-bold text-2xl leading-none">&times;</button>
+            </div>
+
+            <div id="chat-container" class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 custom-scrollbar">
+            </div>
+
+            <div class="p-4 bg-white border-t border-gray-100 shrink-0">
+                <p class="text-xs text-gray-400 text-center mb-2">Responde a este ticket:</p>
+                <div class="flex gap-2">
+                    <input type="text" id="respuesta-input" placeholder="Escribe un mensaje..."
+                        class="flex-1 border border-gray-300 rounded-full px-4 py-2 text-sm focus:outline-none focus:border-pink-400">
+                    <button onclick="enviarRespuesta()"
+                        class="bg-[#F266B3] hover:bg-pink-600 text-white rounded-full px-4 py-2 text-sm font-semibold transition">
+                        Enviar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #F266B3;
+            border-radius: 10px;
+        }
+    </style>
+
+    <script>
+        // --- LÓGICA DE TICKETS (Almacenamiento Local) ---
+        let tickets = JSON.parse(localStorage.getItem('honeyPopTickets')) || [];
+        let ticketActivoId = null;
+
+        // Cambiar entre pestañas
+        function mostrarSeccion(seccion) {
+            document.getElementById('nuevo-ticket').classList.add('hidden');
+            document.getElementById('historial-tickets').classList.add('hidden');
+            document.getElementById(seccion).classList.remove('hidden');
+
+            // Estilos de botones
+            const btnNuevo = document.getElementById('btn-nuevo');
+            const btnHist = document.getElementById('btn-historial');
+
+            if (seccion === 'nuevo-ticket') {
+                btnNuevo.className = "px-6 py-2 rounded-full font-semibold bg-[#F266B3] text-white shadow-md transition";
+                btnHist.className = "px-6 py-2 rounded-full font-semibold bg-white text-gray-600 border border-gray-200 hover:bg-pink-50 transition";
+            } else {
+                btnHist.className = "px-6 py-2 rounded-full font-semibold bg-[#F266B3] text-white shadow-md transition";
+                btnNuevo.className = "px-6 py-2 rounded-full font-semibold bg-white text-gray-600 border border-gray-200 hover:bg-pink-50 transition";
+                renderizarTablaTickets();
+            }
+        }
+
+        // 1. GENERAR NUEVO TICKET
+        function generarTicket(e) {
+            e.preventDefault();
+
+            const nombre = document.getElementById('tkt-nombre').value;
+            const pedido = document.getElementById('tkt-pedido').value || 'N/A';
+            const motivo = document.getElementById('tkt-motivo').value;
+            const mensaje = document.getElementById('tkt-mensaje').value;
+
+            const nuevoTicket = {
+                id: 'TKT-' + Math.floor(1000 + Math.random() * 9000),
+                fecha: new Date().toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' }),
+                motivo: motivo,
+                pedido: pedido,
+                estado: 'Abierto', // Estados: Abierto, En revisión, Resuelto
+                mensajes: [
+                    { remitente: 'Cliente', texto: mensaje, fecha: new Date().toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' }) }
+                ]
+            };
+
+            tickets.unshift(nuevoTicket); // Agregarlo al inicio
+            localStorage.setItem('honeyPopTickets', JSON.stringify(tickets));
+
+            // Limpiar formulario
+            document.getElementById('formTicket').reset();
+
+            // Mostrar alerta y cambiar de pestaña
+            alert(`¡Ticket generado exitosamente! Tu folio es ${nuevoTicket.id}`);
+            mostrarSeccion('historial-tickets');
+        }
+
+        // 2. RENDERIZAR HISTORIAL
+        function renderizarTablaTickets() {
+            const tbody = document.getElementById('tabla-tickets');
+            const msjVacio = document.getElementById('mensaje-vacio');
+            tbody.innerHTML = '';
+
+            if (tickets.length === 0) {
+                msjVacio.classList.remove('hidden');
+                return;
+            }
+            msjVacio.classList.add('hidden');
+
+            tickets.forEach((t) => {
+                // Asignar colores según el estado
+                let badgeColor = "bg-green-100 text-green-700"; // Resuelto
+                if (t.estado === "Abierto") badgeColor = "bg-blue-100 text-blue-700";
+                if (t.estado === "En revisión") badgeColor = "bg-yellow-100 text-yellow-700";
+
+                tbody.innerHTML += `
+          <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
+            <td class="p-4 font-mono font-bold text-pink-600">${t.id}</td>
+            <td class="p-4">${t.motivo}</td>
+            <td class="p-4 text-gray-500">${t.fecha}</td>
+            <td class="p-4">
+              <span class="px-2 py-1 rounded text-xs font-bold ${badgeColor}">${t.estado}</span>
+            </td>
+            <td class="p-4 text-center">
+              <button onclick="abrirModalTicket('${t.id}')" class="text-white bg-gray-800 hover:bg-black px-3 py-1.5 rounded-lg text-xs font-semibold transition">
+                Ver detalle
+              </button>
+            </td>
+          </tr>
+        `;
+            });
+        }
+
+        // 3. VISTA DE RESPUESTA (MODAL)
+        function abrirModalTicket(id) {
+            ticketActivoId = id;
+            const ticket = tickets.find(t => t.id === id);
+
+            document.getElementById('detalle-folio').innerText = ticket.id;
+            document.getElementById('detalle-motivo').innerText = ticket.motivo;
+
+            const chatContainer = document.getElementById('chat-container');
+            chatContainer.innerHTML = '';
+
+            // Simular que el soporte respondió si es "Abierto" para mostrar cómo se ve el chat
+            if (ticket.estado === 'Abierto' && ticket.mensajes.length === 1) {
+                ticket.estado = 'En revisión';
+                ticket.mensajes.push({
+                    remitente: 'Soporte Honey Pop',
+                    texto: `¡Hola! Hemos recibido tu ticket con folio ${ticket.id}. Un asesor lo revisará y te responderá por este medio lo antes posible. ¡Gracias por tu paciencia! 🍯`,
+                    fecha: new Date().toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' })
+                });
+                localStorage.setItem('honeyPopTickets', JSON.stringify(tickets));
+                renderizarTablaTickets(); // Actualizar etiqueta de estado atrás
+            }
+
+            // Dibujar los mensajes
+            ticket.mensajes.forEach(msg => {
+                if (msg.remitente === 'Cliente') {
+                    // Burbuja Derecha (Cliente)
+                    chatContainer.innerHTML += `
+            <div class="flex justify-end">
+              <div class="bg-[#F266B3] text-white rounded-2xl rounded-tr-sm p-3 max-w-[80%] shadow-sm">
+                <p class="text-sm">${msg.texto}</p>
+                <p class="text-[10px] text-pink-200 text-right mt-1">${msg.fecha}</p>
+              </div>
+            </div>
+          `;
+                } else {
+                    // Burbuja Izquierda (Soporte)
+                    chatContainer.innerHTML += `
+            <div class="flex justify-start">
+              <div class="bg-white border border-gray-200 text-gray-800 rounded-2xl rounded-tl-sm p-3 max-w-[80%] shadow-sm">
+                <p class="text-[10px] font-bold text-[#F2884B] mb-1">${msg.remitente}</p>
+                <p class="text-sm">${msg.texto}</p>
+                <p class="text-[10px] text-gray-400 text-right mt-1">${msg.fecha}</p>
+              </div>
+            </div>
+          `;
+                }
+            });
+
+            document.getElementById('modalTicket').classList.remove('hidden');
+            // Bajar el scroll al fondo del chat
+            setTimeout(() => { chatContainer.scrollTop = chatContainer.scrollHeight; }, 50);
+        }
+
+        function cerrarModalTicket() {
+            document.getElementById('modalTicket').classList.add('hidden');
+            ticketActivoId = null;
+        }
+
+        // 4. ENVIAR NUEVO MENSAJE EN EL CHAT
+        function enviarRespuesta() {
+            const input = document.getElementById('respuesta-input');
+            const texto = input.value.trim();
+
+            if (!texto || !ticketActivoId) return;
+
+            const ticketIndex = tickets.findIndex(t => t.id === ticketActivoId);
+            tickets[ticketIndex].mensajes.push({
+                remitente: 'Cliente',
+                texto: texto,
+                fecha: new Date().toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' })
+            });
+
+            localStorage.setItem('honeyPopTickets', JSON.stringify(tickets));
+            input.value = '';
+            abrirModalTicket(ticketActivoId); // Redibujar el chat
+        }
+
+    </script>
+</body>
+
+</html>
