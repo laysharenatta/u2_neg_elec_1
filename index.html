@@ -17,10 +17,12 @@
 
   <div class="w-20 h-20 fixed bottom-4 right-4 z-60">
     <a href="https://whatsapp.com">
-      <img src="whatsapp.png" alt="logo whats" class="hover:scale-110 transition duration-300 drop-shadow-lg">
+      <img src="whatsapp.png" alt="logo whats">
     </a>
   </div>
 
+<<<<<<< HEAD
+=======
   <div class="fixed bottom-6 left-6 z-60">
     <button onclick="openModal('helpModal')"
       class="bg-[#F2884B] hover:bg-[#e0763f] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition duration-300 border-2 border-white">
@@ -31,6 +33,7 @@
     </button>
   </div>
 
+>>>>>>> a837fff249f517b08c184eb422c4b1e721030687
   <div class="fixed top-6 right-6 z-50">
     <a href="login.html"
       class="bg-[#F2884B] text-white font-semibold px-5 py-2 rounded-full shadow-lg hover:bg-[#e0763f] transition">
@@ -51,7 +54,6 @@
           </a>
         </li>
 
-        <li><a href="#novedades" class="inline-block transform transition hover:scale-110">Novedades</a></li>
         <li><a href="#menu" class="inline-block transform transition hover:scale-110">Menú</a></li>
         <li><a href="#ubicacion" class="inline-block transform transition hover:scale-110">Ubicación</a></li>
 
@@ -165,6 +167,12 @@
     </div>
   </section>
 
+<<<<<<< HEAD
+  <section class="bg-gradient-to-b from-[#F266B3] to-[#F2884B] p-12 flex flex-col items-center" id="menu">
+    <h2 class="text-4xl text-white font-caprasimo text-center mb-10">Conoce nuestros deliciosos postrecitos</h2>
+    <div id="products-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-7">
+    </div>
+=======
   <section id="novedades" class="bg-gray-50 py-10 px-6 flex flex-col items-center border-b-4 border-pink-200">
     <div class="max-w-full w-full">
       <div class="text-center mb-8">
@@ -238,6 +246,7 @@
 
     <div id="products-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-2 w-full max-w-6xl">
     </div>
+>>>>>>> a837fff249f517b08c184eb422c4b1e721030687
   </section>
 
 
@@ -346,6 +355,8 @@
     </div>
   </footer>
 
+<<<<<<< HEAD
+=======
   <div id="helpModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[70]">
     <div class="bg-white text-gray-800 rounded-2xl shadow-2xl p-6 w-11/12 max-w-sm relative border-4 border-pink-100">
       <button onclick="closeModal('helpModal')"
@@ -387,6 +398,7 @@
     </div>
   </div>
 
+>>>>>>> a837fff249f517b08c184eb422c4b1e721030687
   <div id="avisoModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
     <div class="bg-white text-gray-800 rounded-lg shadow-lg p-6 w-11/12 max-w-md">
       <h2 class="text-lg font-semibold text-pink-600 mb-2">Aviso de privacidad</h2>
@@ -501,12 +513,12 @@
     let carrito = JSON.parse(localStorage.getItem('honeyPopCart')) || [];
     let totalCarrito = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
 
-    const cartButton = document.getElementById('cartButton');
-    const cartDropdown = document.getElementById('cartDropdown');
-    const closeCartBtn = document.getElementById('closeCartBtn');
-    const cartItemsContainer = document.getElementById('cartItems');
-    const cartTotalElement = document.getElementById('cartTotal');
-    const cartBadge = document.getElementById('cartBadge');
+  const cartButton = document.getElementById('cartButton');
+  const cartDropdown = document.getElementById('cartDropdown');
+  const closeCartBtn = document.getElementById('closeCartBtn');
+  const cartItemsContainer = document.getElementById('cartItems');
+  const cartTotalElement = document.getElementById('cartTotal');
+  const cartBadge = document.getElementById('cartBadge');
 
     // Variable global para guardar todos los productos cargados
     let todosLosProductos = [];
@@ -533,8 +545,16 @@
       }
     });
 
+<<<<<<< HEAD
+
+  async function agregarAlCarrito(nombre, precio, imagen, producto_id) {
+
+    // LOCAL (para UI)
+    const itemExistente = carrito.find(item => item.nombre === nombre);
+=======
     function agregarAlCarrito(nombre, precio, imagen) {
       const itemExistente = carrito.find(item => item.nombre === nombre);
+>>>>>>> a837fff249f517b08c184eb422c4b1e721030687
 
       if (itemExistente) {
         itemExistente.cantidad++;
@@ -572,6 +592,10 @@
       actualizarCarritoUI();
     }
 
+<<<<<<< HEAD
+    cartTotalElement.innerText = `$${Math.abs(totalCarrito).toFixed(2)}`;
+    cartBadge.innerText = carrito.length;
+=======
     // Actualiza la interfaz del carrito y guarda en localStorage
     function actualizarCarritoUI() {
       cartItemsContainer.innerHTML = '';
@@ -612,19 +636,64 @@
       }
 
       cartTotalElement.innerText = `$${Math.abs(totalCarrito).toFixed(2)}`;
+>>>>>>> a837fff249f517b08c184eb422c4b1e721030687
 
-      const totalUnidades = carrito.reduce((suma, item) => suma + item.cantidad, 0);
-      cartBadge.innerText = totalUnidades;
+    localStorage.setItem('honeyPopCart', JSON.stringify(carrito));
+  }
 
-      if (totalUnidades > 0) {
-        cartBadge.classList.remove('hidden');
-      } else {
-        cartBadge.classList.add('hidden');
-      }
+ 
+  async function cargarProductos() {
+    try {
+      const res = await fetch("http://127.0.0.1:8000/api/products");
+      const productos = await res.json();
 
+<<<<<<< HEAD
+      const contenedor = document.getElementById("products-container");
+      contenedor.innerHTML = "";
+
+      productos.forEach(producto => {
+        const card = document.createElement("div");
+
+        card.className = "bg-gray-900 text-white rounded-xl shadow-lg overflow-hidden p-4";
+
+        card.innerHTML = `
+          <img src="${producto.imagen}" class="w-full h-40 object-cover rounded">
+          <h3 class="text-xl font-bold mt-2">${producto.nombre}</h3>
+          <p class="text-sm">${producto.descripcion}</p>
+          <p class="text-lg font-bold mt-2">$${producto.precio}</p>
+
+          <button 
+            onclick="agregarAlCarrito('${producto.nombre}', ${producto.precio}, '${producto.imagen}', ${producto.id})"
+            class="bg-pink-500 px-3 py-2 rounded mt-3 w-full hover:bg-pink-600">
+            Agregar al carrito
+          </button>
+        `;
+
+        contenedor.appendChild(card);
+      });
+
+    } catch (error) {
+      console.error("Error productos:", error);
+=======
       localStorage.setItem('honeyPopCart', JSON.stringify(carrito));
+>>>>>>> a837fff249f517b08c184eb422c4b1e721030687
     }
+  }
 
+<<<<<<< HEAD
+  cargarProductos();
+
+  
+  async function obtenerCarrito() {
+    try {
+      const res = await fetch("http://127.0.0.1:8000/api/carrito/1");
+      const data = await res.json();
+
+      console.log("Carrito backend:", data);
+
+    } catch (error) {
+      console.error(error);
+=======
     // ----- FUNCIÓN PARA DIBUJAR LOS PRODUCTOS EN PANTALLA -----
     function renderizarCatalogo(productosAMostrar) {
       const contenedor = document.getElementById("products-container");
@@ -723,6 +792,7 @@
     function openModal(id) {
       document.getElementById(id).classList.remove('hidden');
       document.body.classList.add('overflow-hidden');
+>>>>>>> a837fff249f517b08c184eb422c4b1e721030687
     }
     function closeModal(id) {
       document.getElementById(id).classList.add('hidden');

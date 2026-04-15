@@ -65,12 +65,10 @@
           </div>
         </div>
 
-        <a href="formpago.html">
-          <button
-            class="mt-2 w-full bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg transition shadow-md">
-            Proceder al pago
-          </button>
-        </a>
+        <button onclick="procesarPago()"
+          class="mt-2 w-full bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-4 rounded-lg transition shadow-md">
+          Proceder al pago
+        </button>
       </div>
     </div>
   </main>
@@ -102,9 +100,8 @@
   </footer>
 
   <script>
-    // Leemos la memoria del navegador.
+    // Variables globales
     let carrito = JSON.parse(localStorage.getItem('honeyPopCart')) || [];
-    // Leemos el IVA de la memoria, si no existe usamos 16 por defecto
     let tasaIva = parseFloat(localStorage.getItem('honeyPopIva')) || 16;
 
     const cartTableBody = document.getElementById('cartTableBody');
@@ -114,15 +111,12 @@
     const totalElement = document.getElementById('cartTotalAmount');
     const ivaInput = document.getElementById('ivaInput');
 
-    // Inicializamos el input con el valor actual
     ivaInput.value = tasaIva;
 
-    // Función principal para dibujar la tabla
     function renderizarCarrito() {
       cartTableBody.innerHTML = '';
       let subtotalGeneral = 0;
 
-      // Si no hay productos, mostrar mensaje
       if (carrito.length === 0) {
         cartTableBody.innerHTML = `
           <tr>
@@ -139,12 +133,9 @@
         return;
       }
 
-      // Si hay productos, dibujarlos uno por uno
       carrito.forEach((item, index) => {
         const subtotalProducto = item.precio * item.cantidad;
         subtotalGeneral += subtotalProducto;
-
-        // Por si algún producto viejo no se le guardó la imagen, ponemos una por defecto
         const imgSrc = item.imagen ? item.imagen : 'honeypop.webp';
 
         cartTableBody.innerHTML += `
@@ -171,56 +162,80 @@
         `;
       });
 
-      // Cálculos finales
       const montoIva = subtotalGeneral * (tasaIva / 100);
       const totalFinal = subtotalGeneral + montoIva;
 
-      // Actualizar los textos
       subtotalElement.innerText = `$${subtotalGeneral.toFixed(2)}`;
       ivaLabelElement.innerText = `IVA (${tasaIva}%):`;
       ivaElement.innerText = `$${montoIva.toFixed(2)}`;
       totalElement.innerText = `$${totalFinal.toFixed(2)}`;
 
-      // Actualizar la memoria
       localStorage.setItem('honeyPopCart', JSON.stringify(carrito));
     }
 
-    // Funciones de botones + y -
     function cambiarCantidadCartPage(index, delta) {
       carrito[index].cantidad += delta;
-
-      // Si llega a cero, lo sacamos del carrito
       if (carrito[index].cantidad <= 0) {
         carrito.splice(index, 1);
       }
-      renderizarCarrito(); // Redibujar
+      renderizarCarrito();
     }
 
-    // Función del botón eliminar
     function eliminarProductoCartPage(index) {
       carrito.splice(index, 1);
-      renderizarCarrito(); // Redibujar
+      renderizarCarrito();
     }
 
-    // Función para actualizar el porcentaje de IVA
     function actualizarIva() {
       const nuevoIva = parseFloat(ivaInput.value);
-
-      // Validamos que sea un número válido y no negativo
       if (!isNaN(nuevoIva) && nuevoIva >= 0) {
         tasaIva = nuevoIva;
-        localStorage.setItem('honeyPopIva', tasaIva); // Guardamos la nueva tasa en memoria
-        renderizarCarrito(); // Redibujamos para aplicar el cálculo
+        localStorage.setItem('honeyPopIva', tasaIva);
+        renderizarCarrito();
       } else {
         alert("Por favor, ingresa un porcentaje de IVA válido.");
-        ivaInput.value = tasaIva; // Restauramos el valor anterior en el input
+        ivaInput.value = tasaIva;
       }
     }
 
-    // Arrancamos la función apenas cargue la página
+    function procesarPago() {
+  if (carrito.length === 0) {
+    alert("Tu carrito está vacío");
+    return;
+  }
+
+  // Asegúrate de que la URL sea exactamente esta:
+  fetch('http://127.0.0.1:8000/api/pagos/procesar', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json' // Añade esto para que Laravel sepa que quieres JSON
+    },
+    body: JSON.stringify({
+      carrito: carrito,
+      carrito_id: 1 
+    })
+  })
+  .then(response => {
+    if (!response.ok) {
+        throw new Error('Error en la respuesta del servidor');
+    }
+    return response.json();
+  })
+  .then(data => {
+    alert("✅ " + data.mensaje + "\nID de Pedido: " + data.pedido_id);
+    carrito = [];
+    localStorage.removeItem('honeyPopCart');
+    renderizarCarrito();
+  })
+  .catch(error => {
+    console.error('Detalle del error:', error);
+    alert("❌ No se pudo conectar con el servidor. Revisa la consola (F12).");
+  });
+}
+
+    // Inicialización
     renderizarCarrito();
   </script>
-
 </body>
-
 </html>
